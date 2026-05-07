@@ -2,7 +2,7 @@
 slug: uproxy-cxx-reverse-proxy
 title: uProxy C++ HTTP/2 Reverse Proxy
 category: Systems
-updatedAt: 2026-05-06
+updatedAt: 2026-05-07
 excerpt: A production-ready asynchronous HTTP/2 reverse proxy with connection pooling, BoringSSL TLS termination, and HPACK Huffman coding written in modern C++.
 tags: [C++, HTTP/2, Networking, BoringSSL, Reverse Proxy, CI/CD]
 image: /media/distributed-pipeline.svg
@@ -14,8 +14,8 @@ The goal was to build a highly concurrent and RFC-compliant HTTP/2 reverse proxy
 
 ## Architecture
 
-- The server uses a custom non-blocking event loop based on `kqueue`/`epoll` for handling thousands of concurrent connections.
-- It leverages BoringSSL `BIO` memory interfaces to asynchronously terminate TLS, keeping all TLS state fully integrated into the non-blocking read/write paths.
+- The server uses a custom non-blocking event loop based on `kqueue`/`epoll`, with platform-specific fixes for macOS filter registration and Linux fd delivery.
+- It leverages BoringSSL `BIO` memory interfaces to asynchronously terminate TLS, decrypt request bytes, encrypt response bytes, and preserve pending ciphertext across partial socket writes.
 - It parses incoming HTTP/2 frames, enforces strict stream-state transitions (Idle, Open, Half-Closed), and maps client streams to a fast connection pooling manager for backend HTTP/1.1 servers.
 - The HPACK implementation natively parses the static Huffman encoding tree outlined in RFC 7541 to fully decompress encoded headers efficiently.
 
@@ -26,10 +26,12 @@ The repository contains the complete event-driven codebase, test matrix workflow
 ## Key Technical Challenges
 
 - **kqueue edge-triggered correctness**: Discovered that macOS kqueue silently drops filter registrations when batched with a failing delete of a non-existent filter. Solved by applying each filter change individually and tracking registered state per fd.
+- **Linux epoll delivery**: Fixed event payload handling so listener and client events deliver the real file descriptor instead of a nullable user-data pointer.
+- **TLS application data**: Moved post-handshake client reads and writes through `TLSConn::read`/`TLSConn::write`, with buffering for encrypted bytes that cannot be flushed in one syscall.
 - **Connection pool reliability**: Stale pooled connections to upstream servers cause silent failures. Implemented automatic retry-on-failure with fresh connections from the pool.
-- **HTTP/2-to-HTTP/1.1 translation**: Incoming H2 streams with pseudo-headers (`:method`, `:path`, `:authority`) are cleanly converted to HTTP/1.1 request lines, forwarded to upstream, and responses are re-encoded as H2 HEADERS + DATA frames.
+- **HTTP/2-to-HTTP/1.1 translation**: Incoming H2 streams with pseudo-headers (`:method`, `:path`, `:authority`) and bodies are cleanly converted to HTTP/1.1 request lines, forwarded upstream with `Content-Length`, and responses are re-encoded as H2 HEADERS + DATA frames.
 - **Weighted round-robin**: Implements Nginx-style smooth weighted round-robin for even traffic distribution across upstreams with different capacities.
 
 ## Result
 
-uProxy is a fully functional, production-ready reverse proxy. It builds cleanly with zero warnings against BoringSSL, passes all unit tests, and successfully proxies real HTTP traffic with weighted load balancing across multiple upstreams. Benchmarked at >50k req/s for small responses on a single core.
+uProxy is a fully functional, production-ready reverse proxy. The public repository now includes the complete tracked header surface, passes Makefile and CMake test gates locally, has clean formatting checks, and covers the TLS, epoll, HTTP/1.1, and HTTP/2 regressions found during release review. Benchmarked at >50k req/s for small responses on a single core.
