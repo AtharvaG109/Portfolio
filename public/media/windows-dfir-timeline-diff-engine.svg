@@ -1,0 +1,46 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="720" rx="32" fill="#07111F"/>
+  <rect x="64" y="64" width="1152" height="592" rx="28" fill="#0D1B2E" stroke="#28435F" stroke-width="2"/>
+  <text x="96" y="124" fill="#E5EDF8" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Windows DFIR Timeline Diff Engine</text>
+  <text x="96" y="162" fill="#94A9C4" font-family="Inter, Arial, sans-serif" font-size="18">Baseline and incident artifacts normalized into SQLite, compared, and rendered as an analyst report.</text>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <rect x="96" y="228" width="224" height="252" rx="18" fill="#10243A" stroke="#3D5A78" stroke-width="2"/>
+    <text x="124" y="270" fill="#F8FAFC" font-size="22" font-weight="700">Artifacts</text>
+    <text x="124" y="316" fill="#C7D2E1" font-size="17">EVTX-derived records</text>
+    <text x="124" y="352" fill="#C7D2E1" font-size="17">Prefetch</text>
+    <text x="124" y="388" fill="#C7D2E1" font-size="17">AmCache</text>
+    <text x="124" y="424" fill="#C7D2E1" font-size="17">Browser history</text>
+    <text x="124" y="460" fill="#C7D2E1" font-size="17">Scheduled tasks</text>
+
+    <path d="M344 354H436" stroke="#60A5FA" stroke-width="5" stroke-linecap="round"/>
+    <path d="M424 338L440 354L424 370" stroke="#60A5FA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="464" y="228" width="248" height="252" rx="18" fill="#10243A" stroke="#3D5A78" stroke-width="2"/>
+    <text x="492" y="270" fill="#F8FAFC" font-size="22" font-weight="700">SQLite Evidence DB</text>
+    <text x="492" y="316" fill="#C7D2E1" font-size="17">Deterministic event IDs</text>
+    <text x="492" y="352" fill="#C7D2E1" font-size="17">Raw artifact references</text>
+    <text x="492" y="388" fill="#C7D2E1" font-size="17">Normalized actors</text>
+    <text x="492" y="424" fill="#C7D2E1" font-size="17">Objects and network context</text>
+
+    <path d="M736 354H828" stroke="#60A5FA" stroke-width="5" stroke-linecap="round"/>
+    <path d="M816 338L832 354L816 370" stroke="#60A5FA" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="856" y="206" width="328" height="296" rx="18" fill="#10243A" stroke="#3D5A78" stroke-width="2"/>
+    <text x="884" y="250" fill="#F8FAFC" font-size="22" font-weight="700">Analysis Pipeline</text>
+    <rect x="884" y="286" width="124" height="42" rx="8" fill="#173B59" stroke="#4D7EA8"/>
+    <text x="912" y="313" fill="#E5EDF8" font-size="16" font-weight="600">Diff</text>
+    <rect x="1028" y="286" width="128" height="42" rx="8" fill="#173B59" stroke="#4D7EA8"/>
+    <text x="1055" y="313" fill="#E5EDF8" font-size="16" font-weight="600">Detect</text>
+    <rect x="884" y="350" width="124" height="42" rx="8" fill="#173B59" stroke="#4D7EA8"/>
+    <text x="906" y="377" fill="#E5EDF8" font-size="16" font-weight="600">Correlate</text>
+    <rect x="1028" y="350" width="128" height="42" rx="8" fill="#173B59" stroke="#4D7EA8"/>
+    <text x="1056" y="377" fill="#E5EDF8" font-size="16" font-weight="600">Report</text>
+    <text x="884" y="438" fill="#C7D2E1" font-size="17">Category fingerprints ignore benign noise</text>
+    <text x="884" y="470" fill="#C7D2E1" font-size="17">Markdown output cites evidence IDs</text>
+  </g>
+
+  <rect x="96" y="546" width="1088" height="64" rx="14" fill="#0A1424" stroke="#20364F"/>
+  <text x="124" y="585" fill="#A7F3D0" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700">Technical Preview</text>
+  <text x="302" y="585" fill="#C7D2E1" font-family="Inter, Arial, sans-serif" font-size="18">Offline CLI workflow for controlled Windows DFIR timeline-diff analysis.</text>
+</svg>

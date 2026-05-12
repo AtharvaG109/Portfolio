@@ -1,0 +1,40 @@
+---
+slug: windows-dfir-timeline-diff-engine
+title: Windows DFIR Timeline Diff Engine
+category: Detection
+updatedAt: 2026-05-12
+excerpt: A Windows-first technical preview CLI that normalizes endpoint artifacts into SQLite, compares baseline and incident timelines, and generates an analyst-ready Markdown report.
+tags: [Go, DFIR, Windows Forensics, SQLite, Detection Engineering]
+image: /media/windows-dfir-timeline-diff-engine.svg
+---
+
+## Problem
+
+Windows incident review often requires comparing scattered endpoint artifacts against a known baseline. Raw event records, execution traces, browser history, and persistence metadata are useful, but they are difficult to reason about when they live in separate formats with different timestamps and identifiers.
+
+## Architecture
+
+- Collectors normalize supported Windows artifacts into deterministic `TimelineEvent` records with actor, object, network, source, and raw reference fields.
+- The SQLite evidence store owns schema migrations, event persistence, detections, relations, diff results, query filters, and JSONL export.
+- The diff engine compares baseline and incident databases with category-specific fingerprints that collapse benign timestamp, username, GUID, base64, and random temporary-name noise.
+- Detection, correlation, and reporting operate on stored normalized evidence and keep report language cautious and validation-oriented.
+
+:::artifact title="Public repository" kind="GitHub" href="https://github.com/AtharvaG109/timeline"
+The repository contains the CLI, SQLite migrations, Windows artifact collectors, detection rules, diff engine, report generator, demo case, and release-readiness documentation.
+:::
+
+```bash
+make demo
+./bin/timeline query demo-output/incident.db --category process
+./bin/timeline diff demo-output/baseline.db demo-output/incident.db --out demo-output/report.md
+```
+
+## Key Technical Challenges
+
+- **Stable timeline fingerprints**: Event IDs are intentionally deterministic, but baseline-vs-incident diffing cannot rely on raw IDs alone. The engine uses category-specific fingerprints that preserve behavior while normalizing noisy fields.
+- **Evidence-safe storage**: The database stores normalized fields and raw references by default, not raw artifact blobs, so reports can cite source paths without duplicating evidence.
+- **Analyst-safe conclusions**: Reports use wording such as “consistent with,” “candidate,” and “requires validation” to avoid overstating what a single artifact or correlation can prove.
+
+## Result
+
+timeline is a technical preview CLI for controlled Windows DFIR timeline-diff analysis. It can ingest supported Windows artifact fixtures, query and export normalized events, apply YAML detections, compare baseline and incident databases, correlate related activity, and generate a Markdown incident report with cited event IDs and source paths.
