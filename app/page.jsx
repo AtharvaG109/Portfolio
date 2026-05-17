@@ -27,9 +27,9 @@ const newestProject = getNewestProject();
 const latestPost = getSortedContent("blog")[0] ?? null;
 const currentThreads = [
   "Publishing tinyc as a production-ready self-hosting C compiler with repeatable ABI, integration, sanitizer, and bootstrap checks.",
-  "Building public security and systems projects that are technically honest and easy to explain.",
-  "Looking for backend, platform, and security roles where reliability and debugging depth actually matter.",
-  "Studying low-level systems and threat-modeling patterns that feed back into real product work."
+  "Making public project pages easier to audit by showing maturity, proof, and tradeoffs upfront.",
+  "Looking for backend, platform, and security roles where reliability, runtime evidence, and ownership matter.",
+  "Studying low-level systems and threat-modeling patterns that translate into better delivery habits."
 ];
 const collaborationSignals = [
   {
@@ -134,7 +134,7 @@ export default function HomePage() {
               <p className="micro-label">What drives me</p>
               <h2>{hero.mission}</h2>
               <p className="muted">
-                I care about work that is technically honest, operationally grounded, and still understandable when things start going wrong.
+                I care about work that can be explained from evidence, operated under pressure, and improved after it ships.
               </p>
             </article>
 

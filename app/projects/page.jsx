@@ -32,8 +32,8 @@ export default function ProjectsPage() {
       <StructuredData data={projectIndexSchema} />
       <PageHero
         eyebrow="Projects"
-        title="Case studies from shipped systems and security work."
-        copy="These projects cover backend systems, security products, low-level research, and the engineering tradeoffs behind each one."
+        title="Proof-driven case studies from systems and security work."
+        copy="Browse by role fit, stack, and evidence. Each project highlights the problem, what I built, and the proof that makes the work reviewable."
         actions={[
           { label: "Open workbench", href: "/workbench/", variant: "secondary" },
           { label: "Request intro", href: "/contact/", variant: "primary" }
@@ -44,20 +44,19 @@ export default function ProjectsPage() {
         <div className="projects-intro-grid">
           <AnimateIn className="surface panel-card projects-intro-panel" delay={0.04}>
             <p className="eyebrow">How To Read This Page</p>
-            <h2>This is not a gallery of one-off demos.</h2>
+            <h2>Start with proof, then open the deeper case study.</h2>
             <p className="muted">
-              I use these projects to show how I think about systems: what the problem really was,
-              why the architecture ended up the way it did, and what changed because the work
-              shipped.
+              The top row shows the clearest technical depth. The full browser lets you filter by
+              role fit and stack, then compare maturity, proof, and public references quickly.
             </p>
           </AnimateIn>
 
           <AnimateIn className="surface panel-card projects-note-panel" delay={0.1}>
             <p className="eyebrow">What To Expect</p>
             <ul className="bullet-list">
-              <li>Public, product-shaped work with clearer scope and more honest tradeoffs.</li>
-              <li>Backend, platform, security, and low-level systems projects rather than generic app builds.</li>
-              <li>Case studies that explain why the design matters, not only what tech was used.</li>
+              <li>Concise cards built around problem, implementation, and proof.</li>
+              <li>Honest maturity labels for technical previews, prototypes, releases, and production work.</li>
+              <li>Case studies that explain design choices, validation paths, and tradeoffs.</li>
             </ul>
           </AnimateIn>
         </div>

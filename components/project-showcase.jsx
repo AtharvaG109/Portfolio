@@ -12,24 +12,155 @@ const cardTransition = {
   ease: [0.22, 1, 0.36, 1]
 };
 
+function getPrimaryLink(project) {
+  return project.links?.[0] ?? null;
+}
+
+function getFilterOptions(projects, key) {
+  return ["All", ...new Set(projects.flatMap((project) => project[key] ?? []))];
+}
+
+function EvidenceVisual({ project, compact = false }) {
+  const visual = project.evidenceVisual;
+
+  if (!visual) {
+    return <ProjectPreviewDiagram project={project} variant={compact ? "compact" : "feature"} />;
+  }
+
+  return (
+    <div className={`evidence-visual ${compact ? "evidence-visual-compact" : ""}`}>
+      <div className="evidence-visual-top">
+        <span>{visual.title}</span>
+        <strong>{project.maturity}</strong>
+      </div>
+      <div className="evidence-terminal" aria-label={`${project.title} proof output`}>
+        {visual.lines.map((line) => (
+          <code key={line}>{line}</code>
+        ))}
+      </div>
+      {!compact ? <p>{visual.caption}</p> : null}
+    </div>
+  );
+}
+
+function ProofBadges({ project, limit }) {
+  const badges = limit ? project.proofBadges.slice(0, limit) : project.proofBadges;
+
+  return (
+    <div className="proof-badge-row" aria-label={`${project.title} proof badges`}>
+      {badges.map((badge) => (
+        <span key={badge} className="proof-badge">
+          {badge}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function FilterGroup({ label, activeValue, options, onChange }) {
+  return (
+    <div className="project-filter-group">
+      <p className="micro-label">{label}</p>
+      <div className="chip-row" role="toolbar" aria-label={`Project ${label.toLowerCase()} filter`}>
+        {options.map((option) => (
+          <button
+            key={option}
+            type="button"
+            className={`chip ${option === activeValue ? "chip-active" : ""}`}
+            onClick={() => onChange(option)}
+            aria-pressed={option === activeValue}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ProjectComparisonTable({ projects }) {
+  return (
+    <section className="surface project-comparison-shell" aria-labelledby="project-comparison-heading">
+      <div className="project-comparison-head">
+        <div>
+          <p className="eyebrow">Project comparison</p>
+          <h3 id="project-comparison-heading">Fast technical scan</h3>
+        </div>
+        <p className="muted">Best fit, stack, proof, and public reference in one view.</p>
+      </div>
+
+      <div className="project-table-wrap">
+        <table className="project-table">
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Best fit</th>
+              <th>Stack</th>
+              <th>Proof</th>
+              <th>Repo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {projects.map((project) => {
+              const link = getPrimaryLink(project);
+
+              return (
+                <tr key={project.slug}>
+                  <td>
+                    <Link href={`/projects/${project.slug}/`}>{project.title}</Link>
+                    <span>{project.maturity}</span>
+                  </td>
+                  <td>{project.roleFits.slice(0, 2).join(", ")}</td>
+                  <td>{project.stack.slice(0, 3).join(", ")}</td>
+                  <td>{project.proofLine}</td>
+                  <td>
+                    {link ? (
+                      <a href={link.href} target="_blank" rel="noopener noreferrer">
+                        {link.label.replace("View ", "")}
+                      </a>
+                    ) : (
+                      <span>Case study</span>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
 export function ProjectShowcase({ projects }) {
   const shouldReduceMotion = useReducedMotion();
   const spotlightRef = useRef(null);
-  const newestProjectSlug = useMemo(() => getSortedProjects(projects)[0]?.slug ?? null, [projects]);
+  const sortedProjects = useMemo(() => getSortedProjects(projects), [projects]);
+  const flagshipProjects = useMemo(
+    () => sortedProjects.filter((project) => (project.displayPriority ?? 99) <= 3),
+    [sortedProjects]
+  );
+  const newestProjectSlug = useMemo(() => sortedProjects[0]?.slug ?? null, [sortedProjects]);
   const categories = useMemo(() => {
-    return ["All", ...new Set(projects.map((project) => project.category))];
-  }, [projects]);
+    return ["All", ...new Set(sortedProjects.map((project) => project.category))];
+  }, [sortedProjects]);
+  const roleFits = useMemo(() => getFilterOptions(sortedProjects, "roleFits"), [sortedProjects]);
+  const focusTags = useMemo(() => getFilterOptions(sortedProjects, "focusTags"), [sortedProjects]);
 
   const [activeCategory, setActiveCategory] = useState("All");
-  const [selectedSlug, setSelectedSlug] = useState(projects[0]?.slug ?? null);
+  const [activeRole, setActiveRole] = useState("All");
+  const [activeFocus, setActiveFocus] = useState("All");
+  const [selectedSlug, setSelectedSlug] = useState(sortedProjects[0]?.slug ?? null);
 
   const visibleProjects = useMemo(() => {
-    if (activeCategory === "All") {
-      return projects;
-    }
+    return sortedProjects.filter((project) => {
+      const matchesCategory = activeCategory === "All" || project.category === activeCategory;
+      const matchesRole = activeRole === "All" || project.roleFits.includes(activeRole);
+      const matchesFocus = activeFocus === "All" || project.focusTags.includes(activeFocus);
 
-    return projects.filter((project) => project.category === activeCategory);
-  }, [activeCategory, projects]);
+      return matchesCategory && matchesRole && matchesFocus;
+    });
+  }, [activeCategory, activeFocus, activeRole, sortedProjects]);
 
   useEffect(() => {
     if (!visibleProjects.length) {
@@ -44,7 +175,7 @@ export function ProjectShowcase({ projects }) {
   }, [selectedSlug, visibleProjects]);
 
   const selectedProject =
-    visibleProjects.find((project) => project.slug === selectedSlug) ?? visibleProjects[0] ?? projects[0];
+    visibleProjects.find((project) => project.slug === selectedSlug) ?? visibleProjects[0] ?? sortedProjects[0];
 
   const previewProject = (projectSlug) => {
     setSelectedSlug(projectSlug);
@@ -57,6 +188,51 @@ export function ProjectShowcase({ projects }) {
 
   return (
     <div className="project-showcase">
+      <section className="flagship-projects" aria-labelledby="flagship-projects-heading">
+        <div className="project-showcase-head">
+          <div>
+            <p className="micro-label">Featured build path</p>
+            <h2 id="flagship-projects-heading">Three projects that show the clearest technical depth.</h2>
+          </div>
+          <p className="muted">CLI forensics, compiler self-hosting, and C++ networking.</p>
+        </div>
+
+        <div className="flagship-grid">
+          {flagshipProjects.map((project) => {
+            const link = getPrimaryLink(project);
+
+            return (
+              <article key={project.slug} className="surface flagship-card">
+                <div className="project-label-row">
+                  <p className="eyebrow">{project.maturity}</p>
+                  {project.slug === newestProjectSlug ? <span className="project-badge">Newest project</span> : null}
+                </div>
+                <h3>{project.title}</h3>
+                <p className="muted">{project.proofLine}</p>
+                <ProofBadges project={project} limit={4} />
+                <div className="project-card-actions">
+                  <button
+                    type="button"
+                    className="text-link text-link-button"
+                    onClick={() => previewProject(project.slug)}
+                  >
+                    Preview here
+                  </button>
+                  <Link href={`/projects/${project.slug}/`} className="text-link">
+                    Open case study
+                  </Link>
+                  {link ? (
+                    <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-link">
+                      {link.label}
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
       {selectedProject ? (
         <motion.article
           ref={spotlightRef}
@@ -72,6 +248,7 @@ export function ProjectShowcase({ projects }) {
                 {selectedProject.slug === newestProjectSlug ? (
                   <span className="project-badge">Newest project</span>
                 ) : null}
+                <span className="project-badge project-badge-muted">{selectedProject.maturity}</span>
               </div>
               <h3>{selectedProject.title}</h3>
             </div>
@@ -93,8 +270,9 @@ export function ProjectShowcase({ projects }) {
             </div>
           ) : null}
           <div className="media-frame project-preview-frame">
-            <ProjectPreviewDiagram project={selectedProject} variant="feature" />
+            <EvidenceVisual project={selectedProject} />
           </div>
+          <ProofBadges project={selectedProject} />
           <p className="project-impact">{selectedProject.challenge}</p>
 
           <div className="spotlight-columns">
@@ -111,7 +289,7 @@ export function ProjectShowcase({ projects }) {
               <p className="micro-label">Result</p>
               <p className="muted">{selectedProject.result}</p>
               <div className="tag-row spotlight-tags">
-                {selectedProject.stack.map((item) => (
+                {selectedProject.focusTags.map((item) => (
                   <span key={item} className="tag">
                     {item}
                   </span>
@@ -142,24 +320,17 @@ export function ProjectShowcase({ projects }) {
       ) : null}
 
       <div className="project-showcase-head">
-        <p className="micro-label">Browse by focus area</p>
-        <p className="muted">
-          {visibleProjects.length} project{visibleProjects.length === 1 ? "" : "s"} shown
-        </p>
+        <div>
+          <p className="micro-label">Browse by focus area</p>
+          <h2>Find the project that matches the work.</h2>
+        </div>
+        <p className="muted">{visibleProjects.length} of {sortedProjects.length} projects shown</p>
       </div>
 
-      <div className="chip-row" role="toolbar" aria-label="Project categories">
-        {categories.map((category) => (
-          <button
-            key={category}
-            type="button"
-            className={`chip ${category === activeCategory ? "chip-active" : ""}`}
-            onClick={() => setActiveCategory(category)}
-            aria-pressed={category === activeCategory}
-          >
-            {category}
-          </button>
-        ))}
+      <div className="project-filter-panel">
+        <FilterGroup label="Category" activeValue={activeCategory} options={categories} onChange={setActiveCategory} />
+        <FilterGroup label="Role fit" activeValue={activeRole} options={roleFits} onChange={setActiveRole} />
+        <FilterGroup label="Stack or focus" activeValue={activeFocus} options={focusTags} onChange={setActiveFocus} />
       </div>
 
       <motion.div layout={!shouldReduceMotion} className="project-grid">
@@ -182,28 +353,37 @@ export function ProjectShowcase({ projects }) {
                   className="project-card-toggle"
                   onClick={() => previewProject(project.slug)}
                   aria-pressed={isActive}
+                  aria-label={`Preview ${project.title}`}
                 >
                   <div className="project-card-thumbnail project-preview-frame">
-                    <ProjectPreviewDiagram project={project} variant="compact" />
+                    <EvidenceVisual project={project} compact />
                   </div>
                   <div className="project-meta">
                     <span>{project.category}</span>
-                    <span>{project.year}</span>
+                    <span>{project.maturity}</span>
                   </div>
                   {project.slug === newestProjectSlug ? <span className="project-badge">Newest project</span> : null}
                   <h3>{project.title}</h3>
-                  <p className="muted">{project.summary}</p>
-                  <p className="project-impact">{project.impact}</p>
+                  <div className="project-card-scan">
+                    <p>
+                      <strong>Problem</strong>
+                      <span>{project.challenge}</span>
+                    </p>
+                    <p>
+                      <strong>Built</strong>
+                      <span>{project.approach[0]}</span>
+                    </p>
+                    <p>
+                      <strong>Proof</strong>
+                      <span>{project.proofLine}</span>
+                    </p>
+                  </div>
+                  <ProofBadges project={project} limit={4} />
                   {project.metrics?.[0] ? (
                     <p className="project-card-metric">
                       <strong>{project.metrics[0].value}</strong> {project.metrics[0].label}
                     </p>
                   ) : null}
-                  <ul className="bullet-list compact-list">
-                    {project.outcomes.map((outcome) => (
-                      <li key={outcome}>{outcome}</li>
-                    ))}
-                  </ul>
                 </button>
 
                 <div className="project-card-actions">
@@ -233,6 +413,30 @@ export function ProjectShowcase({ projects }) {
           })}
         </AnimatePresence>
       </motion.div>
+
+      <ProjectComparisonTable projects={sortedProjects} />
+
+      <section className="surface project-next-step">
+        <div>
+          <p className="eyebrow">Next step</p>
+          <h2>Review the technical summary or start a direct conversation.</h2>
+          <p className="muted">
+            The strongest fit is backend, platform, systems, and security work where implementation,
+            proof, and clear communication all matter.
+          </p>
+        </div>
+        <div className="cta-row contact-actions">
+          <Link href="/resume/" className="button button-secondary">
+            Open resume
+          </Link>
+          <a href="https://github.com/AtharvaG109" target="_blank" rel="noopener noreferrer" className="button button-secondary">
+            View GitHub
+          </a>
+          <Link href="/contact/" className="button button-primary">
+            Contact me
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

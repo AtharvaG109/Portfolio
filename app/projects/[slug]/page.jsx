@@ -80,6 +80,7 @@ export default async function ProjectPage({ params }) {
   ];
 
   const overviewItems = [
+    { label: "Maturity", value: project.maturity },
     { label: "Category", value: project.category },
     { label: "Year", value: project.year },
     ...(project.updatedAt ? [{ label: "Updated", value: formatPublishedDate(project.updatedAt) }] : []),
@@ -99,6 +100,7 @@ export default async function ProjectPage({ params }) {
               {project.category} • {project.year}
             </p>
             {project.featured ? <span className="project-badge">Featured project</span> : null}
+            <span className="project-badge project-badge-muted">{project.maturity}</span>
           </div>
           <h1>{project.title}</h1>
           <p className="muted hero-copy">{project.summary}</p>
@@ -114,6 +116,18 @@ export default async function ProjectPage({ params }) {
                   <span>{item.label}</span>
                   <strong>{item.value}</strong>
                 </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="project-overview-card">
+            <p className="eyebrow">Proof</p>
+            <p className="muted">{project.proofLine}</p>
+            <div className="proof-badge-row">
+              {project.proofBadges.map((badge) => (
+                <span key={badge} className="proof-badge">
+                  {badge}
+                </span>
               ))}
             </div>
           </div>
