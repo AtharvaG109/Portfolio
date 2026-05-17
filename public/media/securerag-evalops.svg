@@ -5,7 +5,7 @@
   <text x="92" y="138" fill="#91A7B7" font-family="Arial, sans-serif" font-size="18">offline-first retrieval, guardrails, audit, and production operations</text>
   <rect x="92" y="184" width="230" height="112" rx="20" fill="#102635" stroke="#24526A"/>
   <text x="118" y="222" fill="#7FE0FF" font-family="Arial, sans-serif" font-size="16" font-weight="700">INGEST</text>
-  <text x="118" y="254" fill="#F5FAFC" font-family="Arial, sans-serif" font-size="20">PDF · code · markdown</text>
+  <text x="118" y="254" fill="#F5FAFC" font-family="Arial, sans-serif" font-size="20">PDF · code · docs</text>
   <text x="118" y="282" fill="#91A7B7" font-family="Arial, sans-serif" font-size="16">chunk + embed + namespace</text>
   <rect x="360" y="184" width="230" height="112" rx="20" fill="#102635" stroke="#24526A"/>
   <text x="386" y="222" fill="#7FE0FF" font-family="Arial, sans-serif" font-size="16" font-weight="700">RETRIEVE</text>
