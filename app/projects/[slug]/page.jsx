@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { AnimateIn } from "@/components/animate-in";
 import { ProjectDemo } from "@/components/project-demo";
+import { ProjectSystemMap } from "@/components/project-system-map";
 import { RichContent } from "@/components/rich-content";
 import { StructuredData } from "@/components/structured-data";
 import { getContentBySlug } from "@/lib/content";
@@ -186,6 +187,14 @@ export default async function ProjectPage({ params }) {
 
             <p className="project-diagram-caption">{project.media.alt}</p>
           </div>
+        </AnimateIn>
+
+        <AnimateIn className="article-section" delay={0.07}>
+          <div className="section-heading project-section-heading">
+            <p className="eyebrow">Interactive System Map</p>
+            <h2>Trace the important path through the project</h2>
+          </div>
+          <ProjectSystemMap project={project} />
         </AnimateIn>
 
         {project.metrics?.length ? (

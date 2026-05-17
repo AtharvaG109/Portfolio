@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
+import { ProjectSystemMap } from "@/components/project-system-map";
 import { getSortedProjects } from "@/lib/site-data";
 
 const cardTransition = {
@@ -269,6 +270,7 @@ export function ProjectShowcase({ projects }) {
               ))}
             </div>
           ) : null}
+          <ProjectSystemMap project={selectedProject} variant="compact" />
           <div className="media-frame project-preview-frame">
             <EvidenceVisual project={selectedProject} />
           </div>
