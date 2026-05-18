@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { AnimateIn } from "@/components/animate-in";
 import { ContactPanel } from "@/components/contact-panel";
+import { CuriosityTrail } from "@/components/curiosity-trail";
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
@@ -9,6 +10,7 @@ import { getSortedContent } from "@/lib/content";
 import {
   buildAbsoluteUrl,
   buildThemes,
+  curiosityTrails,
   engineeringSignals,
   formatPublishedDate,
   getFeaturedProject,
@@ -204,6 +206,12 @@ export default function HomePage() {
             </div>
           </AnimateIn>
         </div>
+      </section>
+
+      <section className="section-block">
+        <AnimateIn delay={0.05}>
+          <CuriosityTrail trails={curiosityTrails} />
+        </AnimateIn>
       </section>
 
       <section className="signal-grid" aria-label="Key portfolio metrics">

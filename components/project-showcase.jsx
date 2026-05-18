@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
 import { ProjectSystemMap } from "@/components/project-system-map";
@@ -242,82 +242,93 @@ export function ProjectShowcase({ projects }) {
           transition={shouldReduceMotion ? { duration: 0 } : cardTransition}
           tabIndex={-1}
         >
-          <div className="project-spotlight-head">
-            <div>
-              <div className="project-label-row">
-                <p className="eyebrow">Project spotlight</p>
-                {selectedProject.slug === newestProjectSlug ? (
-                  <span className="project-badge">Newest project</span>
-                ) : null}
-                <span className="project-badge project-badge-muted">{selectedProject.maturity}</span>
-              </div>
-              <h3>{selectedProject.title}</h3>
-            </div>
-            <div className="project-meta">
-              <span>{selectedProject.category}</span>
-              <span>{selectedProject.year}</span>
-            </div>
-          </div>
-
-          <p className="muted">{selectedProject.summary}</p>
-          {selectedProject.metrics?.length ? (
-            <div className="metric-grid project-metric-grid">
-              {selectedProject.metrics.map((metric) => (
-                <div key={`${metric.value}-${metric.label}`} className="metric-card">
-                  <strong>{metric.value}</strong>
-                  <span>{metric.label}</span>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={selectedProject.slug}
+              className="project-spotlight-content"
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 18, filter: "blur(10px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -12, filter: "blur(8px)" }}
+              transition={shouldReduceMotion ? { duration: 0 } : cardTransition}
+            >
+              <div className="project-spotlight-head">
+                <div>
+                  <div className="project-label-row">
+                    <p className="eyebrow">Project spotlight</p>
+                    {selectedProject.slug === newestProjectSlug ? (
+                      <span className="project-badge">Newest project</span>
+                    ) : null}
+                    <span className="project-badge project-badge-muted">{selectedProject.maturity}</span>
+                  </div>
+                  <h3>{selectedProject.title}</h3>
                 </div>
-              ))}
-            </div>
-          ) : null}
-          <ProjectSystemMap project={selectedProject} variant="compact" />
-          <div className="media-frame project-preview-frame">
-            <EvidenceVisual project={selectedProject} />
-          </div>
-          <ProofBadges project={selectedProject} />
-          <p className="project-impact">{selectedProject.challenge}</p>
-
-          <div className="spotlight-columns">
-            <div>
-              <p className="micro-label">Approach</p>
-              <ul className="bullet-list compact-list">
-                {selectedProject.approach.map((step) => (
-                  <li key={step}>{step}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <p className="micro-label">Result</p>
-              <p className="muted">{selectedProject.result}</p>
-              <div className="tag-row spotlight-tags">
-                {selectedProject.focusTags.map((item) => (
-                  <span key={item} className="tag">
-                    {item}
-                  </span>
-                ))}
+                <div className="project-meta">
+                  <span>{selectedProject.category}</span>
+                  <span>{selectedProject.year}</span>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <Link href={`/projects/${selectedProject.slug}/`} className="text-link">
-            Open full case study
-          </Link>
-          {selectedProject.links?.length ? (
-            <div className="project-card-actions project-links">
-              {selectedProject.links.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-link"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          ) : null}
+              <p className="muted">{selectedProject.summary}</p>
+              {selectedProject.metrics?.length ? (
+                <div className="metric-grid project-metric-grid">
+                  {selectedProject.metrics.map((metric) => (
+                    <div key={`${metric.value}-${metric.label}`} className="metric-card">
+                      <strong>{metric.value}</strong>
+                      <span>{metric.label}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              <ProjectSystemMap project={selectedProject} variant="compact" />
+              <div className="media-frame project-preview-frame">
+                <EvidenceVisual project={selectedProject} />
+              </div>
+              <ProofBadges project={selectedProject} />
+              <p className="project-impact">{selectedProject.challenge}</p>
+
+              <div className="spotlight-columns">
+                <div>
+                  <p className="micro-label">Approach</p>
+                  <ul className="bullet-list compact-list">
+                    {selectedProject.approach.map((step) => (
+                      <li key={step}>{step}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="micro-label">Result</p>
+                  <p className="muted">{selectedProject.result}</p>
+                  <div className="tag-row spotlight-tags">
+                    {selectedProject.focusTags.map((item) => (
+                      <span key={item} className="tag">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <Link href={`/projects/${selectedProject.slug}/`} className="text-link">
+                Open full case study
+              </Link>
+              {selectedProject.links?.length ? (
+                <div className="project-card-actions project-links">
+                  {selectedProject.links.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-link"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </motion.div>
+          </AnimatePresence>
         </motion.article>
       ) : null}
 
@@ -350,6 +361,13 @@ export function ProjectShowcase({ projects }) {
                 transition={shouldReduceMotion ? { duration: 0 } : cardTransition}
                 className={`surface project-card ${isActive ? "project-card-active" : ""}`}
               >
+                {isActive ? (
+                  <motion.span
+                    layoutId="active-project-card"
+                    className="project-card-selection-glow"
+                    transition={shouldReduceMotion ? { duration: 0 } : cardTransition}
+                  />
+                ) : null}
                 <button
                   type="button"
                   className="project-card-toggle"

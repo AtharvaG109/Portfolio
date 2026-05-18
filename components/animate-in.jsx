@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 
 export function AnimateIn({ children, className, delay = 0, y = 24 }) {
   const shouldReduceMotion = useReducedMotion();
