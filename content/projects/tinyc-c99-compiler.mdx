@@ -32,6 +32,19 @@ make selfhost LDFLAGS=-Wl,-no_uuid
 
 The project focuses on a practical C99 slice: functions, pointers, arrays, structs, unions, local and global aggregate initialization, designators, simple bit-fields, variadic calls, and a bounded VLA-style workflow. The ABI work covers small aggregate pass/return cases and memory-class struct returns through a hidden return pointer.
 
+## Proof Signals
+
+- `make check` exercises compiler unit tests, generated-program integration tests, ABI-sensitive cases, and regression programs.
+- Sanitizer builds run the same suite under AddressSanitizer and UndefinedBehaviorSanitizer.
+- The self-hosting gate compiles the compiler with tinyc, rebuilds stage2, and checks deterministic stage output.
+- The release docs explain the supported C subset instead of implying full C99 coverage where it is not implemented.
+
+## Deliberately Avoided
+
+- No claim of complete C99 conformance.
+- No hidden dependency on GCC for the core compile path beyond preprocessing/linking in the self-host harness.
+- No benchmark theater in place of correctness gates; the proof is executable programs and stage comparison.
+
 ## Result
 
 tinyc is now a production-ready compiler release with repeatable tests, CI release gates, sanitizer validation, documentation, SECURITY.md, a tagged v0.1.0 release, and a self-hosting verification path that can be run from the Makefile.

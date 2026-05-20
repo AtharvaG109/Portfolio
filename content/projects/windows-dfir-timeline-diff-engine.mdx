@@ -35,6 +35,19 @@ make demo
 - **Evidence-safe storage**: The database stores normalized fields and raw references by default, not raw artifact blobs, so reports can cite source paths without duplicating evidence.
 - **Analyst-safe conclusions**: Reports use wording such as “consistent with,” “candidate,” and “requires validation” to avoid overstating what a single artifact or correlation can prove.
 
+## Proof Signals
+
+- `make demo` builds the CLI, creates baseline and incident databases, exports JSONL, and renders a Markdown report.
+- The report cites event IDs and source paths instead of making unsupported claims.
+- SQLite migrations, query filters, JSONL export, diff fingerprints, detection rules, and report rendering have direct test coverage.
+- Release-readiness docs keep the status at technical preview until broader parser and corpus validation are complete.
+
+## Deliberately Avoided
+
+- No live response, disk mounting, memory forensics, or full disk crawling in the preview scope.
+- No server, queue, cloud, or SaaS architecture; the project stays a local forensic CLI.
+- No language that says one artifact proves compromise.
+
 ## Result
 
 timeline is a technical preview CLI for controlled Windows DFIR timeline-diff analysis. It can ingest supported Windows artifact fixtures, query and export normalized events, apply YAML detections, compare baseline and incident databases, correlate related activity, and generate a Markdown incident report with cited event IDs and source paths.

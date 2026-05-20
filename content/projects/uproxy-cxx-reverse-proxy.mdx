@@ -3,21 +3,21 @@ slug: uproxy-cxx-reverse-proxy
 title: uProxy C++ HTTP/2 Reverse Proxy
 category: Systems
 updatedAt: 2026-05-07
-excerpt: A production-ready asynchronous HTTP/2 reverse proxy with connection pooling, BoringSSL TLS termination, and HPACK Huffman coding written in modern C++.
+excerpt: A C++20 reverse-proxy foundation with strict HTTP parsing, platform-specific event loops, protocol regression tests, and a validated cleartext forwarding path.
 tags: [C++, HTTP/2, Networking, BoringSSL, Reverse Proxy, CI/CD]
 image: /media/distributed-pipeline.svg
 ---
 
 ## Problem
 
-The goal was to build a highly concurrent and RFC-compliant HTTP/2 reverse proxy from scratch in C++. The proxy needed to cleanly terminate TLS handshakes with modern security libraries, negotiate ALPN protocols, manage complex HTTP/2 stream state validation, decode header compression accurately, and multiplex frontend requests to pooled HTTP/1.1 backend connections efficiently without blocking.
+The goal was to turn a networking prototype into a credible public systems project. The useful release needed a validated traffic path, strict HTTP parsing, platform-specific event-loop correctness, repeatable test gates, and honest release boundaries for the parts that were not yet production-ready.
 
 ## Architecture
 
 - The server uses a custom non-blocking event loop based on `kqueue`/`epoll`, with platform-specific fixes for macOS filter registration and Linux fd delivery.
-- It leverages BoringSSL `BIO` memory interfaces to asynchronously terminate TLS, decrypt request bytes, encrypt response bytes, and preserve pending ciphertext across partial socket writes.
-- It parses incoming HTTP/2 frames, enforces strict stream-state transitions (Idle, Open, Half-Closed), and maps client streams to a fast connection pooling manager for backend HTTP/1.1 servers.
-- The HPACK implementation natively parses the static Huffman encoding tree outlined in RFC 7541 to fully decompress encoded headers efficiently.
+- It includes BoringSSL integration work for TLS handling, while the documented validated path remains cleartext HTTP/1.1 forwarding.
+- It parses HTTP/2 frame behavior and HPACK table paths under tests, with complete stream-state handling and HPACK Huffman decoding still documented as release blockers.
+- The public path forwards HTTP/1.1 client traffic to HTTP/1.1 upstreams with strict parser behavior and clear failures for unsupported request bodies.
 
 :::artifact title="Public repository" kind="GitHub" href="https://github.com/AtharvaG109/uproxy"
 The repository contains the complete event-driven codebase, test matrix workflows, documentation, and connection pool infrastructure.
@@ -27,11 +27,25 @@ The repository contains the complete event-driven codebase, test matrix workflow
 
 - **kqueue edge-triggered correctness**: Discovered that macOS kqueue silently drops filter registrations when batched with a failing delete of a non-existent filter. Solved by applying each filter change individually and tracking registered state per fd.
 - **Linux epoll delivery**: Fixed event payload handling so listener and client events deliver the real file descriptor instead of a nullable user-data pointer.
-- **TLS application data**: Moved post-handshake client reads and writes through `TLSConn::read`/`TLSConn::write`, with buffering for encrypted bytes that cannot be flushed in one syscall.
-- **Connection pool reliability**: Stale pooled connections to upstream servers cause silent failures. Implemented automatic retry-on-failure with fresh connections from the pool.
-- **HTTP/2-to-HTTP/1.1 translation**: Incoming H2 streams with pseudo-headers (`:method`, `:path`, `:authority`) and bodies are cleanly converted to HTTP/1.1 request lines, forwarded upstream with `Content-Length`, and responses are re-encoded as H2 HEADERS + DATA frames.
-- **Weighted round-robin**: Implements Nginx-style smooth weighted round-robin for even traffic distribution across upstreams with different capacities.
+- **TLS application data**: The codebase has TLS-path coverage, but the README keeps TLS termination as a release blocker until it is validated end to end against untrusted traffic.
+- **Connection pool reliability**: Pool behavior is tested as infrastructure, while pooled upstream reuse remains outside the validated production path.
+- **HTTP/2 boundary**: Frame and HPACK behavior are covered as protocol work, but complete HTTP/2 stream-state support is not claimed as production-ready.
+- **Honest status**: The README explicitly says the current validated path is cleartext HTTP/1.1 forwarding, which keeps the project credible.
+
+## Proof Signals
+
+- The local gate covers Makefile tests, CMake tests, formatting, and defect-oriented static analysis.
+- Regression tests cover HTTP/1.1 parsing, HTTP/2 frame behavior, HPACK paths, event-loop delivery, and connection-pool behavior.
+- CI runs the release gate on GitHub so the public repo is not just a local-only build.
+- Contributor verification kept the public history aligned with the one-author project claim.
+
+## Deliberately Avoided
+
+- No Kubernetes, service mesh, or distributed control plane; the project is the proxy implementation itself.
+- No production-ready claim before TLS termination, HPACK Huffman coding, full HTTP/2 stream-state handling, and pooled upstream reuse are validated end to end.
+- No broad benchmark claim without correctness coverage around protocol behavior.
+- No overbroad lint profile that drowns real defects in style noise.
 
 ## Result
 
-uProxy is a fully functional, production-ready reverse proxy. The public repository now includes the complete tracked header surface, passes Makefile and CMake test gates locally, has clean formatting checks, and covers the TLS, epoll, HTTP/1.1, and HTTP/2 regressions found during release review. Benchmarked at >50k req/s for small responses on a single core.
+uProxy is a C++20 reverse-proxy foundation with a validated cleartext HTTP/1.1 forwarding path, tracked public headers, repeatable Makefile and CMake gates, formatting checks, CI, and protocol-focused regression coverage. It is presented as a strong systems project without hiding the remaining blockers for untrusted production traffic.

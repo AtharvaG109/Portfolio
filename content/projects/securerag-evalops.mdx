@@ -1,0 +1,67 @@
+---
+slug: securerag-evalops
+title: SecureRAG EvalOps
+category: Security Product
+updatedAt: 2026-05-20
+excerpt: A private-deployment RAG evaluation and guardrail platform with graph-augmented retrieval, namespace authorization, fail-closed citations, audit logs, and production-readiness checks.
+tags: [Python, FastAPI, RAG, AI Security, Guardrails, Observability]
+image: /media/securerag-evalops.svg
+---
+
+## Problem
+
+Most RAG demos optimize for a good-looking answer and skip the parts that make the system safe to operate: namespace authorization, citation validation, ingestion cleanup, guardrail events, evaluation reports, and clear production boundaries. SecureRAG EvalOps was built as a private-deployment backend that shows those controls directly.
+
+## Architecture
+
+- Files are parsed into pages, chunked with structure-aware rules, embedded locally by default, and stored in Qdrant with namespace payload filters.
+- The same chunks are indexed into graph memory: deterministic entities, mentions, and document-backed relations stored in Postgres.
+- Query execution is explicit: API-key or local-dev identity, namespace authorization, pre-query guardrails, vector plus lexical plus graph retrieval, MMR reranking, generation, fail-closed citation validation, PII redaction, cost recording, and trace output.
+- Postgres owns metadata, collections, permissions, graph memory, eval rows, guardrail events, audit events, and cost events; Redis only caches short-lived query embeddings.
+
+:::artifact title="Public repository" kind="GitHub" href="https://github.com/AtharvaG109/secure-rag-evalops"
+The repository includes the FastAPI backend, Alembic migrations, Docker Compose services, demo corpus, evaluation harness, graph-memory route, web dashboard, production guide, and CI workflow.
+:::
+
+:::artifact title="Demo screenshot" kind="Dashboard" href="https://github.com/AtharvaG109/secure-rag-evalops/blob/main/docs/assets/dashboard-guardrails.png"
+The dashboard screenshot shows the operator view for ingestion, querying, metrics, traces, guardrails, document cleanup, and graph-memory exploration.
+:::
+
+:::artifact title="Demo proof transcript" kind="Markdown" href="https://github.com/AtharvaG109/secure-rag-evalops/blob/main/docs/DEMO_PROOF.md"
+The proof note captures a local demo run with cited answers, namespace-filtered no-answer behavior, graph-memory output, evaluation metrics, and guardrail rejection.
+:::
+
+## Security Constraints
+
+- Namespace authorization runs before retrieval, and Qdrant receives namespace filters so data isolation is enforced in both app logic and vector search.
+- Citation validation is fail-closed: unsupported generated answers surface a citation error instead of silently passing.
+- Raw source files are not persisted after ingestion; the app stores normalized chunk metadata and source references.
+- Production startup rejects insecure runtime settings such as wildcard trusted hosts, local auth bypass, missing rate limits, or the development token pepper.
+- Destructive document cleanup is preview-first, confirmation-gated, and audit-logged.
+
+## Recruiter Demo
+
+```bash
+make check
+bash scripts/demo.sh
+python scripts/run_eval.py evals/golden_set.jsonl --namespace security-policy --user-id demo-admin --report-out /tmp/securerag-eval-report.md
+```
+
+The demo proves the core path quickly: ingest the corpus, answer a policy question with citations, show `citation_validation=passed`, query an empty namespace to demonstrate retrieval isolation, preview graph-memory entities and relations, export an evaluation report, and reject a prompt-injection request before retrieval.
+
+## Tests And CI
+
+- `make check` runs Ruff, strict mypy, and pytest.
+- The current suite covers authentication, namespace authorization, ingestion, retrieval, graph memory, citation validation, guardrails, evaluation reports, metrics, and the web UI.
+- GitHub Actions runs lint/typecheck and integration tests against Postgres, Redis, and Qdrant service containers.
+
+:::metric value="91 tests" label="Release gate across auth, retrieval, graph memory, eval reports, guardrails, and UI."
+:::
+
+## Deliberately Avoided
+
+- No external AI provider is required in the default path.
+- No raw source-file persistence after ingestion.
+- No automatic Alembic migrations in production startup.
+- No public multi-tenant SaaS claims; this is scoped as a private internal deployment baseline.
+- No decorative chatbot framing. The project is about controlled retrieval, evaluation, and guardrail operations.
