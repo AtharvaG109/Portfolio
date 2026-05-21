@@ -1,0 +1,53 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">LLM RedTeam Framework diagram</title>
+  <desc id="desc">Diagram showing attack packs, adaptive execution, detectors, and report outputs for an LLM AppSec red-team framework.</desc>
+  <rect width="1200" height="720" rx="36" fill="#090D12"/>
+  <rect x="54" y="48" width="1092" height="624" rx="28" fill="#101722" stroke="#2C3B4D"/>
+  <text x="92" y="104" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="32" font-weight="700">LLM RedTeam Framework</text>
+  <text x="92" y="140" fill="#AAB7C6" font-family="Arial, sans-serif" font-size="18">authorized synthetic attack suites, adaptive probes, replayable evidence, and CI-ready reports</text>
+
+  <rect x="92" y="186" width="228" height="130" rx="20" fill="#142033" stroke="#5CB6FF"/>
+  <text x="120" y="226" fill="#8ED0FF" font-family="Arial, sans-serif" font-size="15" font-weight="700">ATTACK PACKS</text>
+  <text x="120" y="260" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="22" font-weight="700">YAML suites</text>
+  <text x="120" y="290" fill="#B9C5D3" font-family="Arial, sans-serif" font-size="16">tactics · canaries · policy</text>
+
+  <rect x="366" y="186" width="228" height="130" rx="20" fill="#142033" stroke="#63D6A2"/>
+  <text x="394" y="226" fill="#8FF0BE" font-family="Arial, sans-serif" font-size="15" font-weight="700">RUNNER</text>
+  <text x="394" y="260" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="22" font-weight="700">Adaptive turns</text>
+  <text x="394" y="290" fill="#B9C5D3" font-family="Arial, sans-serif" font-size="16">mutate · retry · confirm</text>
+
+  <rect x="640" y="186" width="228" height="130" rx="20" fill="#142033" stroke="#F0C56B"/>
+  <text x="668" y="226" fill="#F8D887" font-family="Arial, sans-serif" font-size="15" font-weight="700">DETECTORS</text>
+  <text x="668" y="260" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="22" font-weight="700">Evidence checks</text>
+  <text x="668" y="290" fill="#B9C5D3" font-family="Arial, sans-serif" font-size="16">canary · leakage · refusal</text>
+
+  <rect x="914" y="186" width="194" height="130" rx="20" fill="#142033" stroke="#DDA7FF"/>
+  <text x="942" y="226" fill="#E5C0FF" font-family="Arial, sans-serif" font-size="15" font-weight="700">REPORTS</text>
+  <text x="942" y="260" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="22" font-weight="700">CI outputs</text>
+  <text x="942" y="290" fill="#B9C5D3" font-family="Arial, sans-serif" font-size="16">MD · JSON · SARIF · JUnit</text>
+
+  <path d="M320 250H366" stroke="#5CB6FF" stroke-width="4" stroke-linecap="round"/>
+  <path d="M594 250H640" stroke="#63D6A2" stroke-width="4" stroke-linecap="round"/>
+  <path d="M868 250H914" stroke="#F0C56B" stroke-width="4" stroke-linecap="round"/>
+
+  <rect x="92" y="372" width="1016" height="208" rx="24" fill="#0C121A" stroke="#273445"/>
+  <text x="124" y="420" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="24" font-weight="700">release evidence</text>
+
+  <rect x="124" y="452" width="218" height="80" rx="16" fill="#131E2D" stroke="#263B52"/>
+  <text x="150" y="482" fill="#AAB7C6" font-family="Arial, sans-serif" font-size="14">LOCAL GATE</text>
+  <text x="150" y="512" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="28" font-weight="700">44 tests</text>
+
+  <rect x="374" y="452" width="218" height="80" rx="16" fill="#131E2D" stroke="#263B52"/>
+  <text x="400" y="482" fill="#AAB7C6" font-family="Arial, sans-serif" font-size="14">LAB TARGETS</text>
+  <text x="400" y="512" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="28" font-weight="700">2 profiles</text>
+
+  <rect x="624" y="452" width="218" height="80" rx="16" fill="#131E2D" stroke="#263B52"/>
+  <text x="650" y="482" fill="#AAB7C6" font-family="Arial, sans-serif" font-size="14">RUN HISTORY</text>
+  <text x="650" y="512" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="28" font-weight="700">SQLite</text>
+
+  <rect x="874" y="452" width="202" height="80" rx="16" fill="#131E2D" stroke="#263B52"/>
+  <text x="900" y="482" fill="#AAB7C6" font-family="Arial, sans-serif" font-size="14">SECURERAG RUN</text>
+  <text x="900" y="512" fill="#F7FAFF" font-family="Arial, sans-serif" font-size="28" font-weight="700">0 candidates</text>
+
+  <text x="124" y="628" fill="#93E6B8" font-family="monospace" font-size="18">$ make release-check  # lint · mypy · pytest · build · pack validation · hardened lab</text>
+</svg>

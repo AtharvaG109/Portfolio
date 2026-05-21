@@ -1,0 +1,65 @@
+---
+slug: llm-redteam-framework
+title: LLM RedTeam Framework
+category: AI Security
+updatedAt: 2026-05-21
+excerpt: An enterprise LLM AppSec assessment CLI with adaptive attack suites, synthetic canaries, replayable evidence, SQLite history, CI gates, and Markdown, JSON, SARIF, and JUnit reports.
+tags: [Python, LLM Security, AppSec, CLI, SARIF, Pytest]
+image: /media/llm-redteam-framework.svg
+---
+
+## Problem
+
+LLM-powered apps are hard to assess consistently. Manual reviews catch prompt injection, role confusion, leakage, and citation failures, but the evidence is often scattered across notes, screenshots, and one-off prompts. I built LLM RedTeam Framework to turn those checks into a repeatable CLI workflow that stays safe for portfolio and CI use.
+
+## Architecture
+
+- Attack packs are YAML files with suites, tactics, probes, canaries, policy mappings, reproduction steps, severity, and CI gate weights.
+- The runner supports single-turn and adaptive multi-turn sessions, including bounded mutations, confirmation probes, reproducibility probes, retries, and concurrency limits.
+- Detectors combine exact synthetic canary hits, regex leakage checks, refusal classification, structured JSON detection, citation bypass detection, and false-positive suppression.
+- Reports preserve redacted transcripts and evidence in Markdown, JSON, SARIF, JUnit, and SQLite history so findings can be replayed and compared.
+
+:::artifact title="Public repository" kind="GitHub" href="https://github.com/AtharvaG109/llm-redteam-framework"
+The repository includes the CLI, SecureRAG and OpenAI-compatible adapters, enterprise attack pack, deterministic lab target, SQLite run store, plugins, CI workflow, and production-readiness documentation.
+:::
+
+:::artifact title="Production readiness" kind="Markdown" href="https://github.com/AtharvaG109/llm-redteam-framework/blob/main/docs/PRODUCTION_READINESS.md"
+The readiness note documents release gates, packaging expectations, CI behavior, safety boundaries, and operational limits.
+:::
+
+## Security Constraints
+
+- Built-in attacks use synthetic canaries and synthetic PII-shaped values only.
+- Real target traffic only happens through explicit `redteam run` commands.
+- API keys, bearer tokens, authorization headers, and common PII-shaped strings are redacted from transcripts and reports.
+- Findings are reported as candidate evidence that requires validation, not proof of compromise or model intent.
+- Tests use mocked endpoints or deterministic local lab adapters.
+
+## Recruiter Demo
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -e ".[dev]"
+make release-check
+redteam demo --profile vulnerable --output-dir reports/demo
+redteam demo --profile hardened --output-dir reports/demo
+```
+
+The demo produces human and CI-friendly reports without a live LLM provider. The hardened profile blocks the enterprise smoke suite; the vulnerable profile emits synthetic canaries so the detector and report flow is visible.
+
+## Tests And CI
+
+- `make release-check` runs Ruff, strict mypy, pytest, package build, pack validation, and a hardened-lab demo.
+- The current suite covers adapters, CLI commands, scoring, mutation generation, lab behavior, plugin discovery, report formats, redaction, and SQLite history.
+- GitHub Actions runs the gate across Python 3.11, 3.12, and 3.13 and uploads built distribution artifacts.
+
+:::metric value="44 tests" label="Release gate across adapters, CLI, scoring, lab, plugins, reports, and SQLite history."
+:::
+
+## Deliberately Avoided
+
+- No real PII packs or real secret extraction.
+- No hidden network calls.
+- No destructive target behavior.
+- No web dashboard in this phase; the product is CLI plus serious evidence artifacts.
+- No LangChain dependency in the default path, so request behavior remains transparent.
