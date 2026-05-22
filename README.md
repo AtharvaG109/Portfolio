@@ -87,6 +87,10 @@ NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 
 If the variable is missing, analytics stays disabled.
 
+## Release And Validation
+
+Before publishing public site changes, run `npm run check` and follow [`docs/RELEASE_CHECKLIST.md`](docs/RELEASE_CHECKLIST.md). The checklist covers static export validation, project content review, public link checks, and GitHub Pages deployment verification.
+
 ## Search Console
 
 To enable Google Search Console site verification without another code change later, set:
