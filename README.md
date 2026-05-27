@@ -109,7 +109,7 @@ https://your-site-url/sitemap.xml
 
 ### Recommended: Vercel
 
-Best fit for a Next.js portfolio.
+Recommended for a Next.js portfolio.
 
 - free hobby tier
 - zero-config deploys from GitHub

@@ -28,7 +28,7 @@ export default function ExperiencePage() {
         copy="Career history with emphasis on production ownership, observability, security execution, and the kind of work that holds up after launch."
         actions={[
           { label: "Open resume", href: "/resume/", variant: "primary" },
-          { label: "Request intro", href: "/contact/", variant: "secondary" }
+          { label: "Start technical conversation", href: "/contact/", variant: "secondary" }
         ]}
       />
 
@@ -64,16 +64,16 @@ export default function ExperiencePage() {
       <section className="section-block">
         <AnimateIn delay={0.04}>
           <SectionHeading
-            eyebrow="Role Fit"
-            title="Current industry areas where the work maps cleanly."
-            copy="These are the hiring lanes where my portfolio has the strongest evidence: backend ownership, security automation, AI security, and low-level debugging."
+            eyebrow="Technical Areas"
+            title="Where the work has strong evidence."
+            copy="These are the areas where the portfolio has the clearest proof: backend ownership, security automation, AI security, and low-level debugging."
           />
         </AnimateIn>
 
         <div className="capability-grid">
           {roleFitCards.map((item, index) => (
             <AnimateIn key={item.title} className="surface capability-card depth-card" delay={0.08 + index * 0.05}>
-              <p className="micro-label">Hiring signal</p>
+              <p className="micro-label">Evidence</p>
               <h3>{item.title}</h3>
               <p className="muted">{item.body}</p>
               <p className="route-card-signal">{item.signal}</p>

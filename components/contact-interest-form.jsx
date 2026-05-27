@@ -36,7 +36,7 @@ export function ContactInterestForm() {
 
     if (lastSubmittedAt && now - lastSubmittedAt < 15000) {
       setStatus("error");
-      setStatusMessage("Please wait a few seconds before sending another request.");
+      setStatusMessage("Please wait a few seconds before sending another message.");
       return;
     }
 
@@ -51,7 +51,7 @@ export function ContactInterestForm() {
       company: validateUserInput(formData.get("company"), { label: "Company", maxLength: 120 }),
       interest: validateUserInput(formData.get("interest"), { label: "Interest", maxLength: 80 }),
       timeline: validateUserInput(formData.get("timeline"), { label: "Timeline", maxLength: 80 }),
-      role: validateUserInput(formData.get("role"), { label: "Role or team", maxLength: 120 }),
+      role: validateUserInput(formData.get("role"), { label: "Technical context", maxLength: 120 }),
       message: validateUserInput(formData.get("message"), {
         label: "Message",
         minLength: 20,
@@ -86,7 +86,7 @@ export function ContactInterestForm() {
     formData.set("timeline", timeline);
     formData.set("role", role);
     formData.set("message", message);
-    formData.append("_subject", "New portfolio contact request");
+    formData.append("_subject", "New portfolio technical conversation");
     formData.append("_template", "table");
     formData.append("_replyto", email);
     formData.append("_blacklist", "viagra,casino,crypto,backlinks,seo service");
@@ -108,7 +108,7 @@ export function ContactInterestForm() {
       }
 
       setStatus("success");
-      setStatusMessage("Request sent successfully. I will review it and follow up directly.");
+      setStatusMessage("Message sent successfully. I will review it and follow up directly.");
       setLastSubmittedAt(now);
       formRef.current?.reset();
     } catch {
@@ -125,10 +125,9 @@ export function ContactInterestForm() {
     <div className="surface contact-form-shell">
       <div className="contact-form-head">
         <p className="eyebrow">Private Contact</p>
-        <h2>Request a conversation.</h2>
+        <h2>Start a technical conversation.</h2>
         <p className="muted">
-          Share the role, team, or collaboration context. I review requests myself and keep direct
-          phone details private until there is enough context for a useful conversation.
+          Share the technical context. I review messages directly and keep contact details private.
         </p>
       </div>
 
@@ -138,96 +137,107 @@ export function ContactInterestForm() {
           <input id="company-website" type="text" name="_honey" tabIndex="-1" autoComplete="off" />
         </div>
 
-        <div className="form-grid">
-          <label className="form-field">
-            <span>Name</span>
-            <input
-              type="text"
-              name="name"
-              className="input-control"
-              placeholder="Your name"
-              autoComplete="name"
-              maxLength="80"
-              required
-            />
-          </label>
+        <fieldset className="contact-fieldset">
+          <legend>Contact details</legend>
+          <div className="form-grid">
+            <label className="form-field">
+              <span>Name</span>
+              <input
+                type="text"
+                name="name"
+                className="input-control"
+                placeholder="Your name"
+                autoComplete="name"
+                maxLength="80"
+                required
+              />
+            </label>
 
-          <label className="form-field">
-            <span>Email</span>
-            <input
-              type="email"
-              name="email"
-              className="input-control"
-              placeholder="name@company.com"
-              autoComplete="email"
-              inputMode="email"
-              maxLength="120"
-              required
-            />
-          </label>
+            <label className="form-field">
+              <span>Email</span>
+              <input
+                type="email"
+                name="email"
+                className="input-control"
+                placeholder="name@company.com"
+                autoComplete="email"
+                inputMode="email"
+                maxLength="120"
+                required
+              />
+            </label>
 
-          <label className="form-field">
-            <span>Company</span>
-            <input
-              type="text"
-              name="company"
-              className="input-control"
-              placeholder="Company or organization"
-              autoComplete="organization"
-              maxLength="120"
-            />
-          </label>
+            <label className="form-field">
+              <span>Company</span>
+              <input
+                type="text"
+                name="company"
+                className="input-control"
+                placeholder="Company or organization"
+                autoComplete="organization"
+                maxLength="120"
+              />
+            </label>
 
-          <label className="form-field">
-            <span>Interest</span>
-            <select name="interest" className="input-control" defaultValue="Software engineering role" required>
-              <option>Software engineering role</option>
-              <option>Platform or backend role</option>
-              <option>Security engineering role</option>
-              <option>Project collaboration</option>
-              <option>Research or publication discussion</option>
-            </select>
-          </label>
+            <label className="form-field">
+              <span>Interest</span>
+              <select name="interest" className="input-control" defaultValue="Backend systems" required>
+                <option>Backend systems</option>
+                <option>Platform engineering</option>
+                <option>Security engineering</option>
+                <option>AI security</option>
+                <option>Low-level systems</option>
+                <option>Research discussion</option>
+                <option>Collaboration</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
 
-          <label className="form-field">
-            <span>Timeline</span>
-            <input
-              type="text"
-              name="timeline"
-              className="input-control"
-              placeholder="Immediate, this quarter, or exploratory"
-              maxLength="80"
-            />
-          </label>
+        <fieldset className="contact-fieldset">
+          <legend>Engineering context</legend>
+          <div className="form-grid">
+            <label className="form-field">
+              <span>Timeline</span>
+              <input
+                type="text"
+                name="timeline"
+                className="input-control"
+                placeholder="Immediate, this quarter, or exploratory"
+                maxLength="80"
+              />
+            </label>
 
-          <label className="form-field">
-            <span>Role or team</span>
-            <input
-              type="text"
-              name="role"
-              className="input-control"
-              placeholder="Title, team, or project scope"
-              maxLength="120"
-            />
-          </label>
+            <label className="form-field">
+              <span>Technical context</span>
+              <input
+                type="text"
+                name="role"
+                className="input-control"
+                placeholder="System, project, team, or research area"
+                maxLength="120"
+              />
+            </label>
 
-          <label className="form-field form-field-full">
-            <span>Why this conversation?</span>
-            <textarea
-              name="message"
-              className="input-control textarea-control"
-              rows="6"
-              placeholder="Share the problem space, team scope, and why you think there is a fit."
-              minLength="20"
-              maxLength="2000"
-              required
-            />
-          </label>
-        </div>
+            <label className="form-field form-field-full">
+              <span>Why this conversation?</span>
+              <textarea
+                name="message"
+                className="input-control textarea-control"
+                rows="6"
+                placeholder="Share the problem space, engineering context, and why the discussion would be useful."
+                minLength="20"
+                maxLength="2000"
+                required
+              />
+            </label>
+          </div>
+        </fieldset>
 
         <label className="consent-row">
           <input type="checkbox" name="consent" value="agreed" required />
-          <span>I understand this request is sent privately for review and phone details are shared selectively.</span>
+          <span>I understand this message is sent privately for review and direct contact details are shared selectively.</span>
         </label>
 
         <div className="contact-form-footer">
@@ -236,8 +246,8 @@ export function ContactInterestForm() {
             <span>{contactConfig.phonePolicy}</span>
           </div>
 
-          <button type="submit" className="button button-primary" disabled={isSubmitting}>
-            {isSubmitting ? "Sending request..." : "Send request"}
+          <button type="submit" className="button button-secondary contact-submit-button" disabled={isSubmitting}>
+            {isSubmitting ? "Sending message..." : "Send message"}
           </button>
         </div>
 

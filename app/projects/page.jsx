@@ -33,10 +33,10 @@ export default function ProjectsPage() {
       <PageHero
         eyebrow="Projects"
         title="Proof-driven case studies from systems and security work."
-        copy="Browse by role fit, stack, and evidence. Each project highlights the problem, what I built, and the proof that makes the work reviewable."
+        copy="Browse by technical area, stack, maturity, and evidence. Each project highlights the problem, what I built, and the proof that makes the work reviewable."
         actions={[
           { label: "Open workbench", href: "/workbench/", variant: "secondary" },
-          { label: "Request intro", href: "/contact/", variant: "primary" }
+          { label: "Start technical conversation", href: "/contact/", variant: "primary" }
         ]}
       />
 
@@ -47,7 +47,7 @@ export default function ProjectsPage() {
             <h2>Start with proof, then open the deeper case study.</h2>
             <p className="muted">
               The top row shows the clearest technical depth. The full browser lets you filter by
-              role fit and stack, then compare maturity, proof, and public references quickly.
+              technical area and stack, then compare maturity, proof, and public references quickly.
             </p>
           </AnimateIn>
 

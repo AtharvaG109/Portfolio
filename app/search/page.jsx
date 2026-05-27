@@ -33,7 +33,7 @@ export default function SearchPage() {
       <StructuredData data={searchSchema} />
       <AnimateIn className="surface page-hero" delay={0.05}>
         <p className="eyebrow">Search</p>
-        <h1>Find projects, writing, tools, and role-fit signals.</h1>
+        <h1>Find projects, writing, tools, and technical signals.</h1>
         <p className="muted hero-copy">
           This local search index covers the static portfolio content without relying on a backend
           service or sending queries off the page.

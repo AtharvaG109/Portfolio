@@ -16,7 +16,7 @@ export default function ResumePage() {
         <div>
           <p className="eyebrow">Resume</p>
           <h1>{siteConfig.name}</h1>
-          <p className="muted">{siteConfig.location} • Backend, platform, software, and security roles • Private contact flow</p>
+          <p className="muted">{siteConfig.location} • Backend, platform, security, and systems engineering • Private technical contact flow</p>
         </div>
 
         <div className="cta-row">
@@ -24,7 +24,7 @@ export default function ResumePage() {
             Download text resume
           </a>
           <Link href="/contact/" className="button button-secondary">
-            Request intro
+            Start conversation
           </Link>
           <ResumePrintButton />
         </div>

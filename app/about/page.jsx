@@ -13,7 +13,7 @@ import {
 } from "@/lib/site-data";
 
 const aboutDescription =
-  "About Atharva Gham, a backend, platform, and security engineer who builds systems that hold up under pressure.";
+  "About Atharva Gham and the runtime-evidence thread behind his backend, observability, security automation, AI security, and systems debugging work.";
 
 export const metadata = {
   title: "About",
@@ -141,6 +141,13 @@ const interestNotes = [
   }
 ];
 
+const howIThink = [
+  "Start from observable behavior, not assumptions.",
+  "Prefer systems that are testable, debuggable, and explainable after launch.",
+  "Treat security as an engineering property, not a separate checklist.",
+  "Use traces, logs, packets, tests, threat models, and failure cases as proof."
+];
+
 export default function AboutPage() {
   return (
     <main id="main-content" tabIndex="-1" className="page-shell page-main">
@@ -151,9 +158,38 @@ export default function AboutPage() {
         copy="My best work sits close to runtime behavior: APIs, workers, queues, telemetry, deployments, security controls, and the debugging path when something breaks."
         actions={[
           { label: "View experience", href: "/experience/", variant: "primary" },
-          { label: "Request intro", href: "/contact/", variant: "secondary" }
+          { label: "Start technical conversation", href: "/contact/", variant: "secondary" }
         ]}
       />
+
+      <section className="section-block">
+        <div className="detail-grid">
+          <AnimateIn className="surface panel-card" delay={0.04}>
+            <p className="eyebrow">The Through-Line</p>
+            <h2>The work usually starts where the first explanation is not enough.</h2>
+            <p className="muted panel-copy">
+              I am drawn to systems where the easy answer is usually incomplete: a slow service, a
+              noisy alert stream, a fragile release, an unsafe automation path, or a binary that
+              behaves differently than expected.
+            </p>
+            <p className="muted panel-copy">
+              That is why my work keeps crossing backend engineering, observability, security
+              automation, low-level debugging, and AI security. I like building things, but I also
+              like proving how they behave.
+            </p>
+          </AnimateIn>
+
+          <AnimateIn className="surface panel-card" delay={0.1}>
+            <p className="eyebrow">How I Think</p>
+            <h2>Evidence first, then the fix.</h2>
+            <ul className="bullet-list">
+              {howIThink.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </AnimateIn>
+        </div>
+      </section>
 
       <section className="section-block">
         <AnimateIn delay={0.04}>
@@ -236,19 +272,19 @@ export default function AboutPage() {
 
           <AnimateIn className="surface panel-card about-aim-panel" delay={0.12}>
             <p className="eyebrow">Next</p>
-            <h2>The teams where I fit best.</h2>
+            <h2>Where that pattern shows up.</h2>
             <div className="about-aim-list">
               <article className="about-aim-item">
                 <span className="about-aim-mark" aria-hidden="true" />
-                <p>Backend, platform, or infrastructure teams that care about reliability, observability, and measured performance.</p>
+                <p>Backend and platform systems where latency, queues, rollouts, telemetry, and failure behavior have to be understood together.</p>
               </article>
               <article className="about-aim-item">
                 <span className="about-aim-mark" aria-hidden="true" />
-                <p>Security engineering teams that turn risk into guardrails, automation, and clear remediation paths.</p>
+                <p>Security automation that turns risk into guardrails, detection logic, audit trails, and clear remediation paths.</p>
               </article>
               <article className="about-aim-item">
                 <span className="about-aim-mark" aria-hidden="true" />
-                <p>Groups that value ownership after launch: debugging, hardening, documentation, and incident learning.</p>
+                <p>Runtime-heavy debugging work where traces, logs, packets, tests, and failure cases explain what is actually happening.</p>
               </article>
             </div>
             <div className="about-signal-strip" aria-label="Signals I optimize for">
@@ -264,8 +300,8 @@ export default function AboutPage() {
         <AnimateIn delay={0.04}>
           <SectionHeading
             eyebrow="Capabilities"
-            title="The work I want people to trust me with."
-            copy="I am useful when a project needs someone who can connect implementation details with production behavior, support paths, and security tradeoffs."
+            title="The technical habits behind the projects."
+            copy="The useful part is connecting implementation details with runtime behavior, support paths, and security tradeoffs."
           />
         </AnimateIn>
 

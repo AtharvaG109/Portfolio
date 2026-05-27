@@ -9,15 +9,14 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems = [
   { label: "About", href: "/about/" },
-  { label: "Experience", href: "/experience/" },
   { label: "Projects", href: "/projects/" },
-  { label: "Labs", href: "/labs/" },
   { label: "Workbench", href: "/workbench/" },
   { label: "Writing", href: "/blog/" },
-  { label: "Search", href: "/search/" },
   { label: "Resume", href: "/resume/" },
   { label: "Contact", href: "/contact/" }
 ];
+
+const searchNavItem = { label: "Search", href: "/search/" };
 
 function normalizePath(path) {
   if (!path) {
@@ -81,6 +80,15 @@ export function SiteHeader() {
             <NavLinks pathname={pathname} />
           </nav>
 
+          <Link
+            href={searchNavItem.href}
+            className="search-nav-link"
+            aria-current={isActivePath(pathname, searchNavItem.href) ? "page" : undefined}
+            aria-label="Search"
+          >
+            {searchNavItem.label}
+          </Link>
+
           <div className="desktop-theme-toggle">
             <ThemeToggle />
           </div>
@@ -99,6 +107,17 @@ export function SiteHeader() {
                   }
                 }}
               />
+              <Link
+                href={searchNavItem.href}
+                aria-current={isActivePath(pathname, searchNavItem.href) ? "page" : undefined}
+                onClick={() => {
+                  if (disclosureRef.current) {
+                    disclosureRef.current.open = false;
+                  }
+                }}
+              >
+                {searchNavItem.label}
+              </Link>
             </nav>
           </details>
         </div>

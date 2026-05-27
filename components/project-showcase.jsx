@@ -21,6 +21,24 @@ function getFilterOptions(projects, key) {
   return ["All", ...new Set(projects.flatMap((project) => project[key] ?? []))];
 }
 
+function getProjectSearchText(project) {
+  return [
+    project.title,
+    project.summary,
+    project.category,
+    project.maturity,
+    project.challenge,
+    project.result,
+    project.proofLine,
+    ...(project.stack ?? []),
+    ...(project.roleFits ?? []),
+    ...(project.focusTags ?? []),
+    ...(project.proofBadges ?? [])
+  ]
+    .join(" ")
+    .toLowerCase();
+}
+
 function EvidenceVisual({ project, compact = false }) {
   const visual = project.evidenceVisual;
 
@@ -58,10 +76,21 @@ function ProofBadges({ project, limit }) {
   );
 }
 
-function FilterGroup({ label, activeValue, options, onChange }) {
+function FilterGroup({ label, activeValue, options, onChange, defaultOpen = false }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  useEffect(() => {
+    if (activeValue !== "All") {
+      setIsOpen(true);
+    }
+  }, [activeValue]);
+
   return (
-    <div className="project-filter-group">
-      <p className="micro-label">{label}</p>
+    <details className="project-filter-group" open={isOpen} onToggle={(event) => setIsOpen(event.currentTarget.open)}>
+      <summary>
+        <span className="micro-label">{label}</span>
+        <span className="project-filter-current">{activeValue}</span>
+      </summary>
       <div className="chip-row" role="toolbar" aria-label={`Project ${label.toLowerCase()} filter`}>
         {options.map((option) => (
           <button
@@ -75,7 +104,7 @@ function FilterGroup({ label, activeValue, options, onChange }) {
           </button>
         ))}
       </div>
-    </div>
+    </details>
   );
 }
 
@@ -87,7 +116,7 @@ function ProjectComparisonTable({ projects }) {
           <p className="eyebrow">Project comparison</p>
           <h3 id="project-comparison-heading">Fast technical scan</h3>
         </div>
-        <p className="muted">Best fit, stack, proof, and public reference in one view.</p>
+        <p className="muted">Technical area, stack, proof, and public reference in one view.</p>
       </div>
 
       <div className="project-table-wrap">
@@ -95,7 +124,7 @@ function ProjectComparisonTable({ projects }) {
           <thead>
             <tr>
               <th>Project</th>
-              <th>Best fit</th>
+              <th>Technical area</th>
               <th>Stack</th>
               <th>Proof</th>
               <th>Repo</th>
@@ -151,20 +180,25 @@ export function ProjectShowcase({ projects }) {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeRole, setActiveRole] = useState("All");
   const [activeFocus, setActiveFocus] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedSlug, setSelectedSlug] = useState(sortedProjects[0]?.slug ?? null);
+  const normalizedSearchQuery = searchQuery.trim().toLowerCase();
 
   const visibleProjects = useMemo(() => {
     return sortedProjects.filter((project) => {
       const matchesCategory = activeCategory === "All" || project.category === activeCategory;
       const matchesRole = activeRole === "All" || project.roleFits.includes(activeRole);
       const matchesFocus = activeFocus === "All" || project.focusTags.includes(activeFocus);
+      const matchesSearch =
+        !normalizedSearchQuery || getProjectSearchText(project).includes(normalizedSearchQuery);
 
-      return matchesCategory && matchesRole && matchesFocus;
+      return matchesCategory && matchesRole && matchesFocus && matchesSearch;
     });
-  }, [activeCategory, activeFocus, activeRole, sortedProjects]);
+  }, [activeCategory, activeFocus, activeRole, normalizedSearchQuery, sortedProjects]);
 
   useEffect(() => {
     if (!visibleProjects.length) {
+      setSelectedSlug(null);
       return;
     }
 
@@ -176,7 +210,22 @@ export function ProjectShowcase({ projects }) {
   }, [selectedSlug, visibleProjects]);
 
   const selectedProject =
-    visibleProjects.find((project) => project.slug === selectedSlug) ?? visibleProjects[0] ?? sortedProjects[0];
+    visibleProjects.find((project) => project.slug === selectedSlug) ?? visibleProjects[0] ?? null;
+  const activeFilterSummary = [
+    normalizedSearchQuery ? `Search: ${searchQuery.trim()}` : null,
+    activeCategory !== "All" ? activeCategory : null,
+    activeRole !== "All" ? activeRole : null,
+    activeFocus !== "All" ? activeFocus : null
+  ].filter(Boolean);
+  const hasActiveFilters = activeFilterSummary.length > 0;
+
+  const clearFilters = () => {
+    setSearchQuery("");
+    setActiveCategory("All");
+    setActiveRole("All");
+    setActiveFocus("All");
+    setSelectedSlug(sortedProjects[0]?.slug ?? null);
+  };
 
   const previewProject = (projectSlug) => {
     setSelectedSlug(projectSlug);
@@ -335,114 +384,163 @@ export function ProjectShowcase({ projects }) {
       <div className="project-showcase-head">
         <div>
           <p className="micro-label">Browse by focus area</p>
-          <h2>Find the project that matches the work.</h2>
+          <h2>Find the project by system, security problem, or proof path.</h2>
         </div>
         <p className="muted">{visibleProjects.length} of {sortedProjects.length} projects shown</p>
       </div>
 
       <div className="project-filter-panel">
-        <FilterGroup label="Category" activeValue={activeCategory} options={categories} onChange={setActiveCategory} />
-        <FilterGroup label="Role fit" activeValue={activeRole} options={roleFits} onChange={setActiveRole} />
-        <FilterGroup label="Stack or focus" activeValue={activeFocus} options={focusTags} onChange={setActiveFocus} />
+        <div className="project-browser-tools">
+          <label className="project-search-field">
+            <span className="micro-label">Search archive</span>
+            <input
+              type="search"
+              className="input-control"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Search by project, system, proof, stack, or security problem"
+            />
+          </label>
+          <div className="project-filter-actions">
+            <div className="active-filter-row" aria-live="polite">
+              {hasActiveFilters ? (
+                activeFilterSummary.map((item) => (
+                  <span key={item} className="active-filter-pill">
+                    {item}
+                  </span>
+                ))
+              ) : (
+                <span className="muted">Showing complete case-study archive</span>
+              )}
+            </div>
+            <button
+              type="button"
+              className="button button-secondary project-clear-button"
+              onClick={clearFilters}
+              disabled={!hasActiveFilters}
+            >
+              Clear filters
+            </button>
+          </div>
+        </div>
+
+        <div className="project-filter-groups">
+          <FilterGroup
+            label="Category"
+            activeValue={activeCategory}
+            options={categories}
+            onChange={setActiveCategory}
+            defaultOpen
+          />
+          <FilterGroup label="Technical area" activeValue={activeRole} options={roleFits} onChange={setActiveRole} />
+          <FilterGroup label="Stack or focus" activeValue={activeFocus} options={focusTags} onChange={setActiveFocus} />
+        </div>
       </div>
 
-      <motion.div layout={!shouldReduceMotion} className="project-grid">
-        <AnimatePresence mode="popLayout">
-          {visibleProjects.map((project) => {
-            const isActive = project.slug === selectedProject?.slug;
+      {visibleProjects.length ? (
+        <motion.div layout={!shouldReduceMotion} className="project-grid">
+          <AnimatePresence mode="popLayout">
+            {visibleProjects.map((project) => {
+              const isActive = project.slug === selectedProject?.slug;
 
-            return (
-              <motion.article
-                key={project.slug}
-                layout={!shouldReduceMotion}
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
-                transition={shouldReduceMotion ? { duration: 0 } : cardTransition}
-                className={`surface project-card ${isActive ? "project-card-active" : ""}`}
-              >
-                {isActive ? (
-                  <motion.span
-                    layoutId="active-project-card"
-                    className="project-card-selection-glow"
-                    transition={shouldReduceMotion ? { duration: 0 } : cardTransition}
-                  />
-                ) : null}
-                <button
-                  type="button"
-                  className="project-card-toggle"
-                  onClick={() => previewProject(project.slug)}
-                  aria-pressed={isActive}
-                  aria-label={`Preview ${project.title}`}
+              return (
+                <motion.article
+                  key={project.slug}
+                  layout={!shouldReduceMotion}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+                  transition={shouldReduceMotion ? { duration: 0 } : cardTransition}
+                  className={`surface project-card ${isActive ? "project-card-active" : ""}`}
                 >
-                  <div className="project-card-thumbnail project-preview-frame">
-                    <EvidenceVisual project={project} compact />
-                  </div>
-                  <div className="project-meta">
-                    <span>{project.category}</span>
-                    <span>{project.maturity}</span>
-                  </div>
-                  {project.slug === newestProjectSlug ? <span className="project-badge">Newest project</span> : null}
-                  <h3>{project.title}</h3>
-                  <div className="project-card-scan">
-                    <p>
-                      <strong>Problem</strong>
-                      <span>{project.challenge}</span>
-                    </p>
-                    <p>
-                      <strong>Built</strong>
-                      <span>{project.approach[0]}</span>
-                    </p>
-                    <p>
-                      <strong>Proof</strong>
-                      <span>{project.proofLine}</span>
-                    </p>
-                  </div>
-                  <ProofBadges project={project} limit={4} />
-                  {project.metrics?.[0] ? (
-                    <p className="project-card-metric">
-                      <strong>{project.metrics[0].value}</strong> {project.metrics[0].label}
-                    </p>
+                  {isActive ? (
+                    <motion.span
+                      layoutId="active-project-card"
+                      className="project-card-selection-glow"
+                      transition={shouldReduceMotion ? { duration: 0 } : cardTransition}
+                    />
                   ) : null}
-                </button>
-
-                <div className="project-card-actions">
                   <button
                     type="button"
-                    className="text-link text-link-button"
+                    className="project-card-toggle"
                     onClick={() => previewProject(project.slug)}
+                    aria-pressed={isActive}
+                    aria-label={`Preview ${project.title}`}
                   >
-                    Preview here
+                    <div className="project-card-thumbnail project-preview-frame">
+                      <EvidenceVisual project={project} compact />
+                    </div>
+                    <div className="project-meta">
+                      <span>{project.category}</span>
+                      <span>{project.maturity}</span>
+                    </div>
+                    {project.slug === newestProjectSlug ? <span className="project-badge">Newest project</span> : null}
+                    <h3>{project.title}</h3>
+                    <div className="project-card-scan">
+                      <p>
+                        <strong>Problem</strong>
+                        <span>{project.challenge}</span>
+                      </p>
+                      <p>
+                        <strong>Built</strong>
+                        <span>{project.approach[0]}</span>
+                      </p>
+                      <p>
+                        <strong>Proof</strong>
+                        <span>{project.proofLine}</span>
+                      </p>
+                    </div>
+                    <ProofBadges project={project} limit={4} />
+                    {project.metrics?.[0] ? (
+                      <p className="project-card-metric">
+                        <strong>{project.metrics[0].value}</strong> {project.metrics[0].label}
+                      </p>
+                    ) : null}
                   </button>
-                  <Link href={`/projects/${project.slug}/`} className="text-link">
-                    Open case study
-                  </Link>
-                  {project.links?.[0] ? (
-                    <a
-                      href={project.links[0].href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-link"
+
+                  <div className="project-card-actions">
+                    <button
+                      type="button"
+                      className="text-link text-link-button"
+                      onClick={() => previewProject(project.slug)}
                     >
-                      {project.links[0].label}
-                    </a>
-                  ) : null}
-                </div>
-              </motion.article>
-            );
-          })}
-        </AnimatePresence>
-      </motion.div>
+                      Preview here
+                    </button>
+                    <Link href={`/projects/${project.slug}/`} className="text-link">
+                      Open case study
+                    </Link>
+                    {project.links?.[0] ? (
+                      <a
+                        href={project.links[0].href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-link"
+                      >
+                        {project.links[0].label}
+                      </a>
+                    ) : null}
+                  </div>
+                </motion.article>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
+      ) : (
+        <div className="surface project-empty-state">
+          <p className="eyebrow">No matching projects</p>
+          <h3>Adjust the search or clear filters to return to the full archive.</h3>
+        </div>
+      )}
 
       <ProjectComparisonTable projects={sortedProjects} />
 
       <section className="surface project-next-step">
         <div>
           <p className="eyebrow">Next step</p>
-          <h2>Review the technical summary or start a direct conversation.</h2>
+          <h2>Review the technical summary or open the source trail.</h2>
           <p className="muted">
-            The strongest fit is backend, platform, systems, and security work where implementation,
-            proof, and clear communication all matter.
+            The strongest technical signal is backend, platform, systems, and security work where
+            implementation, proof, and clear communication all matter.
           </p>
         </div>
         <div className="cta-row contact-actions">
@@ -453,7 +551,7 @@ export function ProjectShowcase({ projects }) {
             View GitHub
           </a>
           <Link href="/contact/" className="button button-primary">
-            Contact me
+            Start technical conversation
           </Link>
         </div>
       </section>

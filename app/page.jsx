@@ -2,16 +2,12 @@ import Link from "next/link";
 
 import { AnimateIn } from "@/components/animate-in";
 import { ContactPanel } from "@/components/contact-panel";
-import { CuriosityTrail } from "@/components/curiosity-trail";
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
 import { getSortedContent } from "@/lib/content";
 import {
   buildAbsoluteUrl,
-  buildThemes,
-  curiosityTrails,
-  engineeringSignals,
   formatPublishedDate,
   getFeaturedProject,
   getNewestProject,
@@ -27,28 +23,17 @@ import {
 const featuredProject = getFeaturedProject();
 const newestProject = getNewestProject();
 const latestPost = getSortedContent("blog")[0] ?? null;
-const currentThreads = [
-  "Publishing tinyc as a production-ready self-hosting C compiler with repeatable ABI, integration, sanitizer, and bootstrap checks.",
-  "Making public project pages easier to audit by showing maturity, proof, and tradeoffs upfront.",
-  "Looking for backend, platform, and security roles where reliability, runtime evidence, and ownership matter.",
-  "Studying low-level systems and threat-modeling patterns that translate into better delivery habits."
+const heroProofChips = [
+  "Runtime evidence",
+  "Security automation",
+  "Backend systems",
+  "Low-level debugging"
 ];
-const collaborationSignals = [
-  {
-    title: "I stay close to runtime behavior",
-    body:
-      "I like working where telemetry, packet flow, release safety, and production debugging are part of the day-to-day job instead of cleanup after the fact."
-  },
-  {
-    title: "I care about systems that are explainable",
-    body:
-      "A backend service or security workflow is only half-finished if nobody can reason about it once it is running under pressure."
-  },
-  {
-    title: "I am comfortable with technical depth",
-    body:
-      "When the fast answer is wrong, I am happy to go lower: traces, logs, packet captures, binaries, kernel behavior, and the actual mechanism behind the problem."
-  }
+const currentThreads = [
+  "Publishing deeper case studies around compilers, DFIR, AI security, backend reliability, and low-level systems.",
+  "Improving public project pages with maturity labels, proof paths, tradeoffs, and reproducible validation.",
+  "Studying runtime behavior, threat modeling, and observability patterns that lead to better engineering decisions.",
+  "Turning security ideas into tools engineers can run, test, review, and maintain."
 ];
 const homepageSchema = [
   {
@@ -87,11 +72,18 @@ export default function HomePage() {
         <AnimateIn className="hero-copy-block" delay={0.04}>
           <div className="hero-topline">
             <p className="eyebrow">{hero.eyebrow}</p>
-            <span className="availability-pill">Open to backend, platform, software, and security roles</span>
           </div>
 
           <h1>{hero.headline}</h1>
           <p className="hero-copy muted">{hero.summary}</p>
+
+          <div className="hero-proof-chips" aria-label="Core technical signals">
+            {heroProofChips.map((chip) => (
+              <span key={chip} className="hero-proof-chip">
+                {chip}
+              </span>
+            ))}
+          </div>
 
           <div className="cta-row">
             {hero.actions.map((action) => (
@@ -194,8 +186,9 @@ export default function HomePage() {
           </AnimateIn>
 
           <AnimateIn className="surface panel-card identity-side-panel" delay={0.11}>
-            <p className="eyebrow">What I Am Focused On</p>
-            <h2>What is shaping the work I want to do next.</h2>
+            <p className="eyebrow">Current direction</p>
+            <h2>What I Am Focused On</h2>
+            <p className="muted">The technical themes shaping my current work.</p>
             <div className="identity-stack">
               {currentThreads.map((item) => (
                 <article key={item} className="identity-thread">
@@ -209,104 +202,35 @@ export default function HomePage() {
       </section>
 
       <section className="section-block">
-        <AnimateIn delay={0.05}>
-          <CuriosityTrail trails={curiosityTrails} />
-        </AnimateIn>
-      </section>
-
-      <section className="signal-grid" aria-label="Key portfolio metrics">
-        {stats.map((item, index) => (
-          <AnimateIn key={item.label} className="surface signal-card" delay={0.08 + index * 0.04}>
-            <p className="signal-value">{item.value}</p>
-            <p className="muted">{item.label}</p>
-          </AnimateIn>
-        ))}
+        <div className="signal-grid" aria-label="Key portfolio metrics">
+          {stats.map((item, index) => (
+            <AnimateIn key={item.label} className="surface signal-card" delay={0.08 + index * 0.04}>
+              <p className="signal-value">{item.value}</p>
+              <p className="muted">{item.label}</p>
+            </AnimateIn>
+          ))}
+        </div>
       </section>
 
       <section className="section-block">
         <AnimateIn delay={0.04}>
           <SectionHeading
-            eyebrow="Hiring Snapshot"
-            title="Where I am most relevant for modern engineering teams."
-            copy="The through-line is practical systems ownership: services that run reliably, security controls that fit delivery, and debugging habits grounded in evidence."
+            eyebrow="Technical Signal"
+            title="Engineering Snapshot"
+            copy="Where my work has the strongest technical signal."
           />
         </AnimateIn>
 
         <div className="capability-grid">
           {roleFitCards.map((item, index) => (
             <AnimateIn key={item.title} className="surface capability-card depth-card" delay={0.08 + index * 0.05}>
-              <p className="micro-label">Role fit</p>
+              <p className="micro-label">Technical area</p>
               <h3>{item.title}</h3>
               <p className="muted">{item.body}</p>
               <p className="route-card-signal">{item.signal}</p>
             </AnimateIn>
           ))}
         </div>
-      </section>
-
-      <section className="section-block">
-        <AnimateIn delay={0.04}>
-          <SectionHeading
-            eyebrow="What I Build"
-            title="The kind of work I want to keep doing."
-            copy="I am at my best when the work spans implementation, runtime behavior, operations, and security instead of ending at the first shipped version."
-          />
-        </AnimateIn>
-
-        <div className="capability-grid">
-          {buildThemes.map((item, index) => (
-            <AnimateIn key={item.title} className="surface capability-card" delay={0.08 + index * 0.05}>
-              <p className="micro-label">Scope</p>
-              <h3>{item.title}</h3>
-              <p className="muted">{item.body}</p>
-            </AnimateIn>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <AnimateIn delay={0.04}>
-          <SectionHeading
-            eyebrow="How I Work"
-            title="How I usually add value."
-            copy="I tend to help most when a team needs someone who can design carefully, debug from evidence, and stay with the operational details after launch."
-          />
-        </AnimateIn>
-
-        <div className="capability-grid">
-          {engineeringSignals.map((item, index) => (
-            <AnimateIn key={item.title} className="surface capability-card depth-card" delay={0.08 + index * 0.05}>
-              <p className="micro-label">Strength</p>
-              <h3>{item.title}</h3>
-              <p className="muted">{item.body}</p>
-            </AnimateIn>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <AnimateIn className="surface home-collaboration-shell" delay={0.06}>
-          <div className="home-collaboration-head">
-            <div>
-              <p className="eyebrow">Why Teams Pull Me In</p>
-              <h2>The situations where I usually become most useful.</h2>
-            </div>
-            <p className="muted home-collaboration-copy">
-              This is the kind of work I want more of: systems that need real reasoning, clear
-              communication, and someone willing to stay with the problem until it makes sense.
-            </p>
-          </div>
-
-          <div className="home-collaboration-grid">
-            {collaborationSignals.map((item) => (
-              <article key={item.title} className="home-collaboration-card">
-                <p className="micro-label">Signal</p>
-                <h3>{item.title}</h3>
-                <p className="muted">{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </AnimateIn>
       </section>
 
       <section className="section-block">

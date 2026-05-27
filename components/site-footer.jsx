@@ -9,7 +9,8 @@ export function SiteFooter() {
         <div className="footer-copy">
           <p className="footer-title">{siteConfig.shortName}</p>
           <p className="muted">
-            Software engineer focused on backend, platform, and security work based in {siteConfig.location}.
+            Backend, platform, and security engineer in {siteConfig.location}, focused on runtime evidence,
+            observability, AI security, and systems-level debugging.
           </p>
         </div>
 
