@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { siteConfig } from "@/lib/site-data";
+import { siteConfig, withBasePath } from "@/lib/site-data";
 
 export function SiteFooter() {
   return (
@@ -9,8 +9,8 @@ export function SiteFooter() {
         <div className="footer-copy">
           <p className="footer-title">{siteConfig.shortName}</p>
           <p className="muted">
-            Backend, platform, and security engineer in {siteConfig.location}, focused on runtime evidence,
-            observability, AI security, and systems-level debugging.
+            Software security engineer in {siteConfig.location}, working across offensive testing,
+            detection engineering, AI security, and secure system design.
           </p>
         </div>
 
@@ -18,6 +18,7 @@ export function SiteFooter() {
           <Link href="/about/">About</Link>
           <Link href="/experience/">Experience</Link>
           <Link href="/projects/">Projects</Link>
+          <Link href="/labs/">Labs</Link>
           <Link href="/workbench/">Workbench</Link>
           <Link href="/blog/">Writing</Link>
           <Link href="/resume/">Resume</Link>
@@ -28,6 +29,7 @@ export function SiteFooter() {
           <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
+          <a href={withBasePath("/feed.xml")}>RSS</a>
         </div>
       </div>
     </footer>

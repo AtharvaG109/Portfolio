@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { slugify } from "@/lib/slug";
+
 function renderInline(text) {
   const parts = [];
   const pattern = /(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g;
@@ -50,7 +52,7 @@ function renderInline(text) {
 function RichBlock({ block }) {
   if (block.type === "heading") {
     const Heading = block.level === 3 ? "h3" : "h2";
-    return <Heading>{block.text}</Heading>;
+    return <Heading id={slugify(block.text)}>{block.text}</Heading>;
   }
 
   if (block.type === "paragraph") {

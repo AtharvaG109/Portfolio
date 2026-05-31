@@ -13,7 +13,7 @@ import {
 } from "@/lib/site-data";
 
 const aboutDescription =
-  "About Atharva Gham and the runtime-evidence thread behind his backend, observability, security automation, AI security, and systems debugging work.";
+  "About Atharva Gham, a software security engineer working across offensive testing, detection engineering, AI security, and secure system design, backed by deep software engineering.";
 
 export const metadata = {
   title: "About",
@@ -33,7 +33,7 @@ const aboutSchema = [
     "@type": "Person",
     name: siteConfig.name,
     url: buildAbsoluteUrl("/about/"),
-    jobTitle: "Software Engineer",
+    jobTitle: "Security Engineer",
     description: aboutDescription,
     sameAs: siteConfig.sameAs
   }
@@ -154,8 +154,8 @@ export default function AboutPage() {
       <StructuredData data={aboutSchema} />
       <PageHero
         eyebrow="About"
-        title="I build backend and security systems that hold up under pressure - and are easier to understand when they don't."
-        copy="My best work sits close to runtime behavior: APIs, workers, queues, telemetry, deployments, security controls, and the debugging path when something breaks."
+        title="I make software harder to attack - and easier to defend when something gets through."
+        copy="My best work sits close to runtime behavior: finding flaws, catching them in production, and building security controls that hold up under real traffic and real adversaries."
         actions={[
           { label: "View experience", href: "/experience/", variant: "primary" },
           { label: "Start technical conversation", href: "/contact/", variant: "secondary" }

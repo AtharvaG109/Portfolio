@@ -2,9 +2,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { AnimateIn } from "@/components/animate-in";
+import { ArticleToc } from "@/components/article-toc";
 import { RichContent } from "@/components/rich-content";
 import { StructuredData } from "@/components/structured-data";
 import { getContentBySlug, getSortedContent } from "@/lib/content";
+import { slugify } from "@/lib/slug";
 import {
   buildAbsoluteUrl,
   createBreadcrumbSchema,
@@ -51,6 +53,10 @@ export default async function BlogPostPage({ params }) {
   if (!post) {
     notFound();
   }
+
+  const headings = post.blocks
+    .filter((block) => block.type === "heading" && block.level === 2)
+    .map((block) => ({ id: slugify(block.text), text: block.text, level: block.level }));
 
   const articleSchema = [
     createBreadcrumbSchema([
@@ -101,11 +107,14 @@ export default async function BlogPostPage({ params }) {
         </div>
       </AnimateIn>
 
-      <article className="surface article-shell">
-        <AnimateIn className="article-section rich-content" delay={0.08}>
-          <RichContent blocks={post.blocks} />
-        </AnimateIn>
-      </article>
+      <div className="article-layout">
+        <article className="surface article-shell">
+          <AnimateIn className="article-section rich-content" delay={0.08}>
+            <RichContent blocks={post.blocks} />
+          </AnimateIn>
+        </article>
+        <ArticleToc headings={headings} />
+      </div>
     </main>
   );
 }

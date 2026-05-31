@@ -12,10 +12,8 @@ import {
   getFeaturedProject,
   getNewestProject,
   hero,
-  pathwayCards,
   principles,
   roleFitCards,
-  selectedWins,
   siteConfig,
   stats
 } from "@/lib/site-data";
@@ -24,16 +22,10 @@ const featuredProject = getFeaturedProject();
 const newestProject = getNewestProject();
 const latestPost = getSortedContent("blog")[0] ?? null;
 const heroProofChips = [
-  "Runtime evidence",
-  "Security automation",
-  "Backend systems",
-  "Low-level debugging"
-];
-const currentThreads = [
-  "Publishing deeper case studies around compilers, DFIR, AI security, backend reliability, and low-level systems.",
-  "Improving public project pages with maturity labels, proof paths, tradeoffs, and reproducible validation.",
-  "Studying runtime behavior, threat modeling, and observability patterns that lead to better engineering decisions.",
-  "Turning security ideas into tools engineers can run, test, review, and maintain."
+  "Offensive security",
+  "Detection engineering",
+  "AI security",
+  "Secure systems"
 ];
 const homepageSchema = [
   {
@@ -49,16 +41,16 @@ const homepageSchema = [
     name: siteConfig.name,
     url: buildAbsoluteUrl("/"),
     image: buildAbsoluteUrl("/social-preview.svg"),
-    jobTitle: "Software Engineer",
+    jobTitle: "Security Engineer",
     knowsAbout: [
-      "Backend engineering",
-      "Platform engineering",
-      "Observability",
-      "Security automation",
+      "Software security",
+      "Offensive security",
+      "Application security",
+      "Detection engineering",
       "AI security",
       "Secure CI/CD",
       "Reverse engineering",
-      "Application security"
+      "Incident response"
     ],
     sameAs: siteConfig.sameAs
   }
@@ -90,9 +82,8 @@ export default function HomePage() {
               <Link
                 key={action.label}
                 href={action.href}
-                className={`button ${
-                  action.variant === "primary" ? "button-primary" : "button-secondary"
-                }`}
+                className={`button ${action.variant === "primary" ? "button-primary" : "button-secondary"
+                  }`}
               >
                 {action.label}
               </Link>
@@ -156,50 +147,42 @@ export default function HomePage() {
         </AnimateIn>
       </section>
 
-      <section className="section-block">
-        <div className="home-editorial-grid">
-          <AnimateIn className="surface panel-card identity-feature-panel" delay={0.05}>
-            <p className="eyebrow">Who I Am</p>
-            <h2>A systems-minded engineer who likes being close to the real behavior of software.</h2>
-            <p className="identity-lead">
-              I am most comfortable in backend and platform work where the real details matter:
-              service behavior, instrumentation, packet flow, debugging, release safety, and the
-              security controls around all of that.
-            </p>
-            <div className="identity-split">
-              <article className="identity-note">
-                <p>
-                  I like understanding why systems behave the way they do, especially when the
-                  answer sits below the surface symptom. That is why a lot of my work naturally
-                  pulls me toward observability, runtime evidence, security tooling, and low-level
-                  debugging.
+      {latestPost || newestProject ? (
+        <section className="section-block now-strip" aria-label="Recent activity">
+          <div className="now-grid">
+            {latestPost ? (
+              <article className="surface panel-card now-card">
+                <p className="micro-label">Latest writing</p>
+                <h3>
+                  <Link href={`/blog/${latestPost.slug}/`} className="text-link">
+                    {latestPost.title}
+                  </Link>
+                </h3>
+                <p className="muted">{latestPost.excerpt}</p>
+                <p className="micro-label">
+                  {latestPost.category}
+                  {latestPost.publishedAt ? ` • ${formatPublishedDate(latestPost.publishedAt)}` : ""}
                 </p>
               </article>
-              <article className="identity-note identity-note-quote">
-                <p className="micro-label">What matters to me</p>
-                <p>
-                  Clean architecture matters, but I care just as much about whether the system is
-                  legible, debuggable, and trustworthy when it is under real load.
+            ) : null}
+            {newestProject ? (
+              <article className="surface panel-card now-card">
+                <p className="micro-label">Newest project</p>
+                <h3>
+                  <Link href={`/projects/${newestProject.slug}/`} className="text-link">
+                    {newestProject.title}
+                  </Link>
+                </h3>
+                <p className="muted">{newestProject.proofLine ?? newestProject.summary}</p>
+                <p className="micro-label">
+                  {newestProject.category}
+                  {newestProject.year ? ` • ${newestProject.year}` : ""}
                 </p>
               </article>
-            </div>
-          </AnimateIn>
-
-          <AnimateIn className="surface panel-card identity-side-panel" delay={0.11}>
-            <p className="eyebrow">Current direction</p>
-            <h2>What I Am Focused On</h2>
-            <p className="muted">The technical themes shaping my current work.</p>
-            <div className="identity-stack">
-              {currentThreads.map((item) => (
-                <article key={item} className="identity-thread">
-                  <span className="identity-thread-mark" aria-hidden="true" />
-                  <p>{item}</p>
-                </article>
-              ))}
-            </div>
-          </AnimateIn>
-        </div>
-      </section>
+            ) : null}
+          </div>
+        </section>
+      ) : null}
 
       <section className="section-block">
         <div className="signal-grid" aria-label="Key portfolio metrics">
@@ -215,9 +198,9 @@ export default function HomePage() {
       <section className="section-block">
         <AnimateIn delay={0.04}>
           <SectionHeading
-            eyebrow="Technical Signal"
-            title="Engineering Snapshot"
-            copy="Where my work has the strongest technical signal."
+            eyebrow="What I do"
+            title="Break it, catch it, build it."
+            copy="Software security across the full lifecycle — offensive testing, detection and response, and secure system design — backed by deep software engineering."
           />
         </AnimateIn>
 
@@ -228,49 +211,6 @@ export default function HomePage() {
               <h3>{item.title}</h3>
               <p className="muted">{item.body}</p>
               <p className="route-card-signal">{item.signal}</p>
-            </AnimateIn>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <AnimateIn delay={0.04}>
-          <SectionHeading
-            eyebrow="Selected Outcomes"
-            title="A few concrete results."
-            copy="These numbers are the shorthand version of how I usually contribute: less guesswork, less toil, and fewer fragile releases."
-          />
-        </AnimateIn>
-
-        <div className="proof-grid impact-grid">
-          {selectedWins.map((item, index) => (
-            <AnimateIn key={item.label} className="library-group impact-card" delay={0.08 + index * 0.05}>
-              <p className="impact-value">{item.value}</p>
-              <p className="muted">{item.label}</p>
-            </AnimateIn>
-          ))}
-        </div>
-      </section>
-
-      <section className="section-block">
-        <AnimateIn delay={0.04}>
-          <SectionHeading
-            eyebrow="Explore"
-            title="The rest of the site."
-            copy="The About page explains who I am, Projects shows the strongest work, Workbench covers how I study systems and security, and the resume is the quick summary."
-          />
-        </AnimateIn>
-
-        <div className="route-grid">
-          {pathwayCards.map((card, index) => (
-            <AnimateIn key={card.title} className="surface route-card" delay={0.08 + index * 0.04}>
-              <p className="micro-label">{card.eyebrow}</p>
-              <h3>{card.title}</h3>
-              <p className="muted">{card.body}</p>
-              <p className="route-card-signal">{card.signal}</p>
-              <Link href={card.href} className="text-link">
-                Open {card.title.toLowerCase()}
-              </Link>
             </AnimateIn>
           ))}
         </div>

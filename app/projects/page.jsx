@@ -1,8 +1,17 @@
+import Link from "next/link";
+
 import { AnimateIn } from "@/components/animate-in";
 import { PageHero } from "@/components/page-hero";
 import { ProjectShowcase } from "@/components/project-showcase";
+import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
-import { buildAbsoluteUrl, createBreadcrumbSchema, projects } from "@/lib/site-data";
+import {
+  buildAbsoluteUrl,
+  createBreadcrumbSchema,
+  getProjectsByTrack,
+  projectTracks,
+  projects
+} from "@/lib/site-data";
 
 export const metadata = {
   title: "Projects",
@@ -32,7 +41,7 @@ export default function ProjectsPage() {
       <StructuredData data={projectIndexSchema} />
       <PageHero
         eyebrow="Projects"
-        title="Proof-driven case studies from systems and security work."
+        title="Proof-driven case studies in software security."
         copy="Browse by technical area, stack, maturity, and evidence. Each project highlights the problem, what I built, and the proof that makes the work reviewable."
         actions={[
           { label: "Open workbench", href: "/workbench/", variant: "secondary" },
@@ -59,6 +68,43 @@ export default function ProjectsPage() {
               <li>Case studies that explain design choices, validation paths, and tradeoffs.</li>
             </ul>
           </AnimateIn>
+        </div>
+      </section>
+
+      <section className="section-block">
+        <AnimateIn delay={0.04}>
+          <SectionHeading
+            eyebrow="The arc"
+            title="Break it, catch it, build it."
+            copy="The same work read as a security lifecycle: find the flaws, catch them in production, and engineer software that holds up — backed by the systems depth underneath."
+          />
+        </AnimateIn>
+
+        <div className="capability-grid">
+          {projectTracks.map((track, index) => {
+            const trackProjects = getProjectsByTrack(track.track);
+
+            return (
+              <AnimateIn
+                key={track.track}
+                className="surface capability-card depth-card"
+                delay={0.08 + index * 0.05}
+              >
+                <p className="micro-label">{track.eyebrow}</p>
+                <h3>{track.track}</h3>
+                <p className="muted">{track.blurb}</p>
+                <ul className="bullet-list compact-list">
+                  {trackProjects.map((project) => (
+                    <li key={project.slug}>
+                      <Link href={`/projects/${project.slug}/`} className="text-link">
+                        {project.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </AnimateIn>
+            );
+          })}
         </div>
       </section>
 

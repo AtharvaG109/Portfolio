@@ -5,10 +5,15 @@ const fontInter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const fontOutfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 import { AnalyticsScript } from "@/components/analytics-script";
+import { BackToTop } from "@/components/back-to-top";
+import { CommandPalette } from "@/components/command-palette";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { buildSearchEntries } from "@/lib/search-data";
 import { buildAbsoluteUrl, siteConfig, withBasePath } from "@/lib/site-data";
+
+const commandPaletteEntries = buildSearchEntries();
 
 const faviconPath = withBasePath("/favicon.svg");
 const socialPreviewPath = buildAbsoluteUrl("/social-preview.svg");
@@ -106,6 +111,8 @@ export default function RootLayout({ children }) {
         <SiteHeader />
         {children}
         <SiteFooter />
+        <BackToTop />
+        <CommandPalette entries={commandPaletteEntries} />
         <AnalyticsScript />
       </body>
     </html>

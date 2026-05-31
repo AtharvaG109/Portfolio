@@ -242,9 +242,9 @@ export function ProjectShowcase({ projects }) {
         <div className="project-showcase-head">
           <div>
             <p className="micro-label">Featured build path</p>
-            <h2 id="flagship-projects-heading">Three projects that show the clearest technical depth.</h2>
+            <h2 id="flagship-projects-heading">Three projects that show the clearest software-security depth.</h2>
           </div>
-          <p className="muted">CLI forensics, compiler self-hosting, and C++ networking.</p>
+          <p className="muted">LLM red-teaming, secure retrieval, and network detection.</p>
         </div>
 
         <div className="flagship-grid">
@@ -539,8 +539,8 @@ export function ProjectShowcase({ projects }) {
           <p className="eyebrow">Next step</p>
           <h2>Review the technical summary or open the source trail.</h2>
           <p className="muted">
-            The strongest technical signal is backend, platform, systems, and security work where
-            implementation, proof, and clear communication all matter.
+            The strongest signal is software-security work — offensive testing, detection, and secure
+            system design — where implementation, proof, and clear communication all matter.
           </p>
         </div>
         <div className="cta-row contact-actions">
