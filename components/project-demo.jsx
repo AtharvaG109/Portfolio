@@ -48,14 +48,14 @@ const demos = {
     ]
   },
   "spectrefs-encrypted-vault-filesystem": {
-    title: "Vault access flow",
-    intro: "A sanitized audit trail for encrypted-at-rest storage with trusted-app plaintext access.",
-    modes: ["Mounted vault", "No-FUSE mode"],
+    title: "Verified vault flow",
+    intro: "A proof-oriented model of client-side authenticated encryption with app-mediated plaintext workflows.",
+    modes: ["Runtime proof", "No-FUSE mode"],
     events: [
-      { time: "unlock", label: "Key derivation", signal: "Argon2id derives wrapping material", severity: "ok" },
-      { time: "read", label: "Trusted app check", signal: "Bundle identity allowed", severity: "ok" },
-      { time: "audit", label: "Plaintext exposure", signal: "Read recorded with process context", severity: "warn" },
-      { time: "repair", label: "Health workflow", signal: "Chunk authentication verified", severity: "ok" }
+      { time: "create", label: "Vault created", signal: "OpenSSL-backed scrypt/PBKDF2 compatibility wraps a random master key", severity: "ok" },
+      { time: "put/get", label: "AEAD chunks", signal: "Recovered SHA-256 matches and plaintext markers stay out of vault storage", severity: "ok" },
+      { time: "tamper", label: "Tamper detected", signal: "Wrong password, chunk mutation, manifest mutation, and audit mutation fail verification", severity: "high" },
+      { time: "planned", label: "Next boundary", signal: "XPC helper and E2EE sender signatures remain explicitly planned, not overclaimed", severity: "warn" }
     ]
   }
 };
