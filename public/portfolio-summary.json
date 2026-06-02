@@ -18,7 +18,7 @@
   "flagship_projects": [
     {
       "name": "Enterprise NIDS",
-      "summary": "Network detection and analysis platform with PCAP replay, live capture, explainable reporting, telemetry, and a FastAPI dashboard."
+      "summary": "Network detection and analysis platform with shared offline/live analysis, SQLite-backed dashboard state, deterministic fixtures, benchmark output, and a faster FastAPI command-center UI."
     },
     {
       "name": "Patchbot Security Platform",

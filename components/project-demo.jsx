@@ -15,14 +15,14 @@ const demos = {
     ]
   },
   "enterprise-nids-network-detection-platform": {
-    title: "Packet investigation timeline",
-    intro: "A sanitized replay of how the NIDS turns packet flow into explainable alerts.",
-    modes: ["PCAP replay", "Live capture"],
+    title: "Command-center investigation timeline",
+    intro: "A compact model of how the NIDS keeps replay, persistence, and dashboard state aligned.",
+    modes: ["PCAP replay", "Live capture", "Dashboard"],
     events: [
-      { time: "00:00.120", label: "PCAP loaded", signal: "2,418 packets indexed", severity: "ok" },
-      { time: "00:01.860", label: "Flow assembled", signal: "TLS session with unusual JA3", severity: "warn" },
-      { time: "00:02.440", label: "DPI carved", signal: "Suspicious payload fragment", severity: "high" },
-      { time: "00:03.020", label: "Report emitted", signal: "Markdown + JSON incident summary", severity: "ok" }
+      { time: "00:00.120", label: "Packets normalized", signal: "Parser adapters emit the shared packet schema", severity: "ok" },
+      { time: "00:00.460", label: "Pipeline run", signal: "Offline and live paths share AnalysisPipeline", severity: "ok" },
+      { time: "00:00.780", label: "SQLite committed", signal: "Runs, flows, alerts, artifacts, and metrics persist together", severity: "warn" },
+      { time: "00:01.020", label: "Dashboard refreshed", signal: "Stats polling updates the command center without hidden report rendering", severity: "ok" }
     ]
   },
   "patchbot-security-platform": {

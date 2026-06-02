@@ -2,34 +2,44 @@
 slug: enterprise-nids-network-detection-platform
 title: Enterprise NIDS Network Detection and Analysis Platform
 category: Security Product
-updatedAt: 2026-04-20
-excerpt: Packet capture, detection, visualization, reporting, and runtime health in one explainable network-analysis workflow.
-tags: [Python, FastAPI, Scapy, DPKT, SQLite, packet analysis]
+updatedAt: 2026-06-02
+excerpt: Shared offline/live packet analysis, SQLite-backed dashboard state, deterministic detection fixtures, benchmarks, and a faster command-center UI.
+tags: [Python, FastAPI, Scapy, DPKT, SQLite, packet analysis, dashboard]
 image: /media/enterprise-nids-platform.svg
 ---
 
 ## Problem
 
-Raw packet analysis is powerful but hard to hand to another engineer or stakeholder. The useful version needed to connect capture, detection, diagrams, telemetry, and reporting without becoming a set of unrelated scripts.
+Raw packet analysis is powerful but hard to hand to another engineer or stakeholder. The useful version needed to connect capture, detection, diagrams, telemetry, persistence, reporting, and dashboard state without becoming a set of unrelated scripts.
+
+The most recent hardening pass focused on consistency and runtime smoothness: offline replay and live capture now share the same analysis service, dashboard state is backed by SQLite, and heavy UI work stays behind tabs until the operator asks for it.
 
 ## Architecture
 
-- Packet ingestion flows through parser backends, flow tracking, and TCP stream reconstruction.
-- Detection layers combine heuristics, fingerprinting, anomaly scoring, DPI carving, and project-aware context.
-- Output surfaces include SQLite telemetry, markdown and JSON reports, Mermaid diagrams, and a FastAPI dashboard.
+- Packet ingestion adapters emit normalized packet dictionaries before the shared `AnalysisPipeline` builds summaries, tracks flows, runs detectors, captures parser errors, and records runtime metrics.
+- The persistence layer writes runs, flows, alerts, DPI artifacts, and metrics to a configurable SQLite database with explicit transactions and bulk insert support.
+- Output surfaces include SQLite state, markdown and JSON report artifacts, lazy Mermaid diagrams, benchmark JSON, and a FastAPI dashboard that reads database state first.
 
 :::artifact title="Public repository" kind="GitHub" href="https://github.com/AtharvaG109/enterprise-nids"
-The public repo is the source artifact for architecture, dashboard behavior, and project-level documentation.
+The public repo is the source artifact for architecture, dashboard behavior, benchmark output, tests, and project-level documentation.
 :::
 
 ```text
-alert_id=nids-demo-014 severity=high flow=198.51.100.42:443 ja3=unusual anomaly=0.82 output=incident-report.md
+dashboard=command-center initial_dom_nodes=393 payload_without_report=26.8KB tests=69 benchmark=demo-pcap
 ```
 
 ## Security and observability
 
 The project treats explainability as part of detection quality. A finding is more useful when it includes the traffic path, why the rule fired, and where the operator should look next.
 
+That is also why the dashboard was redesigned around an operator first viewport: verdict, upload/replay controls, key metrics, latest incidents, and next steps are visible immediately. Glossary content, diagrams, report markdown, and larger tables are progressively loaded behind help drawers and tabs.
+
+## Validation
+
+- `PYTHONPATH=src .venv/bin/python -W default -m unittest discover -s tests -p 'test_*.py'` passed with 69 tests.
+- `scripts/benchmark_pipeline.py --pcap samples/test.pcap --json /private/tmp/enterprise-nids-ui-benchmark.json --parser dpkt --no-dpi` produced benchmark JSON for parser throughput, flow count, memory, detection latency, report latency, and SQLite write latency.
+- Browser verification showed no console errors on the redesigned dashboard, no Mermaid SVGs or report markdown rendered on initial load, and a 393-node initial DOM.
+
 ## Result
 
-The project works as an end-to-end detection platform with offline PCAP replay, live capture, report artifacts, dashboard views, and GitHub-ready documentation.
+The project now works as a more consistent end-to-end detection platform with offline PCAP replay, live capture, shared analysis logic, SQLite-first dashboard state, report artifacts, deterministic fixtures, benchmark scripts, and a faster web dashboard.

@@ -1,6 +1,6 @@
 <svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Enterprise NIDS architecture diagram</title>
-  <desc id="desc">Premium flow diagram showing capture, detection, and reporting surfaces for the Enterprise NIDS platform.</desc>
+  <desc id="desc">Premium flow diagram showing normalized capture, shared analysis, SQLite-backed state, and a command-center dashboard for the Enterprise NIDS platform.</desc>
   <defs>
     <linearGradient id="bg-nids" x1="80" y1="30" x2="1120" y2="650" gradientUnits="userSpaceOnUse">
       <stop stop-color="#09151C"/>
@@ -21,7 +21,7 @@
   <circle cx="1036" cy="558" r="138" fill="#0D2836" fill-opacity="0.8"/>
 
   <text x="86" y="92" fill="#E7FAF5" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700">Enterprise NIDS</text>
-  <text x="86" y="126" fill="#9EB9C7" font-family="Inter, Arial, sans-serif" font-size="18">Offline and live network detection platform with explainable reporting and runtime visibility.</text>
+  <text x="86" y="126" fill="#9EB9C7" font-family="Inter, Arial, sans-serif" font-size="18">Offline and live network analysis with SQLite state and a faster command-center dashboard.</text>
 
   <rect x="917" y="70" width="173" height="38" rx="19" fill="#102430" stroke="#224658"/>
   <text x="1003" y="94" text-anchor="middle" fill="#DDEBF2" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="0.08em">SECURITY PRODUCT · 2026</text>
@@ -36,17 +36,17 @@
   <text x="116" y="344" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">DPKT, Scapy, flow tracking,</text>
   <text x="116" y="371" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">and TCP stream rebuild.</text>
 
-  <text x="481" y="230" fill="#9FCBFF" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="0.08em">DETECTION ENGINE</text>
-  <text x="481" y="274" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700">Heuristics, ML,</text>
-  <text x="481" y="309" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700">JA3, p0f, DPI</text>
-  <text x="481" y="344" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">Anomaly scoring, fingerprinting,</text>
-  <text x="481" y="371" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">and payload carving layers.</text>
+  <text x="481" y="230" fill="#9FCBFF" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="0.08em">SHARED PIPELINE</text>
+  <text x="481" y="274" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700">One analysis core</text>
+  <text x="481" y="309" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700">for replay + live</text>
+  <text x="481" y="344" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">Flows, alerts, metrics, parser</text>
+  <text x="481" y="371" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">errors, and report artifacts.</text>
 
-  <text x="846" y="230" fill="#FFD39A" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="0.08em">REPORTING + API</text>
-  <text x="846" y="274" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700">Readable findings</text>
-  <text x="846" y="309" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700">and operator flow</text>
-  <text x="846" y="344" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">Markdown, JSON, Mermaid,</text>
-  <text x="846" y="371" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">FastAPI dashboard, replay.</text>
+  <text x="846" y="230" fill="#FFD39A" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="0.08em">COMMAND CENTER</text>
+  <text x="846" y="274" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700">SQLite-first state</text>
+  <text x="846" y="309" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700">and lazy details</text>
+  <text x="846" y="344" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">Verdict, metrics, incidents,</text>
+  <text x="846" y="371" fill="#B7CAD5" font-family="Inter, Arial, sans-serif" font-size="18">tabs, reports, and diagrams.</text>
 
   <path d="M384 284H451" stroke="#59E6C3" stroke-width="5" stroke-linecap="round"/>
   <path d="M749 284H816" stroke="#74B8FF" stroke-width="5" stroke-linecap="round"/>
@@ -57,15 +57,15 @@
   <rect x="451" y="440" width="298" height="126" rx="22" fill="#0D1B24" stroke="#1D3C4C"/>
   <rect x="816" y="440" width="298" height="126" rx="22" fill="#0D1B24" stroke="#1D3C4C"/>
 
-  <text x="116" y="480" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">2 analysis modes</text>
-  <text x="116" y="512" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">The same codebase handles</text>
-  <text x="116" y="537" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">offline replay and live capture.</text>
+  <text x="116" y="480" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Normalized packets</text>
+  <text x="116" y="512" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">DPKT, Scapy, and optional</text>
+  <text x="116" y="537" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">parsers share a schema.</text>
 
-  <text x="481" y="480" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">Explainable output</text>
-  <text x="481" y="512" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">Incident stories, protocol maps,</text>
-  <text x="481" y="537" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">and readable forensic artifacts.</text>
+  <text x="481" y="480" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">69 tests</text>
+  <text x="481" y="512" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">Pipeline, API, fixtures,</text>
+  <text x="481" y="537" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">persistence, and UI checks.</text>
 
-  <text x="846" y="480" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">FastAPI + SQLite</text>
-  <text x="846" y="512" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">Dashboard, telemetry, health,</text>
-  <text x="846" y="537" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">operations feed, and uploads.</text>
+  <text x="846" y="480" fill="#F5FBFF" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">393 DOM nodes</text>
+  <text x="846" y="512" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">Initial dashboard render avoids</text>
+  <text x="846" y="537" fill="#AFC4D1" font-family="Inter, Arial, sans-serif" font-size="17">hidden report and diagram work.</text>
 </svg>
