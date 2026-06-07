@@ -4231,3 +4231,185 @@ ul {
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── Stylistic polish layer ─── */
+
+/* 1. Gradient hero headline */
+.hero-copy-block h1 {
+  background: linear-gradient(120deg, var(--text-strong) 30%, var(--accent-strong) 70%, var(--warm) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 2. Animated underline for primary nav links */
+.site-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0.8rem;
+  right: 0.8rem;
+  bottom: 0.32rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--warm));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 220ms ease;
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after,
+.site-nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* 3. Custom themed scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-soft) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--bg);
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* 4. Top sheen on cards for depth */
+.surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), transparent 38%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.surface:hover::after,
+.surface:focus-within::after {
+  opacity: 1;
+}
+
+/* 5. Gradient stat values */
+.signal-value {
+  background: linear-gradient(120deg, var(--warm), var(--accent-strong));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* 6. Glossy primary button with sweeping shine */
+.button-primary {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+}
+
+.button-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-18deg);
+  transition: left 600ms ease;
+}
+
+.button-primary:hover::before {
+  left: 130%;
+}
+
+/* 7. Status dot on proof badges */
+.proof-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  margin-right: 0.45rem;
+  border-radius: 999px;
+  background: var(--success-text);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.18);
+  flex-shrink: 0;
+}
+
+/* 8. Decorative gradient rule before section eyebrows */
+.section-heading .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.section-heading .eyebrow::before {
+  content: "";
+  width: 1.8rem;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+/* 9. Brand mark glow on hover */
+.brand:hover .brand-mark {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft), 0 6px 18px rgba(229, 106, 84, 0.28);
+  transform: rotate(-3deg) scale(1.05);
+}
+
+.brand-mark {
+  transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+}
+
+/* 10. Refined underline reveal on text links */
+.text-link {
+  position: relative;
+}
+
+.text-link::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  opacity: 0.6;
+  transition: transform 240ms ease;
+}
+
+.text-link:hover::before,
+.text-link:focus-visible::before {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav a::after,
+  .surface::after,
+  .button-primary::before,
+  .text-link::before,
+  .brand-mark {
+    transition: none;
+  }
+
+  .button-primary:hover::before {
+    left: -120%;
+  }
+}
