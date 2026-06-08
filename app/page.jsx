@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import { AnimateIn } from "@/components/animate-in";
 import { ContactPanel } from "@/components/contact-panel";
+import { CountUp } from "@/components/count-up";
+import { HeroParallax } from "@/components/hero-parallax";
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
@@ -113,7 +115,8 @@ export default function HomePage() {
           </div>
         </AnimateIn>
 
-        <AnimateIn className="surface hero-aside" delay={0.12}>
+        <HeroParallax className="hero-aside-wrap">
+          <AnimateIn className="surface hero-aside" delay={0.12}>
           <div className="hero-aside-grid">
             <article className="hero-glance-card hero-glance-featured">
               <p className="micro-label">What drives me</p>
@@ -144,7 +147,8 @@ export default function HomePage() {
               </div>
             </article>
           </div>
-        </AnimateIn>
+          </AnimateIn>
+        </HeroParallax>
       </section>
 
       {latestPost || newestProject ? (
@@ -188,7 +192,7 @@ export default function HomePage() {
         <div className="signal-grid" aria-label="Key portfolio metrics">
           {stats.map((item, index) => (
             <AnimateIn key={item.label} className="surface signal-card" delay={0.08 + index * 0.04}>
-              <p className="signal-value">{item.value}</p>
+              <CountUp className="signal-value" value={item.value} />
               <p className="muted">{item.label}</p>
             </AnimateIn>
           ))}

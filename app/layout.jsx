@@ -6,6 +6,7 @@ const fontOutfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 
 import { AnalyticsScript } from "@/components/analytics-script";
 import { BackToTop } from "@/components/back-to-top";
+import { CardSpotlight } from "@/components/card-spotlight";
 import { CommandPalette } from "@/components/command-palette";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteFooter } from "@/components/site-footer";
@@ -106,6 +107,8 @@ export default function RootLayout({ children }) {
           Skip to content
         </a>
         <ScrollProgress />
+        <CardSpotlight />
+        <div className="grain-overlay" aria-hidden="true" />
         <div className="page-backdrop page-backdrop-left" />
         <div className="page-backdrop page-backdrop-right" />
         <SiteHeader />

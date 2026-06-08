@@ -89,6 +89,7 @@ export function SiteHeader() {
             aria-label="Search"
           >
             {searchNavItem.label}
+            <kbd className="kbd-hint" aria-hidden="true">⌘K</kbd>
           </Link>
 
           <div className="desktop-theme-toggle">
