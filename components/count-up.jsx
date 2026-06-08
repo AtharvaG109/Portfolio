@@ -73,22 +73,40 @@ export function CountUp({ value, className, duration = 1200 }) {
       }
     };
 
+    const start = () => {
+      if (hasRun) {
+        return;
+      }
+
+      hasRun = true;
+      render(0);
+      frame = window.requestAnimationFrame(tick);
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
-        if (!hasRun && entries.some((entry) => entry.isIntersecting)) {
-          hasRun = true;
-          render(0);
-          frame = window.requestAnimationFrame(tick);
+        if (entries.some((entry) => entry.isIntersecting)) {
+          start();
           observer.disconnect();
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.25, rootMargin: "0px 0px -8% 0px" }
     );
 
     observer.observe(node);
 
+    // Safety net: if the observer never fires (layout quirks, tab restore),
+    // animate anyway so the value is never left at zero.
+    const fallback = window.setTimeout(() => {
+      if (!hasRun) {
+        start();
+        observer.disconnect();
+      }
+    }, 1600);
+
     return () => {
       observer.disconnect();
+      window.clearTimeout(fallback);
 
       if (frame) {
         window.cancelAnimationFrame(frame);
