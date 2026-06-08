@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const NUMERIC_PATTERN = /^(\D*?)([\d,]+(?:\.\d+)?)(.*)$/s;
 
@@ -23,11 +23,13 @@ function parseValue(value) {
 }
 
 export function CountUp({ value, className, duration = 1200 }) {
-  const parsed = parseValue(value);
+  const parsed = useMemo(() => parseValue(value), [value]);
   const [display, setDisplay] = useState(value);
   const ref = useRef(null);
 
   useEffect(() => {
+    setDisplay(value);
+
     if (!parsed) {
       return undefined;
     }
@@ -55,6 +57,7 @@ export function CountUp({ value, className, duration = 1200 }) {
 
     let frame = 0;
     let startTime = 0;
+    let hasRun = false;
 
     const tick = (now) => {
       if (!startTime) {
@@ -72,7 +75,8 @@ export function CountUp({ value, className, duration = 1200 }) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
+        if (!hasRun && entries.some((entry) => entry.isIntersecting)) {
+          hasRun = true;
           render(0);
           frame = window.requestAnimationFrame(tick);
           observer.disconnect();
@@ -90,7 +94,7 @@ export function CountUp({ value, className, duration = 1200 }) {
         window.cancelAnimationFrame(frame);
       }
     };
-  }, [duration, parsed]);
+  }, [duration, parsed, value]);
 
   return (
     <p ref={ref} className={className}>
