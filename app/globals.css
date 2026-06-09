@@ -2733,7 +2733,7 @@ ul {
   display: grid;
   gap: 0.22rem;
   min-height: 4.7rem;
-  padding: 0.86rem 0.92rem;
+  padding: 0.86rem 1.5rem 0.86rem 0.92rem;
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   color: var(--text);
@@ -2741,6 +2741,26 @@ ul {
   background: var(--surface-soft);
   cursor: pointer;
   overflow: hidden;
+  transition: border-color 200ms ease;
+}
+
+.curiosity-tab::after {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: 0.85rem;
+  z-index: 1;
+  color: var(--accent-strong);
+  font-size: 0.95rem;
+  opacity: 0;
+  transform: translate(-6px, -50%);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.curiosity-tab:hover::after,
+.curiosity-tab-active::after {
+  opacity: 1;
+  transform: translate(0, -50%);
 }
 
 .curiosity-tab > *:not(.curiosity-tab-glow) {

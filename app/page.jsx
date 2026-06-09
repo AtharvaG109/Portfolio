@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AnimateIn } from "@/components/animate-in";
 import { ContactPanel } from "@/components/contact-panel";
 import { CountUp } from "@/components/count-up";
+import { CuriosityTrail } from "@/components/curiosity-trail";
 import { HeroParallax } from "@/components/hero-parallax";
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
 import { SectionHeading } from "@/components/section-heading";
@@ -10,6 +11,7 @@ import { StructuredData } from "@/components/structured-data";
 import { getSortedContent } from "@/lib/content";
 import {
   buildAbsoluteUrl,
+  curiosityTrails,
   formatPublishedDate,
   getFeaturedProject,
   getNewestProject,
@@ -122,7 +124,7 @@ export default function HomePage() {
               <p className="micro-label">What drives me</p>
               <h2>{hero.mission}</h2>
               <p className="muted">
-                I care about work that can be explained from evidence, operated under pressure, and improved after it ships.
+                I value work that can be explained from evidence, operated under pressure, and made better after it ships.
               </p>
             </article>
 
@@ -204,7 +206,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="What I do"
             title="Break it, catch it, build it."
-            copy="Software security across the full lifecycle — offensive testing, detection and response, and secure system design — backed by deep software engineering."
+            copy="Software security across the full lifecycle — offensive testing, detection and response, and secure system design — grounded in deep software engineering."
           />
         </AnimateIn>
 
@@ -218,6 +220,12 @@ export default function HomePage() {
             </AnimateIn>
           ))}
         </div>
+      </section>
+
+      <section className="section-block">
+        <AnimateIn delay={0.04}>
+          <CuriosityTrail trails={curiosityTrails} />
+        </AnimateIn>
       </section>
 
       <section className="section-block">
@@ -274,7 +282,7 @@ export default function HomePage() {
                   Browse writing
                 </Link>
                 <Link href={`/blog/${latestPost.slug}/`} className="button button-primary">
-                  Read note
+                  Read the note
                 </Link>
               </div>
             </AnimateIn>

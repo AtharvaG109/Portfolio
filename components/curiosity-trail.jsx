@@ -26,11 +26,11 @@ export function CuriosityTrail({ trails }) {
       <div className="curiosity-head">
         <div>
           <p className="eyebrow">Follow a thread</p>
-          <h2 id="curiosity-heading">Pick the question that makes you most curious.</h2>
+          <h2 id="curiosity-heading">Start with the question that pulls you in.</h2>
         </div>
         <p className="muted">
-          The fastest way to understand my work is to follow the question behind it, not just the
-          stack beside it.
+          The fastest way to understand my work is to follow the question behind it — not just the
+          stack listed beside it. Pick a thread and it will point you to the right corner of the site.
         </p>
       </div>
 
