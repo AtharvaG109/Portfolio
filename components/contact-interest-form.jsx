@@ -21,7 +21,7 @@ export function ContactInterestForm() {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-    const honeypot = String(formData.get("_honey") ?? "").trim();
+    const honeypot = String(formData.get("botcheck") ?? "").trim();
     const now = Date.now();
 
     if (honeypot) {
@@ -79,6 +79,15 @@ export function ContactInterestForm() {
     setStatus("idle");
     setStatusMessage("");
 
+    if (!siteConfig.contactFormAccessKey) {
+      setStatus("error");
+      setStatusMessage(
+        `The form is not configured yet. Please reach out via LinkedIn: ${siteConfig.linkedin}`
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
     formData.set("name", name);
     formData.set("email", email);
     formData.set("company", company);
@@ -86,19 +95,20 @@ export function ContactInterestForm() {
     formData.set("timeline", timeline);
     formData.set("role", role);
     formData.set("message", message);
-    formData.append("_subject", "New portfolio technical conversation");
-    formData.append("_template", "table");
-    formData.append("_replyto", email);
-    formData.append("_blacklist", "viagra,casino,crypto,backlinks,seo service");
-    formData.append("source", "Atharva Gham portfolio");
+    // Web3Forms payload: public-safe access key, no destination email exposed.
+    formData.append("access_key", siteConfig.contactFormAccessKey);
+    formData.append("subject", "New portfolio technical conversation");
+    formData.append("from_name", "Atharva Gham portfolio");
+    formData.append("replyto", email);
 
     try {
       const response = await fetch(siteConfig.contactFormEndpoint, {
         method: "POST",
         headers: {
-          Accept: "application/json"
+          Accept: "application/json",
+          "Content-Type": "application/json"
         },
-        body: formData
+        body: JSON.stringify(Object.fromEntries(formData.entries()))
       });
 
       const payload = await response.json().catch(() => null);
@@ -134,7 +144,7 @@ export function ContactInterestForm() {
       <form ref={formRef} className="contact-form" onSubmit={handleSubmit}>
         <div className="honeypot-field" aria-hidden="true">
           <label htmlFor="company-website">Company website</label>
-          <input id="company-website" type="text" name="_honey" tabIndex="-1" autoComplete="off" />
+          <input id="company-website" type="text" name="botcheck" tabIndex="-1" autoComplete="off" />
         </div>
 
         <fieldset className="contact-fieldset">
