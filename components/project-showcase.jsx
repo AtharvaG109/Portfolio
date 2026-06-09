@@ -539,8 +539,8 @@ export function ProjectShowcase({ projects }) {
           <p className="eyebrow">Next step</p>
           <h2>Review the technical summary or open the source trail.</h2>
           <p className="muted">
-            The strongest signal is software-security work — offensive testing, detection, and secure
-            system design — where implementation, proof, and clear communication all matter.
+            The strongest signal is software-security work across offensive testing, detection, and secure
+            system design, where implementation, proof, and clear communication all matter.
           </p>
         </div>
         <div className="cta-row contact-actions">

@@ -12,7 +12,7 @@ import {
 } from "@/lib/site-data";
 
 const nowDescription =
-  "What Atharva Gham is building, studying, and reading right now — a maintained snapshot of current focus across security and systems work.";
+  "What Atharva Gham is building, studying, and reading right now: a maintained snapshot of current focus across security and systems work.";
 
 export const metadata = {
   title: "Now",
@@ -30,7 +30,7 @@ const nowSchema = [
   {
     "@context": "https://schema.org",
     "@type": "ProfilePage",
-    name: `${siteConfig.name} — Now`,
+    name: `${siteConfig.name}: Now`,
     url: buildAbsoluteUrl("/now/"),
     description: nowDescription
   }

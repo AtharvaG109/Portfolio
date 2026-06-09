@@ -75,7 +75,7 @@ export default function ProjectsPage() {
           <SectionHeading
             eyebrow="The arc"
             title="Break it, catch it, build it."
-            copy="The same work read as a security lifecycle: find the flaws, catch them in production, and engineer software that holds up — backed by the systems depth underneath."
+            copy="The same work read as a security lifecycle: find the flaws, catch them in production, and engineer software that holds up, backed by the systems depth underneath."
           />
         </AnimateIn>
 

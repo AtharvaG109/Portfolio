@@ -44,7 +44,7 @@ export default async function Image() {
           Software Security, <br/>Proven with Evidence
         </h1>
         <p style={{ fontSize: '34px', color: '#94a3b8', marginTop: '44px', maxWidth: '860px' }}>
-          Offensive testing, detection engineering, and secure systems — with the proof.
+          Offensive testing, detection engineering, and secure systems, with the proof.
         </p>
       </div>
     ),

@@ -211,7 +211,7 @@ export default function HomePage() {
             index="01"
             eyebrow="What I do"
             title="Break it, catch it, build it."
-            copy="Software security across the full lifecycle — offensive testing, detection and response, and secure system design — grounded in deep software engineering."
+            copy="Software security across the full lifecycle: offensive testing, detection and response, and secure system design, grounded in deep software engineering."
           />
         </AnimateIn>
 

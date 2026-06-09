@@ -12,10 +12,10 @@ export default function NotFound() {
   return (
     <main id="main-content" tabIndex="-1" className="page-shell page-main not-found-main">
       <section className="surface page-hero not-found-hero">
-        <p className="eyebrow">404 — out of scope</p>
+        <p className="eyebrow">404: out of scope</p>
         <h1>This route failed scope validation.</h1>
         <p className="muted hero-copy">
-          The page you requested is not in scope — it may have moved, been retired, or never shipped.
+          The page you requested is not in scope. It may have moved, been retired, or never shipped.
           No harm done; let&apos;s route you back to something real.
         </p>
 

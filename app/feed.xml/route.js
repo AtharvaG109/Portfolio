@@ -47,7 +47,7 @@ export function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(siteConfig.name)} — Writing</title>
+    <title>${escapeXml(siteConfig.name)} Writing</title>
     <link>${buildAbsoluteUrl("/blog/")}</link>
     <atom:link href="${buildAbsoluteUrl("/feed.xml")}" rel="self" type="application/rss+xml" />
     <description>${escapeXml(siteConfig.description)}</description>

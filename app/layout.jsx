@@ -52,7 +52,7 @@ const contentSecurityPolicy = [
 
 export const metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
-  applicationName: `${siteConfig.name} — ${siteConfig.title}`,
+  applicationName: `${siteConfig.name} | ${siteConfig.title}`,
   manifest: withBasePath("/site.webmanifest"),
   verification: {
     google: googleSiteVerificationToken
@@ -74,7 +74,7 @@ export const metadata = {
     title: `${siteConfig.name} | ${siteConfig.title}`,
     description: siteConfig.description,
     url: siteConfig.siteUrl,
-    siteName: `${siteConfig.name} — ${siteConfig.title}`,
+    siteName: `${siteConfig.name} | ${siteConfig.title}`,
     locale: "en_US",
     type: "website",
     images: [
