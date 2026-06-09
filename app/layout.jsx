@@ -52,14 +52,14 @@ const contentSecurityPolicy = [
 
 export const metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
-  applicationName: "Portfolio Page",
+  applicationName: `${siteConfig.name} — ${siteConfig.title}`,
   manifest: withBasePath("/site.webmanifest"),
   verification: {
     google: googleSiteVerificationToken
   },
   title: {
-    default: `${siteConfig.name} | Portfolio Page`,
-    template: `%s | Portfolio Page`
+    default: `${siteConfig.name} | ${siteConfig.title}`,
+    template: `%s | ${siteConfig.name}`
   },
   description: siteConfig.description,
   keywords: siteConfig.keywords,
@@ -71,10 +71,10 @@ export const metadata = {
     icon: faviconPath
   },
   openGraph: {
-    title: `${siteConfig.name} | Portfolio Page`,
+    title: `${siteConfig.name} | ${siteConfig.title}`,
     description: siteConfig.description,
     url: siteConfig.siteUrl,
-    siteName: "Portfolio Page",
+    siteName: `${siteConfig.name} — ${siteConfig.title}`,
     locale: "en_US",
     type: "website",
     images: [
@@ -88,7 +88,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} | Portfolio Page`,
+    title: `${siteConfig.name} | ${siteConfig.title}`,
     description: siteConfig.description,
     images: [socialPreviewPath]
   }
