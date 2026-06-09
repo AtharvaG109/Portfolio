@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import { AnimateIn } from "@/components/animate-in";
 import { PageHero } from "@/components/page-hero";
+import { PreviewLink } from "@/components/preview-link";
 import { ProjectShowcase } from "@/components/project-showcase";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
@@ -96,9 +95,18 @@ export default function ProjectsPage() {
                 <ul className="bullet-list compact-list">
                   {trackProjects.map((project) => (
                     <li key={project.slug}>
-                      <Link href={`/projects/${project.slug}/`} className="text-link">
+                      <PreviewLink
+                        href={`/projects/${project.slug}/`}
+                        className="text-link"
+                        preview={{
+                          kind: project.maturity,
+                          title: project.title,
+                          summary: project.outcomeLine ?? project.summary,
+                          metric: project.metrics?.[0]?.value ?? project.proofLine
+                        }}
+                      >
                         {project.title}
-                      </Link>
+                      </PreviewLink>
                     </li>
                   ))}
                 </ul>

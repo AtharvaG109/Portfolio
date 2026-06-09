@@ -40,11 +40,11 @@ export default async function Image() {
           </span>
         </div>
         
-        <h1 style={{ fontSize: '84px', color: '#ffffff', fontWeight: 700, lineHeight: 1.1, margin: 0, padding: 0 }}>
-          Backend, Platform, <br/>and Security Engineering
+        <h1 style={{ fontSize: '80px', color: '#ffffff', fontWeight: 700, lineHeight: 1.1, margin: 0, padding: 0 }}>
+          Software Security, <br/>Proven with Evidence
         </h1>
-        <p style={{ fontSize: '36px', color: '#94a3b8', marginTop: '48px', maxWidth: '800px' }}>
-          Case studies and project portfolio.
+        <p style={{ fontSize: '34px', color: '#94a3b8', marginTop: '44px', maxWidth: '860px' }}>
+          Offensive testing, detection engineering, and secure systems — with the proof.
         </p>
       </div>
     ),

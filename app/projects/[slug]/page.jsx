@@ -5,7 +5,9 @@ import { notFound } from "next/navigation";
 import { AnimateIn } from "@/components/animate-in";
 import { ProjectDemo } from "@/components/project-demo";
 import { ProjectSystemMap } from "@/components/project-system-map";
+import { ProofTerminal } from "@/components/proof-terminal";
 import { RichContent } from "@/components/rich-content";
+import { ScrollStory } from "@/components/scroll-story";
 import { StructuredData } from "@/components/structured-data";
 import { getContentBySlug } from "@/lib/content";
 import {
@@ -88,6 +90,27 @@ export default async function ProjectPage({ params }) {
     { label: "Stack", value: `${project.stack.length} technologies` }
   ];
 
+  const storySteps = [
+    {
+      eyebrow: "The problem",
+      title: "Why this needed building",
+      body: project.challenge,
+      highlight: project.category
+    },
+    {
+      eyebrow: "The build",
+      title: "How I approached it",
+      body: project.approach?.[0] ?? project.summary,
+      highlight: `${project.stack.length} technologies`
+    },
+    {
+      eyebrow: "The proof",
+      title: "What it demonstrates",
+      body: project.result,
+      highlight: project.metrics?.[0]?.value ?? project.proofLine
+    }
+  ];
+
   return (
     <main id="main-content" tabIndex="-1" className="page-shell page-main article-main">
       <StructuredData data={projectSchema} />
@@ -104,8 +127,14 @@ export default async function ProjectPage({ params }) {
             <span className="project-badge project-badge-muted">{project.maturity}</span>
           </div>
           <h1>{project.title}</h1>
+          <p className="project-outcome-lead">{project.outcomeLine}</p>
           <p className="muted hero-copy">{project.summary}</p>
-          <p className="project-detail-lead">{project.impact}</p>
+          {project.readIf ? (
+            <p className="project-read-if">
+              <span className="micro-label">Read this if</span>
+              {project.readIf.replace(/^Read this if you care about\s*/i, "You care about ")}
+            </p>
+          ) : null}
         </div>
 
         <aside className="project-detail-hero-aside">
@@ -131,6 +160,12 @@ export default async function ProjectPage({ params }) {
                 </span>
               ))}
             </div>
+            {project.evidenceVisual?.lines?.length ? (
+              <ProofTerminal
+                lines={project.evidenceVisual.lines.map((line) => line.replace(/^\$\s*/, ""))}
+                title={project.evidenceVisual.label ?? "evidence"}
+              />
+            ) : null}
           </div>
 
           {project.links?.length ? (
@@ -195,6 +230,15 @@ export default async function ProjectPage({ params }) {
             <h2>Trace the important path through the project</h2>
           </div>
           <ProjectSystemMap project={project} />
+        </AnimateIn>
+
+        <AnimateIn className="article-section" delay={0.075}>
+          <div className="section-heading project-section-heading section-heading-numbered">
+            <span className="section-index" aria-hidden="true">01</span>
+            <p className="eyebrow">Problem → Build → Proof</p>
+            <h2>Follow the story as you scroll</h2>
+          </div>
+          <ScrollStory steps={storySteps} />
         </AnimateIn>
 
         {project.metrics?.length ? (
@@ -270,21 +314,22 @@ export default async function ProjectPage({ params }) {
             </ul>
           </section>
 
-          {project.tradeoffs?.length ? (
-            <section className="article-panel">
-              <h2>Tradeoffs and Decisions</h2>
+          <section className="article-panel article-panel-decisions">
+            <p className="micro-label">What I chose, and why</p>
+            <h2>Decisions &amp; Tradeoffs</h2>
+            {project.tradeoffs?.length ? (
               <ul className="bullet-list article-bullets">
                 {project.tradeoffs.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-            </section>
-          ) : (
-            <section className="article-panel">
-              <h2>Project focus</h2>
-              <p>This case study emphasizes system decisions, implementation shape, and the operational choices that made the work publishable and useful.</p>
-            </section>
-          )}
+            ) : (
+              <p>
+                This case study emphasizes the system decisions, implementation shape, and operational
+                choices that made the work publishable, reviewable, and useful.
+              </p>
+            )}
+          </section>
         </AnimateIn>
 
         <AnimateIn className="article-section project-stack-section" delay={0.2}>

@@ -1,4 +1,5 @@
 import { AnimateIn } from "@/components/animate-in";
+import { CredentialsRow } from "@/components/credentials-row";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
 import {
@@ -40,6 +41,10 @@ export default function ExperiencePage() {
           </AnimateIn>
         ))}
       </section>
+
+      <AnimateIn delay={0.1}>
+        <CredentialsRow />
+      </AnimateIn>
 
       <section className="section-block">
         <AnimateIn delay={0.04}>

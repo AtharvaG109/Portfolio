@@ -205,7 +205,11 @@ export function LabsPlayground() {
           aria-label="Detection rule"
           maxLength="240"
         />
-        <div className="lab-result">
+        <div
+          className="lab-result"
+          data-status={ruleMatch.startsWith("Matched") ? "hit" : "miss"}
+          key={ruleMatch}
+        >
           <strong>{ruleMatch}</strong>
           <span>Rule input stays local in the browser.</span>
         </div>
@@ -239,7 +243,11 @@ export function LabsPlayground() {
             <strong>{value}</strong>
           </label>
         ))}
-        <div className="lab-result">
+        <div
+          className="lab-result"
+          data-status={riskScore.score >= 8 ? "critical" : riskScore.score >= 6 ? "high" : "calm"}
+          key={riskScore.score}
+        >
           <strong>{riskScore.score}/10</strong>
           <span>{riskScore.label}</span>
         </div>

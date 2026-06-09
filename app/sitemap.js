@@ -25,6 +25,7 @@ export default function sitemap() {
     "/labs/",
     "/workbench/",
     "/blog/",
+    "/now/",
     "/search/",
     "/resume/",
     "/contact/"

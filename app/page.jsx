@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AnimateIn } from "@/components/animate-in";
 import { ContactPanel } from "@/components/contact-panel";
 import { CountUp } from "@/components/count-up";
+import { CredentialsRow } from "@/components/credentials-row";
 import { CuriosityTrail } from "@/components/curiosity-trail";
 import { HeroParallax } from "@/components/hero-parallax";
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
@@ -199,20 +200,28 @@ export default function HomePage() {
             </AnimateIn>
           ))}
         </div>
+        <AnimateIn delay={0.12}>
+          <CredentialsRow />
+        </AnimateIn>
       </section>
 
       <section className="section-block">
         <AnimateIn delay={0.04}>
           <SectionHeading
+            index="01"
             eyebrow="What I do"
             title="Break it, catch it, build it."
             copy="Software security across the full lifecycle — offensive testing, detection and response, and secure system design — grounded in deep software engineering."
           />
         </AnimateIn>
 
-        <div className="capability-grid">
+        <div className="capability-bento">
           {roleFitCards.map((item, index) => (
-            <AnimateIn key={item.title} className="surface capability-card depth-card" delay={0.08 + index * 0.05}>
+            <AnimateIn
+              key={item.title}
+              className={`surface capability-card depth-card bento-card ${index === 0 ? "bento-card-feature" : ""}`}
+              delay={0.08 + index * 0.05}
+            >
               <p className="micro-label">Technical area</p>
               <h3>{item.title}</h3>
               <p className="muted">{item.body}</p>

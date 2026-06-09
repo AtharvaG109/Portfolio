@@ -21,6 +21,7 @@ export function SiteFooter() {
           <Link href="/labs/">Labs</Link>
           <Link href="/workbench/">Workbench</Link>
           <Link href="/blog/">Writing</Link>
+          <Link href="/now/">Now</Link>
           <Link href="/resume/">Resume</Link>
           <Link href="/contact/">Contact</Link>
           <a href={siteConfig.github} target="_blank" rel="noopener noreferrer">

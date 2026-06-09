@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 import { siteConfig } from "@/lib/site-data";
+import { AccentPicker } from "@/components/accent-picker";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navItems = [
@@ -14,6 +15,7 @@ const navItems = [
   { label: "Labs", href: "/labs/" },
   { label: "Workbench", href: "/workbench/" },
   { label: "Writing", href: "/blog/" },
+  { label: "Now", href: "/now/" },
   { label: "Resume", href: "/resume/" },
   { label: "Contact", href: "/contact/" }
 ];
@@ -101,6 +103,9 @@ export function SiteHeader() {
             <nav className="site-nav disclosure-nav" aria-label="Mobile primary">
               <div className="mobile-theme-toggle">
                 <ThemeToggle />
+              </div>
+              <div className="mobile-accent-picker">
+                <AccentPicker />
               </div>
               <NavLinks
                 pathname={pathname}
