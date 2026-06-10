@@ -21,11 +21,11 @@ const projectPaletteByCategory = {
     warmSoft: "rgba(255, 207, 112, 0.16)"
   },
   "Application Security": {
-    accent: "#ff9c73",
-    accentSoft: "rgba(255, 156, 115, 0.18)",
-    accentGlow: "rgba(255, 156, 115, 0.22)",
-    warm: "#ffd26f",
-    warmSoft: "rgba(255, 210, 111, 0.16)"
+    accent: "#ffc266",
+    accentSoft: "rgba(255, 194, 102, 0.18)",
+    accentGlow: "rgba(255, 194, 102, 0.22)",
+    warm: "#5ce3b4",
+    warmSoft: "rgba(92, 227, 180, 0.16)"
   },
   Research: {
     accent: "#c8a4ff",

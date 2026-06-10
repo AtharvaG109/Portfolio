@@ -66,11 +66,12 @@ export function HeroHeadline({ text, highlights = [], className }) {
         const bare = word.toLowerCase().replace(/[^a-z0-9-]/g, "");
         return (
           <span key={`${word}-${index}`} className="headline-word-mask" aria-hidden="true">
-            <motion.span
-              className={`headline-word ${highlightSet.has(bare) ? "headline-highlight" : ""}`}
-              variants={wordVariants}
-            >
-              {word}
+            <motion.span className="headline-word" variants={wordVariants}>
+              {highlightSet.has(bare) ? (
+                <span className="headline-highlight">{word}</span>
+              ) : (
+                word
+              )}
             </motion.span>
             {index < words.length - 1 ? " " : null}
           </span>

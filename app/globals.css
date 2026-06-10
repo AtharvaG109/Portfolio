@@ -4337,15 +4337,6 @@ ul {
 
 /* ─── Stylistic polish layer ─── */
 
-/* 1. Gradient hero headline */
-.hero-copy-block h1 {
-  background: linear-gradient(120deg, var(--text-strong) 30%, var(--accent-strong) 70%, var(--warm) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
 /* 2. Animated underline for primary nav links */
 .site-nav a::after {
   content: "";
@@ -5214,20 +5205,39 @@ html[data-theme="light"] .cursor-glow {
 }
 
 .headline-highlight {
-  background: linear-gradient(
-    100deg,
-    var(--accent) 0%,
-    var(--warm) 28%,
-    #2dd4bf 52%,
-    var(--accent-strong) 78%,
-    var(--accent) 100%
-  );
-  background-size: 280% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: inkFlow 7s linear infinite;
+  display: inline-block;
+  color: var(--accent-strong);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .headline-highlight {
+    background: linear-gradient(
+      100deg,
+      var(--accent) 0%,
+      var(--warm) 28%,
+      #2dd4bf 52%,
+      var(--accent-strong) 78%,
+      var(--accent) 100%
+    );
+    background-size: 280% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: inkFlow 7s linear infinite;
+  }
+
+  html[data-theme="light"] .headline-highlight {
+    background-image: linear-gradient(
+      100deg,
+      #0B8463 0%,
+      #B45309 28%,
+      #0E7490 52%,
+      #0EA478 78%,
+      #0B8463 100%
+    );
+    background-size: 280% 100%;
+  }
 }
 
 @keyframes inkFlow {
