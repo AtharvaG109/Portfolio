@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
 const containerVariants = {
@@ -65,16 +66,18 @@ export function HeroHeadline({ text, highlights = [], className }) {
       {words.map((word, index) => {
         const bare = word.toLowerCase().replace(/[^a-z0-9-]/g, "");
         return (
-          <span key={`${word}-${index}`} className="headline-word-mask" aria-hidden="true">
-            <motion.span className="headline-word" variants={wordVariants}>
-              {highlightSet.has(bare) ? (
-                <span className="headline-highlight">{word}</span>
-              ) : (
-                word
-              )}
-            </motion.span>
+          <Fragment key={`${word}-${index}`}>
+            <span className="headline-word-mask" aria-hidden="true">
+              <motion.span className="headline-word" variants={wordVariants}>
+                {highlightSet.has(bare) ? (
+                  <span className="headline-highlight">{word}</span>
+                ) : (
+                  word
+                )}
+              </motion.span>
+            </span>
             {index < words.length - 1 ? " " : null}
-          </span>
+          </Fragment>
         );
       })}
     </motion.h1>
