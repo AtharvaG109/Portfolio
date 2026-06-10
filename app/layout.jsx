@@ -1,13 +1,15 @@
 import "./globals.css";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
 const fontInter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const fontOutfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const fontSpaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk" });
+const fontJetBrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
 
 import { AnalyticsScript } from "@/components/analytics-script";
 import { BackToTop } from "@/components/back-to-top";
 import { CardSpotlight } from "@/components/card-spotlight";
 import { CommandPalette } from "@/components/command-palette";
+import { CursorGlow } from "@/components/cursor-glow";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -96,7 +98,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${fontInter.variable} ${fontOutfit.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fontInter.variable} ${fontSpaceGrotesk.variable} ${fontJetBrainsMono.variable}`}
+    >
       <head>
         <meta name="referrer" content="strict-origin-when-cross-origin" />
         <meta httpEquiv="Content-Security-Policy" content={contentSecurityPolicy} />
@@ -108,6 +114,7 @@ export default function RootLayout({ children }) {
         </a>
         <ScrollProgress />
         <CardSpotlight />
+        <CursorGlow />
         <div className="grain-overlay" aria-hidden="true" />
         <div className="page-backdrop page-backdrop-left" />
         <div className="page-backdrop page-backdrop-right" />

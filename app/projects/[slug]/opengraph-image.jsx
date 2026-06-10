@@ -27,13 +27,13 @@ export default async function Image({ params }) {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px",
-          background: "linear-gradient(135deg, #081116 0%, #172631 55%, #2b1712 100%)",
+          background: "linear-gradient(135deg, #04080a 0%, #172631 55%, #0a1f17 100%)",
           color: "#f5fafd",
           fontFamily: "Inter, Arial, sans-serif"
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ fontSize: 30, color: "#ff947b", fontWeight: 700 }}>{siteConfig.initials}</div>
+          <div style={{ fontSize: 30, color: "#7cf4c9", fontWeight: 700 }}>{siteConfig.initials}</div>
           <div style={{ fontSize: 28, color: "#98abb9" }}>{`${project.category} / ${project.year}`}</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
@@ -69,7 +69,7 @@ export default async function Image({ params }) {
                 alignItems: "flex-end",
                 padding: "20px 28px",
                 borderRadius: 22,
-                background: "linear-gradient(135deg, rgba(229,106,84,0.22), rgba(245,184,93,0.12))",
+                background: "linear-gradient(135deg, rgba(44,230,168,0.22), rgba(245,184,93,0.12))",
                 border: "1px solid rgba(255,148,123,0.45)"
               }}
             >

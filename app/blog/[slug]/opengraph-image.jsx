@@ -27,13 +27,13 @@ export default async function Image({ params }) {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "76px",
-          background: "linear-gradient(135deg, #081116 0%, #13232e 52%, #31220f 100%)",
+          background: "linear-gradient(135deg, #04080a 0%, #13232e 52%, #31220f 100%)",
           color: "#f5fafd",
           fontFamily: "Inter, Arial, sans-serif"
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ fontSize: 30, color: "#ff947b", fontWeight: 700 }}>{siteConfig.name}</div>
+          <div style={{ fontSize: 30, color: "#7cf4c9", fontWeight: 700 }}>{siteConfig.name}</div>
           <div style={{ fontSize: 28, color: "#98abb9" }}>{`${post.category} / ${post.readTime}`}</div>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>

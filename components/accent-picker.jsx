@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 const STORAGE_KEY = "atharva-site-accent";
 
 const ACCENTS = [
+  { id: "mint", label: "Mint", accent: "#2CE6A8", strong: "#7CF4C9", warm: "#F5B85D" },
   { id: "ember", label: "Ember", accent: "#E56A54", strong: "#FF947B", warm: "#F5B85D" },
   { id: "azure", label: "Azure", accent: "#3B9EFF", strong: "#74C0FF", warm: "#5AD1C4" },
-  { id: "violet", label: "Violet", accent: "#9A7BFF", strong: "#B9A2FF", warm: "#F49AD1" },
-  { id: "teal", label: "Teal", accent: "#15B8A6", strong: "#4FE0CE", warm: "#8BE07A" }
+  { id: "violet", label: "Violet", accent: "#9A7BFF", strong: "#B9A2FF", warm: "#F49AD1" }
 ];
 
 function applyAccent(entry) {
@@ -23,7 +23,7 @@ function applyAccent(entry) {
 }
 
 export function AccentPicker() {
-  const [activeId, setActiveId] = useState("ember");
+  const [activeId, setActiveId] = useState("mint");
 
   useEffect(() => {
     try {

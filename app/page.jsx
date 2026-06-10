@@ -5,10 +5,14 @@ import { ContactPanel } from "@/components/contact-panel";
 import { CountUp } from "@/components/count-up";
 import { CredentialsRow } from "@/components/credentials-row";
 import { CuriosityTrail } from "@/components/curiosity-trail";
+import { HeroHeadline } from "@/components/hero-headline";
 import { HeroParallax } from "@/components/hero-parallax";
+import { Magnetic } from "@/components/magnetic";
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
+import { ScrambleText } from "@/components/scramble-text";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
+import { TiltCard } from "@/components/tilt-card";
 import { getSortedContent } from "@/lib/content";
 import {
   buildAbsoluteUrl,
@@ -68,10 +72,13 @@ export default function HomePage() {
       <section className="hero-shell">
         <AnimateIn className="hero-copy-block" delay={0.04}>
           <div className="hero-topline">
-            <p className="eyebrow">{hero.eyebrow}</p>
+            <ScrambleText as="p" className="eyebrow" text={hero.eyebrow} delay={0.3} />
           </div>
 
-          <h1>{hero.headline}</h1>
+          <HeroHeadline
+            text={hero.headline}
+            highlights={["security", "systems", "evidence"]}
+          />
           <p className="hero-copy muted">{hero.summary}</p>
 
           <div className="hero-proof-chips" aria-label="Core technical signals">
@@ -84,14 +91,15 @@ export default function HomePage() {
 
           <div className="cta-row">
             {hero.actions.map((action) => (
-              <Link
-                key={action.label}
-                href={action.href}
-                className={`button ${action.variant === "primary" ? "button-primary" : "button-secondary"
-                  }`}
-              >
-                {action.label}
-              </Link>
+              <Magnetic key={action.label}>
+                <Link
+                  href={action.href}
+                  className={`button ${action.variant === "primary" ? "button-primary" : "button-secondary"
+                    }`}
+                >
+                  {action.label}
+                </Link>
+              </Magnetic>
             ))}
           </div>
 
@@ -119,6 +127,7 @@ export default function HomePage() {
         </AnimateIn>
 
         <HeroParallax className="hero-aside-wrap">
+          <TiltCard>
           <AnimateIn className="surface hero-aside" delay={0.12}>
           <div className="hero-aside-grid">
             <article className="hero-glance-card hero-glance-featured">
@@ -151,6 +160,7 @@ export default function HomePage() {
             </article>
           </div>
           </AnimateIn>
+          </TiltCard>
         </HeroParallax>
       </section>
 
