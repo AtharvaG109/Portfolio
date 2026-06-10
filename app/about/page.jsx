@@ -30,12 +30,36 @@ const aboutSchema = [
   ]),
   {
     "@context": "https://schema.org",
-    "@type": "Person",
-    name: siteConfig.name,
+    "@type": "ProfilePage",
+    name: `About ${siteConfig.name}`,
     url: buildAbsoluteUrl("/about/"),
-    jobTitle: "Security Engineer",
-    description: aboutDescription,
-    sameAs: siteConfig.sameAs
+    mainEntity: {
+      "@type": "Person",
+      name: siteConfig.name,
+      givenName: "Atharva",
+      familyName: "Gham",
+      url: buildAbsoluteUrl("/about/"),
+      image: buildAbsoluteUrl("/social-preview.svg"),
+      jobTitle: "Software Security Engineer",
+      description: aboutDescription,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "San Francisco",
+        addressRegion: "California",
+        addressCountry: "US"
+      },
+      alumniOf: [
+        {
+          "@type": "CollegeOrUniversity",
+          name: "University of Maryland, College Park"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          name: "Vishwakarma University, Pune"
+        }
+      ],
+      sameAs: siteConfig.sameAs
+    }
   }
 ];
 
@@ -153,8 +177,8 @@ export default function AboutPage() {
     <main id="main-content" tabIndex="-1" className="page-shell page-main">
       <StructuredData data={aboutSchema} />
       <PageHero
-        eyebrow="About"
-        title="I make software harder to attack - and easier to defend when something gets through."
+        eyebrow="About Atharva Gham"
+        title="I'm Atharva Gham. I make software harder to attack - and easier to defend when something gets through."
         copy="My best work sits close to runtime behavior: finding flaws, catching them in production, and building security controls that hold up under real traffic and real adversaries."
         actions={[
           { label: "View experience", href: "/experience/", variant: "primary" },

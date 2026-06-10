@@ -40,17 +40,35 @@ const homepageSchema = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: siteConfig.shortName,
-    alternateName: "Portfolio Page",
+    name: siteConfig.name,
+    alternateName: [`${siteConfig.name} Portfolio`, "Portfolio Page"],
     url: buildAbsoluteUrl("/")
   },
   {
     "@context": "https://schema.org",
     "@type": "Person",
     name: siteConfig.name,
+    givenName: "Atharva",
+    familyName: "Gham",
     url: buildAbsoluteUrl("/"),
     image: buildAbsoluteUrl("/social-preview.svg"),
-    jobTitle: "Security Engineer",
+    jobTitle: "Software Security Engineer",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "San Francisco",
+      addressRegion: "California",
+      addressCountry: "US"
+    },
+    alumniOf: [
+      {
+        "@type": "CollegeOrUniversity",
+        name: "University of Maryland, College Park"
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        name: "Vishwakarma University, Pune"
+      }
+    ],
     knowsAbout: [
       "Software security",
       "Offensive security",
