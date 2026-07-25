@@ -89,7 +89,7 @@ export default function HomePage() {
     <main id="main-content" tabIndex="-1" className="page-shell page-main">
       <StructuredData data={homepageSchema} />
       <section className="hero-shell">
-        <AnimateIn className="hero-copy-block" delay={0.04}>
+        <AnimateIn className="hero-copy-block" delay={0.04} blur={false}>
           <div className="hero-topline">
             <ScrambleText as="p" className="eyebrow" text={hero.eyebrow} delay={0.3} />
           </div>

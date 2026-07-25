@@ -5201,7 +5201,7 @@ html[data-theme="light"] .cursor-glow {
 .headline-word {
   display: inline-block;
   transform-origin: 50% 100%;
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 
 .headline-highlight {
@@ -5783,8 +5783,12 @@ h1 {
 
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   .headline-highlight {
-    background: linear-gradient(110deg, var(--accent-strong), var(--accent) 50%, var(--warm));
+    background-image: linear-gradient(110deg, var(--accent-strong), var(--accent) 50%, var(--warm));
     background-size: 100% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
     animation: none;
   }
 
