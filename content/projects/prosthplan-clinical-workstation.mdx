@@ -3,50 +3,26 @@ slug: prosthplan-clinical-workstation
 title: ProsthPlan Local-First Clinical Workstation
 category: Clinical Product
 updatedAt: 2026-07-19
-excerpt: iPadOS prosthodontic workflow with local records, deterministic support, doctor confirmation, immutable signed documents, and auditable history.
-tags: [SwiftUI, SwiftData, SceneKit, Clinical Workflow, Local-First, Audit]
+excerpt: Local-first iPadOS workflow for prosthodontists with doctor-controlled decision support, durable record history, and explicit safety boundaries.
+tags: [SwiftUI, SwiftData, Clinical Workflow, Local-First, Audit, Accessibility]
 ---
 
-## Product boundary
+## Product purpose
 
-ProsthPlan is an iPadOS clinical workflow and decision-support product for prosthodontists. It is not an autonomous diagnostic system. It generates no prescriptions, keeps classifications and suggestions behind doctor confirmation, and treats generated clinical text as a draft until a clinician approves it.
+ProsthPlan is an iPadOS workflow and decision-support product for prosthodontists. It is not an autonomous diagnostic system, and it does not generate prescriptions.
 
-Production mode begins empty. Optional sample records are marked `[DEMO]`.
+The goal is practical: keep clinical work organized, reduce repeated administrative effort, and make review state clear without moving clinical judgment away from the doctor.
 
-## Workflow
+## Clinician control
 
-The app organizes work around the patient rather than a collection of disconnected tools:
-
-- Today, patients, review, lab, recall, templates, and settings form the global navigation.
-- Opening a patient enters an eight-tab case workspace: Overview, Records, Chart, Media, Scans, Plan, Lab, and Timeline.
-- A responsive safety inspector shows record gaps, unavailable files, review state, consent status, and overdue follow-up.
-- Chairside mode removes administrative surfaces without changing the underlying records.
-
-## Safety architecture
-
-```text
-clinical record
-  -> deterministic service
-  -> explainable draft + warnings
-  -> doctor review
-  -> confirmed versioned record
-  -> immutable signed output or later addendum
-```
-
+- Every classification, treatment option, or generated clinical suggestion requires doctor confirmation.
+- AI-generated text remains a draft until a doctor reviews and approves it.
 - Original clinical files are never overwritten.
-- Imported files become app-managed copies while the source remains untouched.
-- Approved and signed records retain version and audit history.
-- Signed documents cannot be edited; corrections create addenda.
-- Clinical classifications list the criteria they can and cannot evaluate.
-- Suggestions may be accepted, rejected, modified, or superseded, but the decision history remains.
+- Clinical records retain audit and version history.
+- Signed documents are immutable; corrections require addenda.
+- Production mode starts empty, and optional sample records are clearly marked `[DEMO]`.
 
-## Product depth
-
-The workstation includes 3D scan import for STL, PLY, OBJ, and USDZ; SceneKit viewing; true millimetre measurements; scan annotations; CAD-lite geometry; guided clinician-seeded margin detection; STL and annotation export; PencilKit media annotation; smile-design guides; shade records; implant logs; local scheduling; fee quotes; and consult-mode content filtering.
-
-DICOM remains metadata-only. Native diagnostic rendering, measurements, and window or level tools are not claimed.
-
-## Proof
+## Documented proof
 
 Latest documented validation:
 
@@ -56,12 +32,11 @@ Latest documented validation:
 0 failures
 ```
 
-Tests cover deterministic clinical services, doctor-confirmation gates, versioning, audit behavior, record custody, geometry, accessibility, responsive navigation, and UI entry paths.
+The suite covers deterministic decision-support behavior, doctor-confirmation gates, record custody, versioning, audit behavior, accessibility, and key UI paths.
 
-## Current limits
+## Honest limits
 
-- No cloud sync in the MVP.
-- No autonomous diagnosis.
-- No prescription generation.
-- CAD geometry is investigational and cannot drive a mill without independent verification.
-- Millable crown export remains out of scope until watertightness, thickness, undercut, and validation gates exist.
+- MVP remains local-first; cloud sync is not claimed.
+- Product does not diagnose autonomously.
+- Product does not generate prescriptions.
+- Public case study intentionally describes product boundaries and evidence, not internal clinical implementation.

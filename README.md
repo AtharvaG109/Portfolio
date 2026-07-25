@@ -7,7 +7,7 @@ Proof-first Next.js portfolio for product, systems, and security engineering.
 ## Features
 
 - Editorial release-desk homepage with product, systems, and security focus
-- Current case studies for ProsthPlan, Global Market Terminal, BreachOps, FocusForge, and SpectreFS
+- Current case studies for ProsthPlan, BreachOps, FocusForge, and SpectreFS
 - Blog index plus article pages
 - MDX-style content files for writing and project case-study expansions
 - Interactive Labs playground for JWTs, logs, detection rules, risk scoring, packet flows, and CI security gates

@@ -8,7 +8,7 @@ import { CuriosityTrail } from "@/components/curiosity-trail";
 import { HeroHeadline } from "@/components/hero-headline";
 import { HeroParallax } from "@/components/hero-parallax";
 import { Magnetic } from "@/components/magnetic";
-import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
+import { ProjectStoryboard } from "@/components/project-storyboard";
 import { ScrambleText } from "@/components/scramble-text";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
@@ -163,15 +163,15 @@ export default function HomePage() {
 
               <div className="hero-release-metrics" aria-label="Current portfolio proof">
                 <div>
-                  <strong>19</strong>
+                  <strong>18</strong>
                   <span>documented builds</span>
                 </div>
                 <div>
-                  <strong>680+</strong>
+                  <strong>430+</strong>
                   <span>automated tests</span>
                 </div>
                 <div>
-                  <strong>4</strong>
+                  <strong>3</strong>
                   <span>new case studies</span>
                 </div>
               </div>
@@ -203,8 +203,8 @@ export default function HomePage() {
           <SectionHeading
             index="00"
             eyebrow="New since the last portfolio release"
-            title="Four new builds. Four different proof paths."
-            copy="Clinical workflow, market research, defensive training, and native macOS product engineering—each shown with current maturity, safety boundaries, and validation evidence."
+            title="Three new builds. Three different proof paths."
+            copy="Clinical workflow, defensive training, and native macOS product engineering—each shown with current maturity, safety boundaries, and validation evidence."
           />
         </AnimateIn>
 
@@ -301,9 +301,7 @@ export default function HomePage() {
               </div>
               <h2>{featuredProject.title}</h2>
               <p className="muted panel-copy">{featuredProject.summary}</p>
-              <div className="media-frame project-preview-frame">
-                <ProjectPreviewDiagram project={featuredProject} variant="feature" />
-              </div>
+              <ProjectStoryboard project={featuredProject} variant="compact" />
               <p className="project-impact">{featuredProject.challenge}</p>
               <div className="tag-row">
                 {featuredProject.stack.map((item) => (

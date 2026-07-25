@@ -21,14 +21,9 @@ June 2021 - December 2021
 CORE ENGINEERING PROJECTS
 
 ProsthPlan Local-First Clinical Workstation
-- Built an iPadOS SwiftUI and SwiftData workflow for prosthodontists with patient-first navigation, 3D scan tools, audit history, versioned records, and immutable signed documents.
-- Kept deterministic classification and planning support behind doctor confirmation; production mode starts empty and sample records are marked demo data.
+- Built a local-first iPadOS workflow for prosthodontists with clinician-controlled decision support, durable record history, and explicit safety boundaries.
+- Kept every classification, treatment option, and generated suggestion behind doctor confirmation; production mode starts empty and sample records are marked demo data.
 - Documented 161 unit and 9 UI tests with zero failures.
-
-Global Market Terminal
-- Built a local Indian-market research terminal with read-only official-file ingestion, bounded raw-data handling, derived-only SQLite storage, and explicit abstention.
-- Added point-in-time validation, model-promotion gates, authorized-source controls, CLI, FastAPI, browser UI, and macOS scheduling.
-- Validated 251 tests and measured zero raw bars persisted in derived-storage benchmarks; no order-routing path exists.
 
 BreachOps Cyber Range Command
 - Built a synthetic defensive SOC training game with 12 validated missions, timed consequences, evidence-chain grading, and proportionate response scoring.

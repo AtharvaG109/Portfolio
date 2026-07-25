@@ -24,10 +24,6 @@
       "summary": "Local-first iPad clinical workstation with 170 documented green tests, deterministic support, doctor-confirmation gates, audit history, and immutable signed records."
     },
     {
-      "name": "Global Market Terminal",
-      "summary": "Compliance-first local market research terminal with 251 tests, derived-only storage, bounded raw-data handling, explicit abstention, and no order routing."
-    },
-    {
       "name": "BreachOps",
       "summary": "Synthetic defensive SOC range with 12 validated missions, timed consequences, evidence-chain grading, a pure scoring engine, and a cinematic 3D command center."
     },
