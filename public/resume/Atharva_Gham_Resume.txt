@@ -20,10 +20,24 @@ June 2021 - December 2021
 
 CORE ENGINEERING PROJECTS
 
-Event Ingestion and Observability Pipeline
-- Designed and implemented a concurrent event-ingestion pipeline with queue-backed workers, retry behavior, and backpressure-aware service boundaries.
-- Optimized ingestion logic and network protocols including TLS and IPsec for fault-tolerant, low-latency streaming.
-- Managed the lifecycle from system design through production rollout, runtime visibility, and operational hardening.
+ProsthPlan Local-First Clinical Workstation
+- Built an iPadOS SwiftUI and SwiftData workflow for prosthodontists with patient-first navigation, 3D scan tools, audit history, versioned records, and immutable signed documents.
+- Kept deterministic classification and planning support behind doctor confirmation; production mode starts empty and sample records are marked demo data.
+- Documented 161 unit and 9 UI tests with zero failures.
+
+Global Market Terminal
+- Built a local Indian-market research terminal with read-only official-file ingestion, bounded raw-data handling, derived-only SQLite storage, and explicit abstention.
+- Added point-in-time validation, model-promotion gates, authorized-source controls, CLI, FastAPI, browser UI, and macOS scheduling.
+- Validated 251 tests and measured zero raw bars persisted in derived-storage benchmarks; no order-routing path exists.
+
+BreachOps Cyber Range Command
+- Built a synthetic defensive SOC training game with 12 validated missions, timed consequences, evidence-chain grading, and proportionate response scoring.
+- Used Next.js, TypeScript, React Three Fiber, Zustand, and pure testable scoring and consequence engines.
+- Validated 26 tests across mission safety, graph, consequence, and scoring behavior.
+
+SpectreFS Encrypted Vault Technical Preview
+- Built a C++20 and SwiftUI macOS vault with authenticated chunks, PBAC, audit integrity, XPC isolation, signed share capsules, health and recovery tools, and release gates.
+- Kept production limits explicit: external cryptographic review and hardened plaintext containment remain open.
 
 AI Security & Agentic Workflow Automation
 - Conducted adversarial security reviews of LLM-integrated automation agents, identifying prompt injection and insecure tool-use vulnerabilities.

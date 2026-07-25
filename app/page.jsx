@@ -20,8 +20,8 @@ import {
   formatPublishedDate,
   getFeaturedProject,
   getNewestProject,
+  getRecentProjects,
   hero,
-  principles,
   roleFitCards,
   siteConfig,
   stats
@@ -29,12 +29,13 @@ import {
 
 const featuredProject = getFeaturedProject();
 const newestProject = getNewestProject();
+const recentProjects = getRecentProjects(4);
 const latestPost = getSortedContent("blog")[0] ?? null;
 const heroProofChips = [
-  "Offensive security",
-  "Detection engineering",
-  "AI security",
-  "Secure systems"
+  "Local-first products",
+  "Security engineering",
+  "Deterministic decision support",
+  "Proof before claims"
 ];
 const homepageSchema = [
   {
@@ -51,7 +52,7 @@ const homepageSchema = [
     givenName: "Atharva",
     familyName: "Gham",
     url: buildAbsoluteUrl("/"),
-    image: buildAbsoluteUrl("/social-preview.svg"),
+    image: buildAbsoluteUrl("/og.png"),
     jobTitle: "Software Security Engineer",
     address: {
       "@type": "PostalAddress",
@@ -95,7 +96,7 @@ export default function HomePage() {
 
           <HeroHeadline
             text={hero.headline}
-            highlights={["security", "systems", "evidence"]}
+            highlights={["ambitious", "claim", "prove"]}
           />
           <p className="hero-copy muted">{hero.summary}</p>
 
@@ -146,78 +147,101 @@ export default function HomePage() {
 
         <HeroParallax className="hero-aside-wrap">
           <TiltCard>
-          <AnimateIn className="surface hero-aside" delay={0.12}>
-          <div className="hero-aside-grid">
-            <article className="hero-glance-card hero-glance-featured">
-              <p className="micro-label">What drives me</p>
-              <h2>{hero.mission}</h2>
-              <p className="muted">
-                I value work that can be explained from evidence, operated under pressure, and made better after it ships.
-              </p>
-            </article>
+            <AnimateIn className="surface hero-aside hero-release-card" delay={0.12}>
+              <div className="release-card-head">
+                <p className="micro-label">Current release window</p>
+                <span>JUL / 2026</span>
+              </div>
 
-            <article className="hero-glance-card">
-              <p className="micro-label">Current focus</p>
-              <ul className="bullet-list compact-list">
-                {hero.focus.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
+              <div className="hero-release-lead">
+                <span className="release-pulse" aria-hidden="true" />
+                <div>
+                  <p className="micro-label">Portfolio signal</p>
+                  <h2>{hero.mission}</h2>
+                </div>
+              </div>
 
-            <article className="hero-glance-card">
-              <p className="micro-label">How I work</p>
-              <div className="mini-principles">
-                {principles.map((principle) => (
-                  <div key={principle.title} className="mini-principle">
-                    <strong>{principle.title}</strong>
-                    <span>{principle.signal}</span>
-                  </div>
+              <div className="hero-release-metrics" aria-label="Current portfolio proof">
+                <div>
+                  <strong>19</strong>
+                  <span>documented builds</span>
+                </div>
+                <div>
+                  <strong>680+</strong>
+                  <span>automated tests</span>
+                </div>
+                <div>
+                  <strong>4</strong>
+                  <span>new case studies</span>
+                </div>
+              </div>
+
+              <div className="hero-release-list">
+                {recentProjects.slice(0, 3).map((project, index) => (
+                  <Link key={project.slug} href={`/projects/${project.slug}/`} className="hero-release-row">
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <strong>{project.title}</strong>
+                      <small>{project.metrics?.[0]?.value ?? project.category}</small>
+                    </div>
+                    <span aria-hidden="true">↗</span>
+                  </Link>
                 ))}
               </div>
-            </article>
-          </div>
-          </AnimateIn>
+
+              <div className="hero-release-footer">
+                <span>Local evidence reviewed</span>
+                <span>Updated Jul 24</span>
+              </div>
+            </AnimateIn>
           </TiltCard>
         </HeroParallax>
       </section>
 
-      {latestPost || newestProject ? (
-        <section className="section-block now-strip" aria-label="Recent activity">
-          <div className="now-grid">
-            {latestPost ? (
-              <article className="surface panel-card now-card">
-                <p className="micro-label">Latest writing</p>
+      <section className="section-block release-ledger-section" aria-label="Recent project releases">
+        <AnimateIn delay={0.04}>
+          <SectionHeading
+            index="00"
+            eyebrow="New since the last portfolio release"
+            title="Four new builds. Four different proof paths."
+            copy="Clinical workflow, market research, defensive training, and native macOS product engineering—each shown with current maturity, safety boundaries, and validation evidence."
+          />
+        </AnimateIn>
+
+        <div className="release-ledger-grid">
+          {recentProjects.map((project, index) => (
+            <AnimateIn
+              key={project.slug}
+              className="surface release-ledger-card"
+              delay={0.06 + index * 0.04}
+            >
+              <div className="release-ledger-top">
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>{project.category}</span>
+              </div>
+              <div>
+                <p className="micro-label">{project.maturity}</p>
                 <h3>
-                  <Link href={`/blog/${latestPost.slug}/`} className="text-link">
-                    {latestPost.title}
-                  </Link>
+                  <Link href={`/projects/${project.slug}/`}>{project.title}</Link>
                 </h3>
-                <p className="muted">{latestPost.excerpt}</p>
-                <p className="micro-label">
-                  {latestPost.category}
-                  {latestPost.publishedAt ? ` • ${formatPublishedDate(latestPost.publishedAt)}` : ""}
-                </p>
-              </article>
-            ) : null}
-            {newestProject ? (
-              <article className="surface panel-card now-card">
-                <p className="micro-label">Newest project</p>
-                <h3>
-                  <Link href={`/projects/${newestProject.slug}/`} className="text-link">
-                    {newestProject.title}
-                  </Link>
-                </h3>
-                <p className="muted">{newestProject.proofLine ?? newestProject.summary}</p>
-                <p className="micro-label">
-                  {newestProject.category}
-                  {newestProject.year ? ` • ${newestProject.year}` : ""}
-                </p>
-              </article>
-            ) : null}
-          </div>
-        </section>
-      ) : null}
+              </div>
+              <p className="muted">{project.proofLine}</p>
+              <div className="release-ledger-proof">
+                <strong>{project.metrics?.[0]?.value}</strong>
+                <span>{project.metrics?.[0]?.label}</span>
+              </div>
+              <div className="release-ledger-stack">
+                {project.focusTags.slice(0, 3).map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+              <Link href={`/projects/${project.slug}/`} className="text-link">
+                Read case study
+              </Link>
+            </AnimateIn>
+          ))}
+        </div>
+      </section>
 
       <section className="section-block">
         <div className="signal-grid" aria-label="Key portfolio metrics">

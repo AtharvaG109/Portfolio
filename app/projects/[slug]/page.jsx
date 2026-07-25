@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { AnimateIn } from "@/components/animate-in";
 import { ProjectDemo } from "@/components/project-demo";
+import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
 import { ProjectSystemMap } from "@/components/project-system-map";
 import { ProofTerminal } from "@/components/proof-terminal";
 import { RichContent } from "@/components/rich-content";
@@ -77,7 +78,7 @@ export default async function ProjectPage({ params }) {
       },
       ...(project.updatedAt ? { dateModified: project.updatedAt } : {}),
       about: project.stack,
-      image: buildAbsoluteUrl(withBasePath(project.media.src)),
+      ...(project.media?.src ? { image: buildAbsoluteUrl(withBasePath(project.media.src)) } : {}),
       url: buildAbsoluteUrl(`/projects/${project.slug}/`)
     }
   ];
@@ -210,14 +211,18 @@ export default async function ProjectPage({ params }) {
             </div>
 
             <div className="media-frame media-frame-wide project-hero-diagram-frame">
-              <Image
-                src={withBasePath(project.media.src)}
-                alt={project.media.alt}
-                width={1200}
-                height={675}
-                className="project-media project-media-diagram"
-                priority={project.featured}
-              />
+              {project.media?.src ? (
+                <Image
+                  src={withBasePath(project.media.src)}
+                  alt={project.media.alt}
+                  width={1200}
+                  height={675}
+                  className="project-media project-media-diagram"
+                  priority={project.featured}
+                />
+              ) : (
+                <ProjectPreviewDiagram project={project} variant="feature" />
+              )}
             </div>
 
             <p className="project-diagram-caption">{project.media.alt}</p>

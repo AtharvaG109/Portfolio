@@ -6,7 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
 import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
 import { ProjectSystemMap } from "@/components/project-system-map";
-import { getSortedProjects } from "@/lib/site-data";
+import { getRecentProjects, getSortedProjects } from "@/lib/site-data";
 
 const cardTransition = {
   duration: 0.3,
@@ -170,7 +170,10 @@ export function ProjectShowcase({ projects }) {
     () => sortedProjects.filter((project) => (project.displayPriority ?? 99) <= 3),
     [sortedProjects]
   );
-  const newestProjectSlug = useMemo(() => sortedProjects[0]?.slug ?? null, [sortedProjects]);
+  const newestProjectSlug = useMemo(
+    () => getRecentProjects(1, projects)[0]?.slug ?? null,
+    [projects]
+  );
   const categories = useMemo(() => {
     return ["All", ...new Set(sortedProjects.map((project) => project.category))];
   }, [sortedProjects]);
@@ -242,9 +245,9 @@ export function ProjectShowcase({ projects }) {
         <div className="project-showcase-head">
           <div>
             <p className="micro-label">Featured build path</p>
-            <h2 id="flagship-projects-heading">Three projects that show the clearest software-security depth.</h2>
+            <h2 id="flagship-projects-heading">Three recent projects that show the widest engineering range.</h2>
           </div>
-          <p className="muted">LLM red-teaming, secure retrieval, and network detection.</p>
+          <p className="muted">Clinical workflow, compliance-first research, and defensive simulation.</p>
         </div>
 
         <div className="flagship-grid">

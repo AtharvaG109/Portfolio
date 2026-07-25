@@ -1,0 +1,59 @@
+---
+slug: global-market-terminal
+title: Global Market Terminal
+category: Market Intelligence
+updatedAt: 2026-07-13
+excerpt: Local Indian-market research terminal with official-file ingestion, derived-only storage, bounded data handling, validation gates, and explicit abstention.
+tags: [Python, FastAPI, SQLite, Point-in-Time Data, Validation, Compliance]
+---
+
+## Reframing the product
+
+Global Market Terminal began as a broad live-data idea. The stronger product is narrower and more defensible: a local, zero-cost daily research terminal that reads user-owned official NSE and BSE files, stores only derived artifacts, and refuses to pretend unvalidated output is advice.
+
+It is not a broker, autonomous adviser, or guaranteed predictor. No order-routing code exists. Paper-ledger entries require user confirmation.
+
+## Data custody
+
+```text
+official user-owned file
+  -> read-only streaming validation
+  -> bounded issuer calculation
+  -> data-quality and model gates
+  -> derived artifact + provenance
+  -> local CLI, API, or browser terminal
+```
+
+- Manual market files are opened in place and are not copied, modified, extracted, or deleted.
+- The daily batch handles one issuer through a maximum 1,000-bar in-memory series, then discards those bars.
+- SQLite stores batch state, source indexes, derived artifacts, model evidence, and confirmed paper records.
+- Recursive storage guards reject raw or reconstructable price history, provider payloads, full article bodies, secrets, and chunked text.
+
+## Research discipline
+
+Price-only research paths include zero-return, historical mean, market beta, momentum, ridge, elastic-net, and logistic baselines. Point-in-time availability, purge and embargo splits, calibration, DSR, PBO, drift, negative controls, and promotion gates all remain explicit.
+
+Every model begins `unvalidated`. Missing data, unresolved corporate actions, questionable mappings, leakage, drift, or insufficient out-of-sample evidence produces an abstention.
+
+## Authorized acquisition
+
+Automated file acquisition is deny-by-default. The operator must supply an official HTTPS template and explicit licence approval. The client pins official hosts, rejects redirects, bounds response size, validates session and schema, publishes without clobbering, and never ships a built-in exchange scraper or bypass.
+
+## Proof
+
+Version 0.2.1 evidence:
+
+```text
+251 tests passed
+1,229 stored JSON values audited
+0 raw bars persisted
+```
+
+Measured benchmarks are implementation regression fixtures. They do not claim live capacity, forecast accuracy, or investment return.
+
+## Current limits
+
+- Full 500-issuer by 1,000-session daily capacity remains unmeasured.
+- Research training is currently price-only.
+- Complete corporate-action history still needs normalized external input.
+- Automated exchange access remains off without current operator authorization.

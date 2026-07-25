@@ -1,0 +1,67 @@
+---
+slug: prosthplan-clinical-workstation
+title: ProsthPlan Local-First Clinical Workstation
+category: Clinical Product
+updatedAt: 2026-07-19
+excerpt: iPadOS prosthodontic workflow with local records, deterministic support, doctor confirmation, immutable signed documents, and auditable history.
+tags: [SwiftUI, SwiftData, SceneKit, Clinical Workflow, Local-First, Audit]
+---
+
+## Product boundary
+
+ProsthPlan is an iPadOS clinical workflow and decision-support product for prosthodontists. It is not an autonomous diagnostic system. It generates no prescriptions, keeps classifications and suggestions behind doctor confirmation, and treats generated clinical text as a draft until a clinician approves it.
+
+Production mode begins empty. Optional sample records are marked `[DEMO]`.
+
+## Workflow
+
+The app organizes work around the patient rather than a collection of disconnected tools:
+
+- Today, patients, review, lab, recall, templates, and settings form the global navigation.
+- Opening a patient enters an eight-tab case workspace: Overview, Records, Chart, Media, Scans, Plan, Lab, and Timeline.
+- A responsive safety inspector shows record gaps, unavailable files, review state, consent status, and overdue follow-up.
+- Chairside mode removes administrative surfaces without changing the underlying records.
+
+## Safety architecture
+
+```text
+clinical record
+  -> deterministic service
+  -> explainable draft + warnings
+  -> doctor review
+  -> confirmed versioned record
+  -> immutable signed output or later addendum
+```
+
+- Original clinical files are never overwritten.
+- Imported files become app-managed copies while the source remains untouched.
+- Approved and signed records retain version and audit history.
+- Signed documents cannot be edited; corrections create addenda.
+- Clinical classifications list the criteria they can and cannot evaluate.
+- Suggestions may be accepted, rejected, modified, or superseded, but the decision history remains.
+
+## Product depth
+
+The workstation includes 3D scan import for STL, PLY, OBJ, and USDZ; SceneKit viewing; true millimetre measurements; scan annotations; CAD-lite geometry; guided clinician-seeded margin detection; STL and annotation export; PencilKit media annotation; smile-design guides; shade records; implant logs; local scheduling; fee quotes; and consult-mode content filtering.
+
+DICOM remains metadata-only. Native diagnostic rendering, measurements, and window or level tools are not claimed.
+
+## Proof
+
+Latest documented validation:
+
+```text
+161 unit tests
+9 UI tests
+0 failures
+```
+
+Tests cover deterministic clinical services, doctor-confirmation gates, versioning, audit behavior, record custody, geometry, accessibility, responsive navigation, and UI entry paths.
+
+## Current limits
+
+- No cloud sync in the MVP.
+- No autonomous diagnosis.
+- No prescription generation.
+- CAD geometry is investigational and cannot drive a mill without independent verification.
+- Millable crown export remains out of scope until watertightness, thickness, undercut, and validation gates exist.

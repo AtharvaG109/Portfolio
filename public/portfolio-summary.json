@@ -1,36 +1,43 @@
 {
   "name": "Atharva Gham",
   "technical_focus": [
+    "product engineering",
     "backend engineering",
     "platform engineering",
     "security engineering",
     "observability",
-    "AI and agentic security"
+    "AI and agentic security",
+    "local-first systems"
   ],
   "location": "San Francisco, California",
-  "availability": "Backend, platform, security, observability, AI security, and low-level systems work.",
+  "availability": "Product, backend, platform, security, observability, AI security, and low-level systems work.",
   "primary_strengths": [
-    "Go, Python, Rust, Linux, and distributed systems",
+    "Swift, Go, Python, Rust, TypeScript, C++, and distributed systems",
+    "local-first product architecture with explicit safety and privacy boundaries",
     "OpenTelemetry-driven debugging and production reliability",
     "security automation, detection engineering, application security, and CI/CD guardrails",
     "low-level debugging, reverse engineering, and systems security communication"
   ],
   "flagship_projects": [
     {
-      "name": "Enterprise NIDS",
-      "summary": "Network detection and analysis platform with shared offline/live analysis, SQLite-backed dashboard state, deterministic fixtures, benchmark output, and a faster FastAPI command-center UI."
+      "name": "ProsthPlan",
+      "summary": "Local-first iPad clinical workstation with 170 documented green tests, deterministic support, doctor-confirmation gates, audit history, and immutable signed records."
     },
     {
-      "name": "Patchbot Security Platform",
-      "summary": "Security platform with browser-backed IAST confirmation, high-entropy secret detection, and enterprise isolation controls."
+      "name": "Global Market Terminal",
+      "summary": "Compliance-first local market research terminal with 251 tests, derived-only storage, bounded raw-data handling, explicit abstention, and no order routing."
     },
     {
-      "name": "Sysguard",
-      "summary": "Rust and eBPF Linux activity monitor with YAML policies and scoped outbound-connect enforcement."
+      "name": "BreachOps",
+      "summary": "Synthetic defensive SOC range with 12 validated missions, timed consequences, evidence-chain grading, a pure scoring engine, and a cinematic 3D command center."
+    },
+    {
+      "name": "FocusForge",
+      "summary": "Native macOS focus utility with fail-open keyboard handling, pointer-safe recovery, private app windows, local companions, and 38 passing tests."
     },
     {
       "name": "SpectreFS",
-      "summary": "Encrypted vault filesystem and macOS desktop workflow with trusted-app access, audit, repair, and release gates."
+      "summary": "v0.3 macOS encrypted-vault technical preview with C++ authenticated storage, XPC isolation, signed share capsules, policy gates, and explicit external-review limits."
     }
   ],
   "routes": {
