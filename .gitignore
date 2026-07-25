@@ -1,5 +1,7 @@
 node_modules
 .next
 out
+dist
+.sites-artifacts
 npm-debug.log*
 .DS_Store

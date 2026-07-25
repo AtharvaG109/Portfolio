@@ -17,14 +17,12 @@ const wordVariants = {
   hidden: {
     opacity: 0,
     y: "0.85em",
-    rotateX: 55,
-    filter: "blur(10px)"
+    rotateX: 55
   },
   visible: {
     opacity: 1,
     y: "0em",
     rotateX: 0,
-    filter: "blur(0px)",
     transition: {
       type: "spring",
       stiffness: 220,

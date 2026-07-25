@@ -19,7 +19,7 @@ import { buildAbsoluteUrl, siteConfig, withBasePath } from "@/lib/site-data";
 const commandPaletteEntries = buildSearchEntries();
 
 const faviconPath = withBasePath("/favicon.svg");
-const socialPreviewPath = buildAbsoluteUrl("/social-preview.svg");
+const socialPreviewPath = buildAbsoluteUrl("/og.png");
 const googleSiteVerificationToken =
   process.env.GOOGLE_SITE_VERIFICATION ||
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||

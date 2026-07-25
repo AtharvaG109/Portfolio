@@ -40,8 +40,8 @@ export default function ProjectsPage() {
       <StructuredData data={projectIndexSchema} />
       <PageHero
         eyebrow="Projects"
-        title="Proof-driven case studies in software security."
-        copy="Browse by technical area, stack, maturity, and evidence. Each project highlights the problem, what I built, and the proof that makes the work reviewable."
+        title="Proof-driven case studies across products, security, and systems."
+        copy="Browse by technical area, stack, maturity, and evidence. Every case study separates the problem, what I built, what the current proof supports, and what remains intentionally out of scope."
         actions={[
           { label: "Open workbench", href: "/workbench/", variant: "secondary" },
           { label: "Start technical conversation", href: "/contact/", variant: "primary" }
@@ -74,8 +74,8 @@ export default function ProjectsPage() {
         <AnimateIn delay={0.04}>
           <SectionHeading
             eyebrow="The arc"
-            title="Break it, catch it, build it."
-            copy="The same work read as a security lifecycle: find the flaws, catch them in production, and engineer software that holds up, backed by the systems depth underneath."
+            title="Make it useful. Break it. Catch it. Build it."
+            copy="Product thinking, security judgment, and systems depth share one standard here: clear boundaries, inspectable decisions, and evidence that survives a closer look."
           />
         </AnimateIn>
 

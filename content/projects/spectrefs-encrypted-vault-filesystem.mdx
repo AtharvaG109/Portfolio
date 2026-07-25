@@ -2,9 +2,9 @@
 slug: spectrefs-encrypted-vault-filesystem
 title: SpectreFS Verified macOS Encrypted Vault
 category: Security Product
-updatedAt: 2026-06-01
-excerpt: Verified technical-preview macOS vault with C++20 authenticated encryption, SwiftUI workflows, PBAC, audit integrity, and runtime security reports.
-tags: [C++20, SwiftUI, OpenSSL, scrypt, AES-GCM, PBAC, macOS]
+updatedAt: 2026-07-06
+excerpt: v0.3 macOS vault technical preview with C++20 authenticated encryption, XPC isolation, signed share capsules, policy gates, audit evidence, and explicit release limits.
+tags: [C++20, SwiftUI, XPC, OpenSSL, AES-GCM, PBAC, macOS]
 image: /media/spectrefs-vault-system.svg
 ---
 
@@ -19,47 +19,49 @@ The key design constraint was not to pretend this is production endpoint contain
 SpectreFS is split around a security boundary that is easy to inspect:
 
 ```text
-SwiftUI app -> spectrefsctl -> vault runtime -> crypto provider -> encrypted chunks
+SwiftUI app -> SpectreFSCore.xpc -> C++ bridge -> vault runtime -> crypto provider -> encrypted chunks
 ```
 
 - The C++20 core owns vault format, encrypted metadata, chunk IO, manifest authentication, repair, snapshots, quarantine, audit, policy, and optional FUSE integration.
 - The OpenSSL-backed crypto provider implements scrypt/PBKDF2 compatibility, wrapped random vault master keys, HKDF domain-separated subkeys, AES-256-GCM chunks, HMAC-SHA256, and CSPRNG-backed nonces.
-- `spectrefsctl` is the operational surface for create, put, get, list, auth, lock, policy, protected open, health, repair, snapshot, audit verify, crypto verify, manifest verify, and share/export demos.
-- The SwiftUI app calls the existing CLI and parses JSON output instead of reimplementing crypto in Swift.
+- The SwiftUI app prefers a bundled XPC service that validates requests and routes session-bearing operations through a direct C++ bridge.
+- Signed release policy denies unsigned code and unsafe helper or CLI fallback in release builds.
+- `spectrefsctl` remains the operator surface and a bounded development fallback for compatible commands.
+- Share capsules support Ed25519 sender signatures, local trust records, expiration checks, and replay tracking.
 - PBAC, HMAC audit chaining, no-FUSE protected open, optional FUSE mode, recovery, and release gates stay explicit instead of being hidden behind UI copy.
 
 ```mermaid
 flowchart LR
-  app["SwiftUI app"] --> ctl["spectrefsctl"]
-  ctl --> pbac["PBAC policy"]
+  app["SwiftUI app"] --> xpc["SpectreFSCore.xpc"]
+  xpc --> bridge["Direct C++ bridge"]
+  bridge --> pbac["PBAC policy"]
   pbac --> runtime["C++20 vault runtime"]
   runtime --> crypto["OpenSSL crypto provider"]
   crypto --> chunks["Encrypted chunks + metadata"]
   runtime --> audit["HMAC audit chain"]
-  ctl --> verify["Runtime verification harness"]
+  ctl["Bounded CLI fallback"] --> pbac
+  policy["Signed release policy"] --> xpc
+  policy --> ctl
+  bridge --> share["Signed share capsules"]
+  ctl --> verify["Verification harness"]
   fuse["Optional FUSE"] --> pbac
   verify --> reports["Static, runtime, final reports"]
 ```
 
 ## Proof
 
-The strongest part of the project is that the security story is executable. The full demo builds or discovers `spectrefsctl`, creates a temporary vault, writes a harmless secret marker, imports it, exports it, compares hashes, scans for plaintext leakage, tries the wrong password, tampers with encrypted data, verifies audit integrity, and emits both JSON and Markdown reports.
-
-```sh
-./demo/full_security_demo.sh
-```
-
-Current verification snapshot:
+The project keeps implementation evidence, runtime evidence, and production readiness separate. The current static audit reports:
 
 ```text
-PASS=115
-FAIL=0
-PARTIAL=0
+IMPLEMENTED=105
 MISSING=0
-PLANNED=2
+PARTIAL=0
+FAIL=0
 ```
 
-The generated evidence lives in:
+The retained full runtime snapshot still reports `PASS=115` and `FAIL=0`, but it predates the v0.3 XPC and sender-signature hardening. It must be regenerated before those counts are used as current v0.3 release evidence.
+
+The generated evidence surfaces include:
 
 - `build/security_feature_audit.json`
 - `build/security_runtime_report.json`
@@ -67,13 +69,14 @@ The generated evidence lives in:
 - `docs/IMPLEMENTATION_STATUS.md`
 - `docs/SECURITY_VERIFICATION_REPORT.md`
 
-Focused demos cover tamper detection, auth/lock behavior, E2EE share capsules, and memory-safety hardening:
+Focused workflows cover tamper detection, auth and lock behavior, signed E2EE share capsules, memory-safety hardening, release policy, XPC parity, package verification, and benchmark regression:
 
 ```sh
 ./demo/tamper_detection_demo.sh
 ./demo/auth_demo.sh
 ./demo/e2ee_share_demo.sh
 ./demo/memory_safety_demo.sh
+bash scripts/release_gate.sh
 ```
 
 ## Security Model
@@ -87,6 +90,8 @@ What SpectreFS currently protects:
 - Wrong passwords fail cleanly.
 - Tampered vault content is detected by verification or decrypt paths.
 - Protected-open workflows use restricted temporary workspaces, cleanup, quarantine-on-failure, and audited PBAC decisions.
+- The app prefers an XPC boundary with request validation and a direct C++ bridge.
+- Share capsules can be signed, checked against local sender trust, expired, and rejected on replay.
 
 What it does not claim:
 
@@ -94,12 +99,11 @@ What it does not claim:
 - No guarantee that other apps can never observe plaintext while a file is materialized.
 - No resistance to root, admin, kernel, malicious allowed apps, rollback without trusted external state, or SSD/APFS secure deletion limits.
 - No external crypto audit yet.
-- E2EE applies to share/export capsules only.
-
-The two remaining planned-only items are intentional: a signed `SpectreFSCore.xpc` helper boundary for moving sensitive workflows out of the app process, and optional sender signatures for E2EE capsules so recipients can verify who created an export.
+- E2EE and sender signatures apply to share/export capsules only.
+- The retained runtime snapshot does not prove all v0.3 hardening until the release gate is regenerated.
 
 ## Result
 
-SpectreFS is a portfolio-grade security product prototype with measurable runtime evidence. It shows C++ systems work, macOS app design, cryptographic API discipline, untrusted data handling, auditability, release engineering, and honest threat modeling in one project.
+SpectreFS is a hardened technical-preview security product with inspectable implementation evidence. It shows C++ systems work, macOS XPC design, cryptographic API discipline, untrusted data handling, auditability, release engineering, and honest threat modeling in one project.
 
-That honesty is the point: the project demonstrates client-side authenticated encryption and app-mediated plaintext workflows today, while clearly separating future hardening such as XPC isolation, Endpoint Security containment, external crypto review, and stronger production distribution evidence.
+That honesty is the point: XPC isolation and signed capsule hardening now exist, while Endpoint Security containment, external crypto review, fresh v0.3 runtime evidence, and production distribution proof remain explicit blockers.

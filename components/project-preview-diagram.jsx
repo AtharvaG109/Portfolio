@@ -1,4 +1,25 @@
 const projectPaletteByCategory = {
+  "Clinical Product": {
+    accent: "#7c8cff",
+    accentSoft: "rgba(124, 140, 255, 0.2)",
+    accentGlow: "rgba(124, 140, 255, 0.26)",
+    warm: "#ff786a",
+    warmSoft: "rgba(255, 120, 106, 0.18)"
+  },
+  "Market Intelligence": {
+    accent: "#5ee1c2",
+    accentSoft: "rgba(94, 225, 194, 0.18)",
+    accentGlow: "rgba(94, 225, 194, 0.24)",
+    warm: "#ffd166",
+    warmSoft: "rgba(255, 209, 102, 0.18)"
+  },
+  "macOS Utility": {
+    accent: "#9b8cff",
+    accentSoft: "rgba(155, 140, 255, 0.2)",
+    accentGlow: "rgba(155, 140, 255, 0.25)",
+    warm: "#ff8f70",
+    warmSoft: "rgba(255, 143, 112, 0.18)"
+  },
   "Security Product": {
     accent: "#59e6c3",
     accentSoft: "rgba(89, 230, 195, 0.18)",

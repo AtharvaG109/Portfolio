@@ -10,6 +10,7 @@
     "smoke:export": "node scripts/smoke-static-export.mjs",
     "verify:export": "node scripts/verify-static-export.mjs",
     "build": "next build",
+    "build:sites": "npm run build && node scripts/build-sites.mjs",
     "start": "next start"
   },
   "dependencies": {

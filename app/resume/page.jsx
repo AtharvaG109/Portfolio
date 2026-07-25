@@ -16,7 +16,7 @@ export default function ResumePage() {
         <div>
           <p className="eyebrow">Resume</p>
           <h1>{siteConfig.name}</h1>
-          <p className="muted">{siteConfig.location} • Backend, platform, security, and systems engineering • Private technical contact flow</p>
+          <p className="muted">{siteConfig.location} • Product, security, platform, and systems engineering • Private technical contact flow</p>
         </div>
 
         <div className="cta-row">
@@ -34,10 +34,10 @@ export default function ResumePage() {
         <section className="resume-section">
           <h2>Profile</h2>
           <p>
-            Software engineer with hands-on depth in backend systems, platform reliability,
-            observability, security automation, low-level systems analysis, and secure delivery
-            workflows. Strongest in environments that need technical ownership from design through
-            rollout, debugging, and post-release hardening.
+            Product, systems, and security engineer with hands-on depth in native Swift apps,
+            backend platforms, observability, security automation, low-level analysis, and
+            safety-sensitive workflows. Strongest where architecture, interaction design,
+            validation, debugging, and post-release hardening must stay connected.
           </p>
         </section>
 

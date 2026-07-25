@@ -4,9 +4,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 
-import { ProjectPreviewDiagram } from "@/components/project-preview-diagram";
-import { ProjectSystemMap } from "@/components/project-system-map";
-import { getSortedProjects } from "@/lib/site-data";
+import { ProjectStoryboard } from "@/components/project-storyboard";
+import { getRecentProjects, getSortedProjects } from "@/lib/site-data";
 
 const cardTransition = {
   duration: 0.3,
@@ -43,7 +42,20 @@ function EvidenceVisual({ project, compact = false }) {
   const visual = project.evidenceVisual;
 
   if (!visual) {
-    return <ProjectPreviewDiagram project={project} variant={compact ? "compact" : "feature"} />;
+    return (
+      <div className={`project-card-art ${compact ? "project-card-art-compact" : ""}`}>
+        <span className="project-card-art-index">
+          {String(project.displayPriority ?? project.year).padStart(2, "0")}
+        </span>
+        <div>
+          <p className="micro-label">{project.category}</p>
+          <strong>{project.proofLine}</strong>
+        </div>
+        <span className="project-card-art-mark" aria-hidden="true">
+          ↗
+        </span>
+      </div>
+    );
   }
 
   return (
@@ -167,10 +179,13 @@ export function ProjectShowcase({ projects }) {
   const spotlightRef = useRef(null);
   const sortedProjects = useMemo(() => getSortedProjects(projects), [projects]);
   const flagshipProjects = useMemo(
-    () => sortedProjects.filter((project) => (project.displayPriority ?? 99) <= 3),
+    () => sortedProjects.slice(0, 3),
     [sortedProjects]
   );
-  const newestProjectSlug = useMemo(() => sortedProjects[0]?.slug ?? null, [sortedProjects]);
+  const newestProjectSlug = useMemo(
+    () => getRecentProjects(1, projects)[0]?.slug ?? null,
+    [projects]
+  );
   const categories = useMemo(() => {
     return ["All", ...new Set(sortedProjects.map((project) => project.category))];
   }, [sortedProjects]);
@@ -242,9 +257,9 @@ export function ProjectShowcase({ projects }) {
         <div className="project-showcase-head">
           <div>
             <p className="micro-label">Featured build path</p>
-            <h2 id="flagship-projects-heading">Three projects that show the clearest software-security depth.</h2>
+            <h2 id="flagship-projects-heading">Three recent projects that show the widest engineering range.</h2>
           </div>
-          <p className="muted">LLM red-teaming, secure retrieval, and network detection.</p>
+          <p className="muted">Clinical workflow, defensive simulation, and privacy-aware native software.</p>
         </div>
 
         <div className="flagship-grid">
@@ -328,10 +343,7 @@ export function ProjectShowcase({ projects }) {
                   ))}
                 </div>
               ) : null}
-              <ProjectSystemMap project={selectedProject} variant="compact" />
-              <div className="media-frame project-preview-frame">
-                <EvidenceVisual project={selectedProject} />
-              </div>
+              <ProjectStoryboard project={selectedProject} variant="compact" />
               <ProofBadges project={selectedProject} />
               <p className="project-impact">{selectedProject.challenge}</p>
 

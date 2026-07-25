@@ -1,13 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { AnimateIn } from "@/components/animate-in";
 import { ProjectDemo } from "@/components/project-demo";
-import { ProjectSystemMap } from "@/components/project-system-map";
+import { ProjectStoryboard } from "@/components/project-storyboard";
 import { ProofTerminal } from "@/components/proof-terminal";
 import { RichContent } from "@/components/rich-content";
-import { ScrollStory } from "@/components/scroll-story";
 import { StructuredData } from "@/components/structured-data";
 import { getContentBySlug } from "@/lib/content";
 import {
@@ -16,8 +14,7 @@ import {
   formatPublishedDate,
   getProjectBySlug,
   projects,
-  siteConfig,
-  withBasePath
+  siteConfig
 } from "@/lib/site-data";
 
 export async function generateStaticParams() {
@@ -77,7 +74,7 @@ export default async function ProjectPage({ params }) {
       },
       ...(project.updatedAt ? { dateModified: project.updatedAt } : {}),
       about: project.stack,
-      image: buildAbsoluteUrl(withBasePath(project.media.src)),
+      image: buildAbsoluteUrl("/og.png"),
       url: buildAbsoluteUrl(`/projects/${project.slug}/`)
     }
   ];
@@ -88,27 +85,6 @@ export default async function ProjectPage({ params }) {
     { label: "Year", value: project.year },
     ...(project.updatedAt ? [{ label: "Updated", value: formatPublishedDate(project.updatedAt) }] : []),
     { label: "Stack", value: `${project.stack.length} technologies` }
-  ];
-
-  const storySteps = [
-    {
-      eyebrow: "The problem",
-      title: "Why this needed building",
-      body: project.challenge,
-      highlight: project.category
-    },
-    {
-      eyebrow: "The build",
-      title: "How I approached it",
-      body: project.approach?.[0] ?? project.summary,
-      highlight: `${project.stack.length} technologies`
-    },
-    {
-      eyebrow: "The proof",
-      title: "What it demonstrates",
-      body: project.result,
-      highlight: project.metrics?.[0]?.value ?? project.proofLine
-    }
   ];
 
   return (
@@ -185,60 +161,15 @@ export default async function ProjectPage({ params }) {
 
       <article className="surface article-shell project-article-shell">
         <AnimateIn className="article-section project-media-section" delay={0.06}>
-          <div className="project-diagram-shell">
-            <div className="project-diagram-head">
-              <div className="project-diagram-copy">
-                <p className="eyebrow">Architecture Diagram</p>
-                <h2>How the system fits together</h2>
-                <p className="muted">
-                  This visual is meant to show the operating shape of the project at a glance:
-                  where input begins, where decisions happen, and what the useful output surface
-                  actually is.
-                </p>
-              </div>
-
-              <div className="project-diagram-meta">
-                <div className="project-diagram-stat">
-                  <span>Scope</span>
-                  <strong>{project.category}</strong>
-                </div>
-                <div className="project-diagram-stat">
-                  <span>Signals</span>
-                  <strong>{project.metrics?.[0]?.value ?? `${project.stack.length} tools`}</strong>
-                </div>
-              </div>
-            </div>
-
-            <div className="media-frame media-frame-wide project-hero-diagram-frame">
-              <Image
-                src={withBasePath(project.media.src)}
-                alt={project.media.alt}
-                width={1200}
-                height={675}
-                className="project-media project-media-diagram"
-                priority={project.featured}
-              />
-            </div>
-
-            <p className="project-diagram-caption">{project.media.alt}</p>
-          </div>
-        </AnimateIn>
-
-        <AnimateIn className="article-section" delay={0.07}>
           <div className="section-heading project-section-heading">
-            <p className="eyebrow">Interactive System Map</p>
-            <h2>Trace the important path through the project</h2>
+            <p className="eyebrow">Interactive project story</p>
+            <h2>Purpose, build, proof, and honest limits</h2>
+            <p className="muted">
+              A concise view of what mattered—without turning the case study into an internal
+              architecture dump.
+            </p>
           </div>
-          <ProjectSystemMap project={project} />
-        </AnimateIn>
-
-        <AnimateIn className="article-section" delay={0.075}>
-          <div className="section-heading project-section-heading section-heading-numbered">
-            <span className="section-index" aria-hidden="true">01</span>
-            <p className="eyebrow">Problem → Build → Proof</p>
-            <h2>Follow the story as you scroll</h2>
-          </div>
-          <ScrollStory steps={storySteps} />
+          <ProjectStoryboard project={project} />
         </AnimateIn>
 
         {project.metrics?.length ? (
@@ -273,7 +204,7 @@ export default async function ProjectPage({ params }) {
           <AnimateIn className="article-section rich-content" delay={0.11}>
             <div className="section-heading project-section-heading">
               <p className="eyebrow">Case Study</p>
-              <h2>Problem, architecture, artifacts, and operating signals</h2>
+              <h2>Purpose, decisions, proof, and stated limits</h2>
             </div>
             <RichContent blocks={projectContent.blocks} />
           </AnimateIn>

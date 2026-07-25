@@ -1,0 +1,42 @@
+---
+slug: prosthplan-clinical-workstation
+title: ProsthPlan Local-First Clinical Workstation
+category: Clinical Product
+updatedAt: 2026-07-19
+excerpt: Local-first iPadOS workflow for prosthodontists with doctor-controlled decision support, durable record history, and explicit safety boundaries.
+tags: [SwiftUI, SwiftData, Clinical Workflow, Local-First, Audit, Accessibility]
+---
+
+## Product purpose
+
+ProsthPlan is an iPadOS workflow and decision-support product for prosthodontists. It is not an autonomous diagnostic system, and it does not generate prescriptions.
+
+The goal is practical: keep clinical work organized, reduce repeated administrative effort, and make review state clear without moving clinical judgment away from the doctor.
+
+## Clinician control
+
+- Every classification, treatment option, or generated clinical suggestion requires doctor confirmation.
+- AI-generated text remains a draft until a doctor reviews and approves it.
+- Original clinical files are never overwritten.
+- Clinical records retain audit and version history.
+- Signed documents are immutable; corrections require addenda.
+- Production mode starts empty, and optional sample records are clearly marked `[DEMO]`.
+
+## Documented proof
+
+Latest documented validation:
+
+```text
+161 unit tests
+9 UI tests
+0 failures
+```
+
+The suite covers deterministic decision-support behavior, doctor-confirmation gates, record custody, versioning, audit behavior, accessibility, and key UI paths.
+
+## Honest limits
+
+- MVP remains local-first; cloud sync is not claimed.
+- Product does not diagnose autonomously.
+- Product does not generate prescriptions.
+- Public case study intentionally describes product boundaries and evidence, not internal clinical implementation.

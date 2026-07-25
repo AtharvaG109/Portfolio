@@ -2,11 +2,12 @@
 
 Portfolio site for Atharva Gham, built with Next.js static export and configured for GitHub Pages and other free static hosts.
 
-Advanced Next.js portfolio for a software engineer and cybersecurity engineer.
+Proof-first Next.js portfolio for product, systems, and security engineering.
 
 ## Features
 
-- Multi-section homepage with systems and security focus
+- Editorial release-desk homepage with product, systems, and security focus
+- Current case studies for ProsthPlan, BreachOps, FocusForge, and SpectreFS
 - Blog index plus article pages
 - MDX-style content files for writing and project case-study expansions
 - Interactive Labs playground for JWTs, logs, detection rules, risk scoring, packet flows, and CI security gates
@@ -15,7 +16,7 @@ Advanced Next.js portfolio for a software engineer and cybersecurity engineer.
 - Resume page with print/save support
 - Private contact form that opens a direct email draft
 - Downloadable text resume in `public/resume`
-- Framer Motion reveal and filter animations
+- Motion-based reveal and filter animations with reduced-motion support
 - Google Analytics hook via `NEXT_PUBLIC_GA_ID`
 - Static export configuration for free hosting
 - Web manifest plus public `security.txt`, `llms.txt`, `humans.txt`, and `portfolio-summary.json` metadata
@@ -74,8 +75,9 @@ links, inline code, bold text, and simple callout/artifact blocks.
 
 The site now uses a private contact request flow instead of publishing a direct phone number.
 
-The contact form submits in the background to `atharvam10@icloud.com` through FormSubmit.
-This keeps the inbox private and avoids publishing direct phone details on the open web.
+The contact form submits through a public-safe Web3Forms access key configured with
+`NEXT_PUBLIC_WEB3FORMS_KEY`. The destination inbox and direct phone details are not
+published in the client bundle.
 
 ## Analytics
 

@@ -1,0 +1,62 @@
+---
+slug: breachops-cyber-range
+title: BreachOps Cyber Range Command
+category: Detection
+updatedAt: 2026-07-16
+excerpt: Synthetic defensive SOC range with evolving missions, evidence-chain grading, timed consequences, proportionate response, and a cinematic 3D command center.
+tags: [TypeScript, Next.js, Three.js, SOC Training, Detection, Synthetic Data]
+---
+
+## Training problem
+
+Many security exercises reward finding one indicator. BreachOps teaches a harder skill: deciding what the evidence means, preserving it, acting proportionately, and understanding what happens when response order is wrong.
+
+All missions are fictional and defensive. Domains use reserved suffixes, external IPs use documentation ranges, and hosts and users are invented.
+
+## Mission engine
+
+Missions are data, not hardcoded UI branches:
+
+- JSON defines topology, alerts, logs, evidence, actions, answer keys, deadlines, and debrief material.
+- A shared validator checks identifiers, cross-references, scoring weights, reserved addresses, and safety rules.
+- Pure engines resolve graph paths, timed consequences, evidence chains, and final scores.
+- One Zustand phase machine controls landing, briefing, investigation, decision, and debrief state.
+
+## Investigation loop
+
+```text
+triage alerts
+  -> pivot through telemetry
+  -> pin and connect evidence
+  -> classify tactics
+  -> preserve evidence
+  -> deploy response
+  -> review consequence and score
+```
+
+Timed events fire unless every required preventative action lands before the deadline. Destructive actions taken before preservation reduce the forensics score. A correct verdict can still produce a weak outcome when evidence or response sequencing is poor.
+
+## Interaction design
+
+React Three Fiber renders a persistent SOC command center and holographic topology. Packet-flow particles, severity lighting, focused camera movement, and the changing network state support the investigation rather than replacing readable panels.
+
+The development-only authoring console previews the exact shipping validator, consequence engine, and score report for mocked input. It returns 404 in production.
+
+## Proof
+
+Current local validation:
+
+```text
+12 complete missions / all valid
+26 tests passed
+3 test files passed
+```
+
+The suite covers mission validation, graph and consequence behavior, evidence scoring, response timing, and debrief calculations.
+
+## Current limits
+
+- Single-player local training only.
+- No real telemetry or infrastructure control.
+- No operational attack automation.
+- Mission difficulty and teaching quality still need broader learner testing.

@@ -1,0 +1,60 @@
+---
+slug: focusforge-macos-focus-utility
+title: FocusForge Privacy-Aware Focus Utility
+category: macOS Utility
+updatedAt: 2026-07-17
+excerpt: Native macOS keyboard-pause and focus utility with fail-open input handling, pointer-safe recovery, private app windows, and local animated companions.
+tags: [Swift, SwiftUI, Core Graphics, AppKit, Accessibility, Privacy]
+---
+
+## Product evolution
+
+FocusForge began as a keyboard-cleaning utility. It became a small native focus product: scheduled suspension, visible recovery controls, privacy-aware diagnostics, launch at login, distraction alerts, and ten local animated companions.
+
+## Safe input boundary
+
+The app uses a session-level Core Graphics event tap. It operates only after launch and after macOS grants Accessibility control.
+
+```text
+permission available
+  -> explicit pause
+  -> keyboard events dropped
+  -> pointer remains active
+  -> resume, extend, or quit
+
+permission unavailable
+  -> input passes through
+```
+
+It does not control the login window, FileVault unlock, or pre-launch input. Missing permission fails open.
+
+## Privacy behavior
+
+- App-owned windows request macOS window-sharing exclusion.
+- The guarantee is limited to capture software that respects this platform control.
+- Away Guard stores timestamp and frontmost app or window context when available.
+- It never stores typed characters, key codes, passwords, messages, or hidden key logs.
+- Distraction alerts use deterministic app and window-title keywords, not screenshots or video analysis.
+- Companion assets ship in the bundle and need no network or AI service.
+
+## Interaction design
+
+Pointer-clickable status and floating windows keep recovery available during a pause. Quick presets, custom durations, scheduling, countdown, extension, blocked-attempt counts, device-scope diagnostics, launch-at-login, and companion selection all share one visible state.
+
+## Proof
+
+Current local validation:
+
+```text
+38 tests passed
+0 failures
+```
+
+Coverage includes keyboard-gate scheduling and automatic recovery, duration state, unsupported-scope fallback, until-resumed behavior, and window-sharing privacy.
+
+## Current limits
+
+- Session-level control only.
+- Accessibility permission is required.
+- App-window capture exclusion is best effort, not universal.
+- Title-based distraction detection can miss context and intentionally avoids invasive visual analysis.
